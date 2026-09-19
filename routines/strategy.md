@@ -40,3 +40,6 @@ change to the **Change log** with the numbers that caused it. Never changed by a
 
 - 2026-09-20: created. Look A only. Seven carousels and seven Reel reminders exist on the
   new account from the previous look; they are judged rows too, tagged look_variant "candid".
+- review 2026-09-20: no change, no judged rows yet (all 9 sent posts under 24 h old and
+  Buffer returned metrics: null for every one) — median views n/a, reach n/a,
+  sends_per_reach n/a, saves_per_reach n/a, for both posts and Reels, look_variant candid.
