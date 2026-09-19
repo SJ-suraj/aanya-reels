@@ -16,7 +16,7 @@ Fixed values
   `aspectRatio: "4:5"`, `resolution: "1K"`, `generateCount: 1`. 0.2 credits per submit.
 - **Hard cap 0.8 credits per run = exactly four submits (one plate + three photos). No retries.**
   A failed or timed-out task aborts the run. Never submit a fifth image.
-- Buffer: organization `6aa7c7f3ac8fd4ea0a97166a`, channel `aanyabell_` id `6aae8bcdea19ca0bde87d8e7`.
+- Buffer: organization `6aa7c7f3ac8fd4ea0a97166a`, channel `samairabell` id `6aaef241ea19ca0bde8cdcbc`.
 - TopView result links expire **72 hours** after generation. Buffer fetches the image when the
   post is published, so the post must go out within that window; say so in the final message.
 - Connector tools are found with `ToolSearch`: Topview `topview_get_credit`,
@@ -30,7 +30,7 @@ Fixed values
 Topview `topview_get_credit` → note the balance as `before`.
 Buffer `list_posts` for the channel, **one status per call** (the tool returns nothing when
 several statuses are passed together): call it three times with
-`channelIds: ["6aae8bcdea19ca0bde87d8e7"]`, `first: 100`, and `status: ["scheduled"]`, then
+`channelIds: ["6aaef241ea19ca0bde8cdcbc"]`, `first: 100`, and `status: ["scheduled"]`, then
 `["needs_approval"]`, then `["sent"]`; page with `after` while `hasNextPage` is true. Never
 call it without `channelIds` (the whole organisation comes back, too large to read). Two uses:
 - If 9 or more posts are `needs_approval` or `scheduled`, abort: "Buffer queue full (Free plan
@@ -94,7 +94,7 @@ alt-text line per photo describing that photo (the card gives one; write the oth
 same form).
 Buffer `create_post`:
 ```
-channelId: "6aae8bcdea19ca0bde87d8e7"
+channelId: "6aaef241ea19ca0bde8cdcbc"
 schedulingType: "automatic"             # Buffer publishes to Instagram itself; never "notification" (that only pings a phone)
 mode: "addToQueue"                      # next free slot in the channel's posting schedule, always within a day
 text: TEXT
@@ -138,7 +138,7 @@ minutes. Do not try to download the photos or run ffmpeg here.
    say "render did not finish" (the job file stays; the next run does not need it).
 3. Trending audio (optional): Buffer `execute_query` with
    `query T($input: TrendingInstagramAudioInput!) { trendingInstagramAudio(input: $input) { ... on SearchInstagramAudioSuccess { audio { id title displayArtist } } ... on ChannelRefreshRequired { message } } }`
-   and variables `{"input": {"audioType": "music", "channelId": "6aae8bcdea19ca0bde87d8e7"}}`.
+   and variables `{"input": {"audioType": "music", "channelId": "6aaef241ea19ca0bde8cdcbc"}}`.
    If it returns a list, take the first track whose title does not appear in any post text or
    sticker text from the step 0 `list_posts` results, and set
    `NOTE = "Add audio: <title> — <displayArtist>, then share."`. If it returns a message (the
@@ -147,7 +147,7 @@ minutes. Do not try to download the photos or run ffmpeg here.
 4. Buffer `create_post` (this one is a **reminder on purpose**: Instagram's API cannot attach
    library music, so Suraj adds the track on the phone with one tap):
    ```
-   channelId: "6aae8bcdea19ca0bde87d8e7"
+   channelId: "6aaef241ea19ca0bde8cdcbc"
    schedulingType: "notification"
    mode: "addToQueue"
    text: TEXT                              # same caption and hashtags as step 5
