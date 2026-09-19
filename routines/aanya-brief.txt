@@ -22,8 +22,8 @@ Fixed values
 - Connector tools are found with `ToolSearch`: Topview `topview_get_credit`,
   `topview_generate_image`, `topview_query_task`; Buffer `list_posts`, `create_post`, `get_post`,
   `delete_post`, `execute_query`; Exa `web_search_exa`.
-- Reel host: public GitHub repo `SJ-suraj/aanya-reels` (attached as this session's repository);
-  raw URL base `https://raw.githubusercontent.com/SJ-suraj/aanya-reels/main/`. Video only; the
+- Reel host: public GitHub repo `SJ-suraj/travel-reels` (attached as this session's repository);
+  raw URL base `https://raw.githubusercontent.com/SJ-suraj/travel-reels/main/`. Video only; the
   photos themselves stay on TopView URLs. The render runs on GitHub Actions (see 5b).
 
 ## 0. Set up
@@ -111,7 +111,7 @@ After creating, `get_post` once: status must be `scheduled` (or `sent`), `schedu
 Everything in this step is optional for the run: if any part fails, skip the rest of 5b, keep
 the carousel post from step 5, and say what failed in the final message. **Never generate a
 new image for the Reel; it is cut from the same three photo URLs used in step 5.**
-The repository `SJ-suraj/aanya-reels` is cloned in the working directory (`git remote -v`
+The repository `SJ-suraj/travel-reels` is cloned in the working directory (`git remote -v`
 shows it). This sandbox cannot download from TopView's CloudFront host (the egress proxy
 answers 403), so the render happens on GitHub: you push one small job file, the repo's
 `render` workflow downloads the three photos, runs `tools/make_reel.sh` (three stills into
@@ -131,7 +131,7 @@ minutes. Do not try to download the photos or run ffmpeg here.
    `?Policy=…&Signature=…&Key-Pair-Id=…` query string exactly). If the push still fails after
    three tries, skip 5b.
 2. Wait for the render. Poll with
-   `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/SJ-suraj/aanya-reels/main/reels/$NAME.mp4`
+   `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/SJ-suraj/travel-reels/main/reels/$NAME.mp4`
    (a bare `curl -sI` prints the proxy's own "200 Connection Established" line first, so use
    the `-w` form). Between polls wait with the HOW TO WAIT command; at most 15 polls (about
    five minutes). `200` → `VIDEO_URL` is that raw URL. Still `404` after 15 polls → skip 5b and
