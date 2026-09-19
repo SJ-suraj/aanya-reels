@@ -26,7 +26,7 @@ jobs:
             i=1
             for u in $(jq -r '.urls[]' "$j"); do curl -fsSL -o "$d/0$i.png" "$u"; i=$((i+1)); done
             bash tools/make_reel.sh "$d/01.png" "$d/02.png" "$d/03.png" "reels/$name.mp4"
-            ffmpeg -i "reels/$name.mp4" 2>&1 | grep -E 'Duration|1080x1920'
+            ffprobe -v error -show_entries format=duration:stream=width,height -of default=nw=1 "reels/$name.mp4"
           done
       - name: commit reels
         run: |
