@@ -44,3 +44,4 @@ change to the **Change log** with the numbers that caused it. Never changed by a
   Buffer returned metrics: null for every one) — median views n/a, reach n/a,
   sends_per_reach n/a, saves_per_reach n/a, for both posts and Reels, look_variant candid.
 - 2026-09-20 04:10 IST (Suraj): Petra set in look A "looks AI" (porcelain skin, pressed shirt, identical grade). STYLING, CAMERA and NEVER rewritten as look B after research on AI tells; B is current. Petra rows keep look_variant A.
+- 2026-09-20 04:35 IST (Suraj): Moraine Lake in look B "looks completely AI, the previous ones without the model look looked far better". Photography reverted to the candid frame; only the person is upgraded (look C). Research: viewers judge AI by skin perfection (30 %) and eyes/expression (30 %), then background and lighting; images in the middle of the uncanny valley score worst (MIT, Kishnani 2025); real-looking imperfection raises relatability.
