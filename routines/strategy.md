@@ -7,7 +7,7 @@ change to the **Change log** with the numbers that caused it. Never changed by a
 
 ## Current directives
 
-- look_variant: B (model on location, real skin: pores, peach fuzz, asymmetry, Portra 400 grain, honest cloth). Started 2026-09-20 04:10 IST. Variant A (polished model look) produced only the Petra set of 20 Sep and reads as AI; it stays in the data for rule 3.
+- look_variant: C (candid frame, upgraded person: friend's phone camera, hard sun or flat overcast, real crowds and weather marks, real skin with texture, hair done, clothes that fit, model posture inside candid actions). Started 2026-09-20 04:35 IST. A (polished model shoot, Petra) and B (model shoot with real-skin prompt, Moraine Lake) both read as AI to Suraj; the 19 Sep candid sets read better. Rows: candid = 19 Sep sets, A = Petra, B = Moraine Lake, C from here.
 - caption_pattern: 1 = line 1 place name + hook inside 125 characters; line 2 one true
   detail; line 3 "send this to the friend who…"; five hashtags.
 - hashtags: exactly five; place, country or region, trip type, one community tag, one
