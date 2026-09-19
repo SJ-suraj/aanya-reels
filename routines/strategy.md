@@ -7,7 +7,7 @@ change to the **Change log** with the numbers that caused it. Never changed by a
 
 ## Current directives
 
-- look_variant: A (model on location; the LOOK RULES in aanya-brief.txt). Started 2026-09-20.
+- look_variant: B (model on location, real skin: pores, peach fuzz, asymmetry, Portra 400 grain, honest cloth). Started 2026-09-20 04:10 IST. Variant A (polished model look) produced only the Petra set of 20 Sep and reads as AI; it stays in the data for rule 3.
 - caption_pattern: 1 = line 1 place name + hook inside 125 characters; line 2 one true
   detail; line 3 "send this to the friend who…"; five hashtags.
 - hashtags: exactly five; place, country or region, trip type, one community tag, one
@@ -43,3 +43,4 @@ change to the **Change log** with the numbers that caused it. Never changed by a
 - review 2026-09-20: no change, no judged rows yet (all 9 sent posts under 24 h old and
   Buffer returned metrics: null for every one) — median views n/a, reach n/a,
   sends_per_reach n/a, saves_per_reach n/a, for both posts and Reels, look_variant candid.
+- 2026-09-20 04:10 IST (Suraj): Petra set in look A "looks AI" (porcelain skin, pressed shirt, identical grade). STYLING, CAMERA and NEVER rewritten as look B after research on AI tells; B is current. Petra rows keep look_variant A.
