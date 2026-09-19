@@ -8,6 +8,7 @@ change to the **Change log** with the numbers that caused it. Never changed by a
 ## Current directives
 
 - look_variant: C (candid frame, upgraded person: friend's phone camera, hard sun or flat overcast, real crowds and weather marks, real skin with texture, hair done, clothes that fit, model posture inside candid actions). Started 2026-09-20 04:35 IST. A (polished model shoot, Petra) and B (model shoot with real-skin prompt, Moraine Lake) both read as AI to Suraj; the 19 Sep candid sets read better. Rows: candid = 19 Sep sets, A = Petra, B = Moraine Lake, C from here.
+- wardrobe: supermodel off duty (WARDROBE rule in the brief overrides every card's OUTFIT). Started 2026-09-20 04:45 IST; rows before that wore the cards' traveller outfits.
 - caption_pattern: 1 = line 1 place name + hook inside 125 characters; line 2 one true
   detail; line 3 "send this to the friend who…"; five hashtags.
 - hashtags: exactly five; place, country or region, trip type, one community tag, one
@@ -55,3 +56,4 @@ change to the **Change log** with the numbers that caused it. Never changed by a
   median views n/a, reach n/a, sends_per_reach n/a, saves_per_reach n/a, for both posts and
   Reels, look_variant candid. No threshold rule can fire under rule 6 (noise guard). Queue at
   step 0: 6 scheduled + 0 needs_approval, so the run continues with step 5b.
+- 2026-09-20 04:45 IST (Suraj): "i want the super model clothing, not this" after the Lauterbrunnen run (rain jacket, jeans). WARDROBE rule added; photography stays candid (look C).

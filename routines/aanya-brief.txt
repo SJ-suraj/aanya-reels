@@ -352,9 +352,9 @@ HASHTAGS (max 5 on Instagram since Dec 2025; keep the first 3 if you want fewer)
 
 # LOOK RULES (apply to every card)
 
-Render every card exactly as written: the place with its crowds, barriers and weather, the
-candid action, the phone camera, hard sun or flat overcast, the WORN state with its damp hems
-and dust. That candid frame is what makes the photos read as real; a "model shoot" look
+Render every card exactly as written, except its OUTFIT line (see WARDROBE below): the place
+with its crowds, barriers and weather, the candid action, the phone camera, hard sun or flat
+overcast, the WORN state with its damp hems and dust. That candid frame is what makes the photos read as real; a "model shoot" look
 (golden-hour rim light, blurred backgrounds, clean composition) reads as AI and is retired.
 What is upgraded is her, not the photograph: real skin with texture (STYLING), hair done and
 then lived in, clothes that fit, and model posture inside the candid action (long neck,
@@ -362,6 +362,21 @@ shoulders back, weight on one hip). Captions: the first line names the place and
 hook inside 125 characters; the second line one specific true detail; the third line asks
 the reader to send it to someone ("send this to the friend who…"); exactly five hashtags.
 Read `routines/strategy.md` first: its Current directives override anything here.
+
+WARDROBE (replaces every card's OUTFIT line; Suraj, 20 Sep: "i want the super model clothing").
+She dresses like a top model off duty, never like a hiker. For this run's place, write a new
+OUTFIT for the plate and all three photos: designer-looking pieces that flatter and show her
+figure (fitted or cropped tops, high-waisted trousers or a mini, a slip or bodycon dress, a
+tailored linen or silk set, well-cut denim, a leather or wool coat over it where it is cold),
+skin shown where the climate allows (bare shoulders, midriff, legs), one statement accessory
+(oversized sunglasses, gold jewellery, a silk scarf, a designer-looking bag), and footwear from a
+model's suitcase (heeled mules, sleek boots, strappy sandals, clean white trainers), never
+hiking boots, rain shells, fleeces or leggings-and-hoodie. It must still be wearable on that
+terrain at that hour (a long wool coat open over a slip dress at Moraine Lake; a linen set and
+sandals at Pamukkale; the monastery's borrowed wrap skirt at Meteora over a fitted top). Keep
+the card's colour mood and translate its WORN state to the new pieces (a damp hem, hair in the
+wind, a coat slipping off one shoulder). Fabrics named, fit named ("cropped", "high-waisted",
+"fitted", "bias-cut"). Write the plate's Outfit line from this new OUTFIT.
 
 # PLACE CARDS (in order; the first hashtag is the done-marker)
 
