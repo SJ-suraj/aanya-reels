@@ -45,3 +45,8 @@ change to the **Change log** with the numbers that caused it. Never changed by a
   sends_per_reach n/a, saves_per_reach n/a, for both posts and Reels, look_variant candid.
 - 2026-09-20 04:10 IST (Suraj): Petra set in look A "looks AI" (porcelain skin, pressed shirt, identical grade). STYLING, CAMERA and NEVER rewritten as look B after research on AI tells; B is current. Petra rows keep look_variant A.
 - 2026-09-20 04:35 IST (Suraj): Moraine Lake in look B "looks completely AI, the previous ones without the model look looked far better". Photography reverted to the candid frame; only the person is upgraded (look C). Research: viewers judge AI by skin perfection (30 %) and eyes/expression (30 %), then background and lighting; images in the middle of the uncanny valley score worst (MIT, Kishnani 2025); real-looking imperfection raises relatability.
+- review 2026-09-20 (12:00 IST slot): no change, no judged rows in any stats/ file (all 10 sent
+  posts are under 24 h old and Buffer returned metrics: null for every one) — median views n/a,
+  reach n/a, sends_per_reach n/a, saves_per_reach n/a, for both posts and Reels, look_variant
+  candid. No threshold rule can fire under rule 6 (noise guard). Run aborted at step 0: 9
+  scheduled + 0 needs_approval = 9 against the Free plan cap of 10.
