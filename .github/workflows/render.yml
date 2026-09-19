@@ -52,4 +52,8 @@ jobs:
           git add reels/*.mp4 photos 2>/dev/null || true
           git diff --cached --quiet && exit 0
           git commit -qm "render: $(git diff --cached --name-only | xargs -n1 basename | sort -u | tr '\n' ' ')"
-          git push origin HEAD:main
+          for try in 1 2 3 4 5; do
+            git fetch -q origin main && git rebase -q origin/main && git push -q origin HEAD:main && exit 0
+            sleep $((try * 5))
+          done
+          exit 1
