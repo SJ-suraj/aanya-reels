@@ -1,0 +1,428 @@
+# aanya — run brief (self-contained; nothing is stored outside TopView and Buffer)
+
+You are the scheduled session that publishes one Instagram carousel of Aanya at one place.
+Aanya is a **disclosed AI persona**: an AI-generated character. The images keep the AI
+provenance the image model embeds, every Buffer post is flagged `isAiGenerated: true`, and
+the account bio says she is an AI creator. Nothing in this run hides that.
+
+Follow every step in order. Each step is gated on the one before. "Abort" means: stop,
+call nothing else that spends or posts, and write the final message with the reason.
+**Never call Buffer `create_post` after an abort.**
+
+Fixed values
+- Face reference: TopView fileId `1e67131d22d54cbc8fd84ecbf4f35397`, referred to in prompts as @Image1 (never upload another).
+- Board: every TopView task goes to the **AI-UGC board**, `boardId: "8ff914f298bd4714b942d1965b4b25ec"`.
+- Model: `GPT Image 2.5 Sunburst` for both `text_to_image` and `image_edit`; `quality: "medium"`,
+  `aspectRatio: "4:5"`, `resolution: "1K"`, `generateCount: 1`. 0.2 credits per submit.
+- **Hard cap 0.8 credits per run = exactly four submits (one plate + three photos). No retries.**
+  A failed or timed-out task aborts the run. Never submit a fifth image.
+- Buffer: organization `6aa7c7f3ac8fd4ea0a97166a`, channel `aanyabell_` id `6aae8bcdea19ca0bde87d8e7`.
+- TopView result links expire **72 hours** after generation. Buffer fetches the image when the
+  post is published, so the post must go out within that window; say so in the final message.
+- Connector tools are found with `ToolSearch`: Topview `topview_get_credit`,
+  `topview_generate_image`, `topview_query_task`; Buffer `list_posts`, `create_post`, `get_post`,
+  `delete_post`, `execute_query`; Exa `web_search_exa`.
+- Reel host: public GitHub repo `SJ-suraj/aanya-reels` (attached as this session's repository);
+  raw URL base `https://raw.githubusercontent.com/SJ-suraj/aanya-reels/main/`. Video only; the
+  photos themselves stay on TopView URLs.
+
+## 0. Set up
+Topview `topview_get_credit` → note the balance as `before`.
+Buffer `list_posts` for the channel, **one status per call** (the tool returns nothing when
+several statuses are passed together): call it three times with
+`channelIds: ["6aae8bcdea19ca0bde87d8e7"]`, `first: 100`, and `status: ["scheduled"]`, then
+`["needs_approval"]`, then `["sent"]`; page with `after` while `hasNextPage` is true. Never
+call it without `channelIds` (the whole organisation comes back, too large to read). Two uses:
+- If 9 or more posts are `needs_approval` or `scheduled`, abort: "Buffer queue full (Free plan
+  cap 10); approve or delete posts". If the count is exactly 8, the run continues but must
+  skip step 5b (the carousel takes the ninth slot; the Reel would be the tenth). Untapped Reel
+  reminders (`schedulingType: notification`, `metadata.type: reel`) sit in this count until
+  Suraj taps them on the phone.
+- A place counts as **done** if any post's text contains that place's first hashtag
+  (for example `#zhangjiajie`). Build the done set from this.
+
+## 1. Choose the place
+Go down the PLACE CARDS below in order; the first place whose first hashtag is not in the done
+set is this run's place. If every card is done, author a new place per the PROMPT SPEC
+(Exa fact-check first, a first hashtag that names the place), then continue with it.
+
+## 2. Write the prompts (full text, exact structure)
+Using the PROMPT SPEC and the EXAMPLE PLACE, write four prompts for this run's place:
+one PLATE prompt and three PHOTO prompts. The photo prompts must follow the example's
+structure line for line: the same block order, the same shared blocks verbatim, `@Image1 ` and
+`@Image2 ` written with a space on both sides, and the card's outfit, poses, framing, light
+and worn-state expanded into full PLACE / OUTFIT / POSE / LIGHT / FRAMING blocks of the same
+length and detail as the example. The three photos share the one outfit; their head poses,
+framing types and worn-state differ as the card says.
+
+## 3. Generate the plate (0.2)
+Topview `topview_generate_image` `{taskType: "text_to_image", model: "GPT Image 2.5 Sunburst",
+prompt: <PLATE prompt>, aspectRatio: "4:5", resolution: "1K", quality: "medium",
+generateCount: 1, boardId: "8ff914f298bd4714b942d1965b4b25ec"}`.
+Poll `topview_query_task {taskType: "text_to_image", taskId, shortenUrls: false,
+needCloudFrontUrl: true}` until `status` is `success` or `failed`, following HOW TO WAIT below.
+On success take `images[0].fileId` (the plate's own file id, proven to work as a second input)
+and `images[0].filePath` (the full-size PNG; with `shortenUrls: false` it is the long CloudFront
+URL, not a short api.topview.ai link).
+
+HOW TO WAIT (applies to every poll in steps 3 and 4). The sandbox blocks any bare `sleep`
+longer than about 20 seconds, and stacking background sleeps loses track of time. Do exactly
+this instead:
+- Right after each submit, run Bash `date -u +%s` once and keep the number as START.
+- Between polls, wait with this one Bash command and nothing else:
+  `i=0; until [ $i -ge 10 ]; do sleep 2; i=$((i+1)); done; date -u +%s`
+  (about 20 seconds; it prints NOW). Do not use `run_in_background`, do not chain sleeps.
+- After each wait, poll once. Keep going while `status` is `running`.
+- A task has timed out only when NOW minus START is 360 or more, as printed by those two
+  `date` calls. Never declare a timeout from how many polls you have made or how long it
+  feels; a task usually needs 60 to 120 seconds and sometimes more. Only a real 360-second
+  timeout or `status: failed` aborts the run.
+
+## 4. Generate the three photos (0.6)
+For photo 01, 02, 03 in order: `topview_generate_image` `{taskType: "image_edit", model: "GPT
+Image 2.5 Sunburst", prompt: <PHOTO prompt>, inputImageFileIds: ["1e67131d22d54cbc8fd84ecbf4f35397",
+"<plate fileId>"], aspectRatio: "4:5", resolution: "1K", quality: "medium", generateCount: 1,
+boardId: "8ff914f298bd4714b942d1965b4b25ec"}`. The face is Image1, the plate is Image2, in that
+order. Poll each as in step 3 (HOW TO WAIT, START from `date -u +%s` right after the submit,
+timeout only at 360 real seconds) with `taskType: "image_edit"`, `shortenUrls: false`,
+`needCloudFrontUrl: true`; take `images[0].filePath` (the full-size PNG). Count submits; after
+the fourth submit of the run, never submit again.
+
+## 5. Create the Buffer post (direct publish, AI flagged)
+`TEXT` = the card's three CAPTION lines, a blank line, then the HASHTAGS line. `ALT` = one
+alt-text line per photo describing that photo (the card gives one; write the other two in the
+same form).
+Buffer `create_post`:
+```
+channelId: "6aae8bcdea19ca0bde87d8e7"
+schedulingType: "automatic"             # Buffer publishes to Instagram itself; never "notification" (that only pings a phone)
+mode: "addToQueue"                      # next free slot in the channel's posting schedule, always within a day
+text: TEXT
+assets: [ {image:{url:"<photo 01 png url>", metadata:{altText: ALT1}}},
+          {image:{url:"<photo 02 png url>", metadata:{altText: ALT2}}},
+          {image:{url:"<photo 03 png url>", metadata:{altText: ALT3}}} ]
+metadata: { instagram: { type: "post", shouldShareToFeed: false, isAiGenerated: true } }
+```
+`isAiGenerated` must be `true`; if the tool refuses the field, abort — do not post without it.
+After creating, `get_post` once: status must be `scheduled` (or `sent`), `schedulingType`
+`automatic`. If it is `notification`, delete it and abort: "post was created as a reminder".
+
+## 5b. Build and post the Reel (no credits; best effort, never aborts the carousel)
+Everything in this step is optional for the run: if any part fails, skip the rest of 5b, keep
+the carousel post from step 5, and say what failed in the final message. **Never generate a
+new image for the Reel; it is cut from the same three photo URLs used in step 5.**
+The repository `SJ-suraj/aanya-reels` is cloned in the working directory (`git remote -v`
+shows it). Its `tools/make_reel.sh` turns three stills into one silent 9:16 MP4 of about
+7.8 seconds (each photo held three seconds with a slow push-in over a blurred copy of
+itself, 0.6-second transitions).
+1. Render:
+   ```
+   pip install --quiet imageio-ffmpeg
+   FF=$(python3 -c "import imageio_ffmpeg as f;print(f.get_ffmpeg_exe())")
+   REPO=$(pwd); mkdir -p /tmp/reel && cd /tmp/reel
+   curl -fsSL -o 01.png "<photo 01 png url>" && curl -fsSL -o 02.png "<photo 02 png url>" && curl -fsSL -o 03.png "<photo 03 png url>"
+   NAME=<place slug without the NN>-$(TZ=Asia/Kolkata date +%F)     # e.g. petra-2026-09-20
+   FFMPEG="$FF" bash "$REPO/tools/make_reel.sh" 01.png 02.png 03.png "$REPO/reels/$NAME.mp4"
+   cd "$REPO" && "$FF" -i "reels/$NAME.mp4" 2>&1 | grep -E 'Duration|1080x1920'
+   ```
+   Duration must read about 00:00:07.8 and the stream 1080x1920; otherwise skip 5b.
+2. Push (the sandbox's git credential is already set; no `gh` needed):
+   ```
+   git config user.name aanya-routine && git config user.email aanya-routine@users.noreply.github.com
+   git add "reels/$NAME.mp4" && git commit -qm "host: $NAME" && git push origin HEAD:main
+   ```
+   On a rejected push: `git pull --rebase origin main` once, push again; a second rejection skips 5b.
+   Then `curl -sI https://raw.githubusercontent.com/SJ-suraj/aanya-reels/main/reels/$NAME.mp4`
+   until it returns `HTTP/2 200` (wait with the HOW TO WAIT command between tries, at most five
+   tries). `VIDEO_URL` is that raw URL.
+3. Trending audio (optional): Buffer `execute_query` with
+   `query T($input: TrendingInstagramAudioInput!) { trendingInstagramAudio(input: $input) { ... on SearchInstagramAudioSuccess { audio { id title displayArtist } } ... on ChannelRefreshRequired { message } } }`
+   and variables `{"input": {"audioType": "music", "channelId": "6aae8bcdea19ca0bde87d8e7"}}`.
+   If it returns a list, take the first track whose title does not appear in any post text or
+   sticker text from the step 0 `list_posts` results, and set
+   `NOTE = "Add audio: <title> — <displayArtist>, then share."`. If it returns a message (the
+   channel is not connected through Facebook Login) or fails, set
+   `NOTE = "Add audio: pick a track from Instagram's Trending tab, then share."`.
+4. Buffer `create_post` (this one is a **reminder on purpose**: Instagram's API cannot attach
+   library music, so Suraj adds the track on the phone with one tap):
+   ```
+   channelId: "6aae8bcdea19ca0bde87d8e7"
+   schedulingType: "notification"
+   mode: "addToQueue"
+   text: TEXT                              # same caption and hashtags as step 5
+   assets: [ {video:{url: VIDEO_URL, metadata:{title: "<place>"}}} ]
+   metadata: { instagram: { type: "reel", shouldShareToFeed: true, isAiGenerated: true,
+                            stickerFields: { text: NOTE } } }
+   ```
+   The response must show `assets[0].mimeType: "video/mp4"` and `video.durationMs` near 7800;
+   if not, `delete_post` it and record the failure. Record the Reel post id.
+
+## 6. Credits after
+`topview_get_credit` → `after`. `before − after` should be 0.8; note any difference.
+
+## 7. Final message (this is the run record; nothing else is written anywhere)
+One paragraph: slot, place, the four TopView task ids, credits before/after, the Buffer post id
+and its scheduled publish time, the sentence "images expire <date time UTC, generation + 72 h>; publish
+before then", the Reel post id and its video URL (or why 5b was skipped), the audio note used,
+and any abort reason. Nothing else.
+
+# PROMPT SPEC — how every prompt is written
+
+## Photo prompt: exact layout (one blank line between blocks)
+```
+# <Place title> — N. <variant title>
+
+Upload the same tight head-and-shoulders crop of her as @Image1 every time, and this place's outfit plate as @Image2 . Never upload a previous output as the reference.
+
+<IDENTITY block, verbatim>
+
+PLACE. <90–140 words: named spot, month, clock time, weather, the real ground surface, barriers, crowds, vehicles, animals, stalls, signs (unreadable), weather marks on everything; nothing invented>
+
+OUTFIT. Exactly the outfit in @Image2 : <the card's outfit>. Every photo in this set wears this same outfit; nothing swapped, recoloured or added. In this photo: <the card's WORN state>
+
+<PHYSIQUE block, verbatim>
+
+POSE. <one candid action, one hand doing one thing; the head turn in degrees and the gaze target; mouth open, mid-laugh or mid-word; never the reference's own pose>
+
+LIGHT. <hard sun from one named side with short dark shadows, or flat overcast with soft downward shadows; never golden hour; her shadow matches every other shadow; a dark contact shadow under the shoes; skin takes the scene's light>
+
+FRAMING. <full-body / waist-up / three-quarter as the card says; left or right third; an elbow or shoulder cropped by the edge; something in the near foreground, closer than she is, slightly soft; phone tilted one or two degrees>
+
+<SKIN AND FABRIC block, verbatim>
+
+<PHONE PROCESSING block, verbatim>
+
+<NEVER block, verbatim>
+```
+Rules: `@Image1 ` and `@Image2 ` always have a space before the `@` and after the digit. The
+three photos of a place use three different head poses (turned away looking back over a
+shoulder; profile or over-the-shoulder toward the camera; head bowed to a phone or drink, or
+tipped back) and one each of full-body, waist-up, three-quarter.
+
+## Plate prompt: exact layout
+```
+# <Place title> — outfit plate, used as @Image2 in all three photos
+
+Text-to-image, no reference image. Generated once per place, before the three photos.
+
+A clothing reference plate, not a person. The complete outfit below shown on an invisible ghost mannequin, so the garments hold a standing shape with no body, no head, no face, no hands, no hair and no skin anywhere in the picture. Front view, centred, full length from collar to shoe soles, on a plain warm-grey seamless studio background with soft even light and a faint floor shadow. Shoes standing under the hem; the bag, hat, scarf and any other accessories laid neatly on the floor beside the outfit. True colours and real fabric texture, clean and unworn, no weather marks, no text, no labels, no logos, no watermark. Vertical 4:5.
+
+Outfit: <the card's outfit>
+```
+
+## Shared blocks, verbatim
+
+IDENTITY:
+
+A photo of the woman from @Image1 , taken on a friend's phone while travelling. Take from @Image1 only who she is: her exact face, facial features, eye shape and spacing, nose, lips, teeth, jawline, skin tone, and her hair colour, length and texture, all unchanged. Her body is as described under PHYSIQUE. Do not alter her identity. Do not make her younger, taller or more symmetrical. She is 25 years old.
+
+Take nothing else from @Image1 . Do not copy its head angle, head tilt, gaze direction, expression, body pose, hand positions, clothes, framing, background or lighting. Every one of those is set below and must be different from the reference. Her head in this photo is turned and tilted exactly as described under POSE, not as it sits in @Image1 . In @Image1 her head is turned three-quarters to her right, her eyes look off to the side and her lips are closed in a small smile: do not reproduce that head turn, that gaze or that smile. If the result has the same head position as @Image1 , it is wrong.
+
+She is not wearing the gold jhumka earrings from @Image1 : she wears small plain gold hoop earrings unless OUTFIT names others. Keep her small nose stud.
+
+Her outfit comes from @Image2 , a clothing plate showing the garments on an invisible mannequin with no person in it. Copy the garments, colours, fabrics, shoes and bag from @Image2 exactly; take no body, pose, light or background from @Image2 .
+
+PHYSIQUE:
+
+PHYSIQUE. She has the fit, athletic build of someone who trains at the gym most days: lean and toned, a flat stomach, a naturally slim waist, defined but not bulky shoulders and arms, toned legs, straight posture. Slim, not skinny; strong, not heavy: no bodybuilder mass, no visible six-pack in a candid photo, no exaggerated curves. Nothing about her is chubby or soft: no rounded belly, no heavy upper arms, no full cheeks, no double chin. The body changes nothing above the neck: her face keeps exactly the slim heart shape, high cheekbones, tapered jaw and delicate chin of @Image1 . Whatever she is wearing fits this build: the waist tucked, belted or fitted so the shape shows even under a loose top.
+
+SKIN AND FABRIC:
+
+SKIN AND FABRIC. Visible pores, slight shine on the nose and forehead, faint redness on the cheeks and knuckles, a few flyaway hairs, natural asymmetry, no retouching. Her hair edges blend into the background through the same lens; nothing looks cut out. Clothes creased where the body bends and marked by the weather exactly as described under PLACE and OUTFIT. Nothing is symmetrical, glowing, waxy, plastic, painted or glass-smooth. Where clean and real conflict, choose real.
+
+PHONE PROCESSING:
+
+PHONE PROCESSING. iPhone 15 main camera, 24 mm equivalent, everything in focus from her to the far end of the scene, handheld at chest height, tilted a degree or two. Slight noise in the shadows, mild over-sharpening on edges, a hint of colour fringing on bright edges, sky slightly clipped where it is in frame. Vertical 4:5.
+
+NEVER:
+
+NEVER. No text that can be read, no logos, no watermarks, no film look, no cinematic grading, no beauty filter, no background blur, no golden hour, no lens flare added for effect. Nothing invented: only what is really at this spot on this kind of day, including the other visitors, barriers, paths and signs (signs far away and unreadable). Not a pose, not a fashion shot; a friend's phone photo that happens to be somewhere unbelievable.
+
+## Authoring a new place (only when every card is done)
+Pick somewhere people call unbelievable when they see a photo of it, that a 25-year-old could
+be photographed at by a friend, not already a card. Candidates: Cappadocia (Göreme fairy
+chimneys, mid-morning, balloons landed), Santorini (Oia), Positano, Hallstatt, Zhangye Danxia,
+Trolltunga, Reine (Lofoten), Múlafossur (Faroe), Milford Sound, Ta Prohm (Angkor), Chefchaouen,
+Giant's Causeway, Manarola, Vinicunca, Huacachina, Fushimi Inari, Lake Bled, Bryce Canyon,
+Yosemite (Tunnel View), Torres del Paine, Uluru, Twelve Apostles, El Nido, Tegallalang,
+Jiuzhaigou, Yangshuo, Chureito Pagoda, Seljalandsfoss, Reynisfjara, Skógafoss, Dune 45,
+Victoria Falls, Table Mountain, Ha Long Bay, Atrani, Dubrovnik walls.
+First check with Exa: the real ground and barriers, what visitors must do or wear (rules,
+shoes, tickets, shuttles), the light and weather in the month you set, the ordinary things
+present (crowds, stalls, signs, animals, vehicles). Never invent a rule or a feature. Then
+write a card in the same form as the ones below (one outfit, three photos, caption hook ≤125
+characters starting with the place name, one alt text, five hashtags: place, country or
+region, trip type, community, format; lowercase, no emoji) and expand it exactly as in step 2.
+
+# EXAMPLE PLACE (copy this structure exactly)
+
+PLATE PROMPT (plate.md):
+
+# Zhangjiajie, Yuanjiajie — outfit plate, used as @Image2 in all three photos
+
+Text-to-image, no reference image. Generated once per place, before the three photos.
+
+A clothing reference plate, not a person. The complete outfit below shown on an invisible ghost mannequin, so the garments hold a standing shape with no body, no head, no face, no hands, no hair and no skin anywhere in the picture. Front view, centred, full length from collar to shoe soles, on a plain warm-grey seamless studio background with soft even light and a faint floor shadow. Shoes standing under the hem; the bag, hat, scarf and any other accessories laid neatly on the floor beside the outfit. True colours and real fabric texture, clean and unworn, no weather marks, no text, no labels, no logos, no watermark. Vertical 4:5.
+
+Outfit: a light olive-green nylon rain jacket with a hood, unzipped; a white ribbed cotton tank top; high-waisted black wide-leg cotton trousers cropped at the ankle; white leather trainers; a small black nylon crossbody bag; a black folding umbrella; hair loose.
+
+PHOTO PROMPT 01 (01-mihuntai-railing.md):
+
+# Zhangjiajie, Yuanjiajie — 1. At the Mihuntai railing, pillars in mist
+
+Upload the same tight head-and-shoulders crop of her as @Image1 every time, and this place's outfit plate as @Image2 . Never upload a previous output as the reference.
+
+A photo of the woman from @Image1 , taken on a friend's phone while travelling. Take from @Image1 only who she is: her exact face, facial features, eye shape and spacing, nose, lips, teeth, jawline, skin tone, and her hair colour, length and texture, all unchanged. Her body is as described under PHYSIQUE. Do not alter her identity. Do not make her younger, taller or more symmetrical. She is 25 years old.
+
+Take nothing else from @Image1 . Do not copy its head angle, head tilt, gaze direction, expression, body pose, hand positions, clothes, framing, background or lighting. Every one of those is set below and must be different from the reference. Her head in this photo is turned and tilted exactly as described under POSE, not as it sits in @Image1 . In @Image1 her head is turned three-quarters to her right, her eyes look off to the side and her lips are closed in a small smile: do not reproduce that head turn, that gaze or that smile. If the result has the same head position as @Image1 , it is wrong.
+
+She is not wearing the gold jhumka earrings from @Image1 : she wears small plain gold hoop earrings unless OUTFIT names others. Keep her small nose stud.
+
+Her outfit comes from @Image2 , a clothing plate showing the garments on an invisible mannequin with no person in it. Copy the garments, colours, fabrics, shoes and bag from @Image2 exactly; take no body, pose, light or background from @Image2 .
+
+PLACE. Yuanjiajie in Zhangjiajie National Forest Park, Hunan, China, at the Mihuntai (Enchanting Terrace) viewing platform, mid-May, about 9 am, an hour after rain. Hundreds of quartz-sandstone pillars, grey-green and topped with pine and shrub, rise out of a white mist that fills the valley so their bases vanish and they seem to float. The nearest pillars are sharp and dark; each row behind is paler until the last ones are just grey shapes. The platform is paved with wet dark stone slabs, and has a chest-high grey metal railing with big gaps, beaded with water. Behind and beside her, a dozen other tourists: tour-group members in clear plastic ponchos, a guide with a small flag, a man with a selfie stick, a couple in matching rain jackets. Everything is damp; the air is visibly humid and there is fine drizzle in the air but no rain.
+
+OUTFIT. Exactly the outfit in @Image2 : a light olive-green nylon rain jacket with a hood, unzipped; a white ribbed cotton tank top; high-waisted black wide-leg cotton trousers cropped at the ankle; white leather trainers; a small black nylon crossbody bag; a black folding umbrella; hair loose. Every photo in this set wears this same outfit; nothing swapped, recoloured or added. In this photo: jacket on and open, its shoulders and hood darkened with drizzle; trouser hems damp; mud around the trainer soles; the umbrella folded and hanging from the rail by its strap; hair damp at the temples, a strand stuck to her cheek.
+
+PHYSIQUE. She has the fit, athletic build of someone who trains at the gym most days: lean and toned, a flat stomach, a naturally slim waist, defined but not bulky shoulders and arms, toned legs, straight posture. Slim, not skinny; strong, not heavy: no bodybuilder mass, no visible six-pack in a candid photo, no exaggerated curves. Nothing about her is chubby or soft: no rounded belly, no heavy upper arms, no full cheeks, no double chin. The body changes nothing above the neck: her face keeps exactly the slim heart shape, high cheekbones, tapered jaw and delicate chin of @Image1 . Whatever she is wearing fits this build: the waist tucked, belted or fitted so the shape shows even under a loose top.
+
+POSE. She stands side-on to the camera at the railing, her left forearm resting on the wet top rail, her right hand holding a folded umbrella by its strap, hanging from the rail. Her head is turned three-quarters away from the camera to her left, looking out at the pillars, chin slightly lifted, mouth open in the middle of saying 'wow' to the friend. We see her face from the side and behind, one eye, the line of her cheek and jaw. Weight on her left leg, right knee soft. Not posing; she has not noticed the photo yet.
+
+LIGHT. Flat overcast: the sky is one bright white sheet above the pillars, slightly clipped. Light comes from above and everywhere, so shadows are soft and directly downward, a soft grey under her chin, under her jacket hem, under her shoes. Her face and skin take this cool, slightly blue-grey daylight; no warm tone anywhere. The mist behind her is brighter than she is. She casts a soft shadow onto the wet slabs matching every other soft shadow on the platform, with a darker contact line under her trainers.
+
+FRAMING. Full-body, wide. She is in the right third of the frame, her right elbow cropped by the right edge. In the near foreground at the left edge, closer to the lens than she is and slightly soft, the shoulder of a stranger's blue rain poncho. The pillars fill the rest of the frame behind and above her. Phone tilted two degrees.
+
+SKIN AND FABRIC. Visible pores, slight shine on the nose and forehead, faint redness on the cheeks and knuckles, a few flyaway hairs, natural asymmetry, no retouching. Her hair edges blend into the background through the same lens; nothing looks cut out. Clothes creased where the body bends and marked by the weather exactly as described under PLACE and OUTFIT. Nothing is symmetrical, glowing, waxy, plastic, painted or glass-smooth. Where clean and real conflict, choose real.
+
+PHONE PROCESSING. iPhone 15 main camera, 24 mm equivalent, everything in focus from her to the far end of the scene, handheld at chest height, tilted a degree or two. Slight noise in the shadows, mild over-sharpening on edges, a hint of colour fringing on bright edges, sky slightly clipped where it is in frame. Vertical 4:5.
+
+NEVER. No text that can be read, no logos, no watermarks, no film look, no cinematic grading, no beauty filter, no background blur, no golden hour, no lens flare added for effect. Nothing invented: only what is really at this spot on this kind of day, including the other visitors, barriers, paths and signs (signs far away and unreadable). Not a pose, not a fashion shot; a friend's phone photo that happens to be somewhere unbelievable.
+
+CAPTION (caption.txt):
+
+CAPTION (paste as is; first line is the hook Instagram shows before "more")
+zhangjiajie in the mist, and a macaque sizing up my corn tea.
+they modelled the avatar mountains on these pillars and honestly the film undersold it.
+tag the person who says photos never do a place justice.
+
+SHORTER
+pillars, mist, one very confident monkey.
+
+SAVE-BAIT (use when you want saves instead of sends)
+go on the first clear morning after rain: the valley fills with cloud and the pillars float. bailong elevator at 7, before the queue. save this for china.
+
+ALT TEXT (Advanced settings > Write alt text)
+Woman at a wet metal railing at the Mihuntai viewpoint in Zhangjiajie, China, sandstone pillars fading into mist behind her, overcast morning.
+
+HASHTAGS (max 5 on Instagram since Dec 2025; keep the first 3 if you want fewer)
+#zhangjiajie #avatarmountains #hikingadventures #beautifuldestinations #photodump
+
+# PLACE CARDS (in order; the first hashtag is the done-marker)
+
+### 01-zhangjiajie — Zhangjiajie, Yuanjiajie
+OUTFIT (one for all three, and the plate): a light olive-green nylon rain jacket with a hood, unzipped; a white ribbed cotton tank top; high-waisted black wide-leg cotton trousers cropped at the ankle; white leather trainers; a small black nylon crossbody bag; a black folding umbrella; hair loose.
+CAPTION HOOK: zhangjiajie in the mist, and a macaque sizing up my corn tea.
+ALT TEXT: Woman at a wet metal railing at the Mihuntai viewpoint in Zhangjiajie, China, sandstone pillars fading into mist behind her, overcast morning.
+HASHTAGS: #zhangjiajie #avatarmountains #hikingadventures #beautifuldestinations #photodump
+- Photo 1 — At the Mihuntai railing, pillars in mist. WHERE/WHEN: Yuanjiajie in Zhangjiajie National Forest Park, Hunan, China, at the Mihuntai (Enchanting Terrace) viewing platform, mid-May, about 9 am, an hour after rain. FRAMING: Full-body, wide. LIGHT: Flat overcast: the sky is one bright white sheet above the pillars, slightly clipped. POSE: She stands side-on to the camera at the railing, her left forearm resting on the wet top rail, her right hand holding a folded umbrella by its strap, hanging from the rail. WORN: jacket on and open, its shoulders and hood darkened with drizzle; trouser hems damp; mud around the trainer soles; the umbrella folded and hanging from the rail by its strap; hair damp at the temples, a strand stuck to her cheek.
+- Photo 2 — On the First Bridge path, looking back. WHERE/WHEN: The stone walkway leading onto the No. 1 Bridge Under Heaven (the natural stone bridge) at Yuanjiajie, Zhangjiajie, mid-May, late morning, after rain. FRAMING: Waist-up, closer. LIGHT: Flat bright overcast, a white sky. POSE: She is walking away from the camera along the path and has stopped mid-step to look back. WORN: jacket on and open with the sleeves pushed up; hems dark with wet; trainers wet at the toes; the umbrella hooked on the crossbody strap; hair damp and heavy, frizzing at the crown.
+- Photo 3 — Sitting on the steps, a macaque behind. WHERE/WHEN: The stone steps beside the walkway at the upper station of the Bailong Elevator, Yuanjiajie, Zhangjiajie, the first clear morning after two days of rain, mid-May, around 8:30 am. FRAMING: Three-quarter length, sitting. LIGHT: Hard morning sun from the left of frame, fairly low, about thirty degrees up. POSE: She sits on the second step with her knees up and apart, elbows on her knees, a paper cup of hot sweet corn tea in her right hand halfway to her mouth. WORN: jacket off and folded in her lap in the sun; tank top and trousers; trainers with red mud on the toes; the crossbody bag beside her on the step; hair tied back in a low loose ponytail, flyaways lit by the sun.
+
+### 02-salar-de-uyuni — Salar de Uyuni, mirror season
+OUTFIT (one for all three, and the plate): an oversized white cotton shirt worn open over a black cotton tank top; black leggings; knee-high black rubber boots lent by the tour; a straw-coloured wide-brim hat with a cord; black sunglasses; small gold hoops.
+CAPTION HOOK: salar de uyuni after rain. three centimetres of water and the sky has a floor.
+ALT TEXT: Woman in rubber boots standing on the flooded Salar de Uyuni in Bolivia, her reflection and the clouds mirrored in shallow water, a white Land Cruiser behind.
+HASHTAGS: #salardeuyuni #bolivia #girlstrip #beautifuldestinations #traveldiaries
+- Photo 1 — Standing in the mirror, hat held against the wind. WHERE/WHEN: Salar de Uyuni, Bolivia, at 3,650 metres, in the second week of February, around 11 am. FRAMING: Full-body, wide, including her whole reflection. LIGHT: Hard high sun from the right of frame and above, near noon at altitude: short, dark shadows straight under things. POSE: She stands ankle-deep in the water, body turned three-quarters away from the camera as if walking off, and has looked back over her left shoulder at the camera, head turned about seventy degrees, mid-laugh with her mouth open and eyes screwed up against the glare. WORN: shirt open with the sleeves rolled to the elbow, creased from the car, a salt-water splash at the hem; boots crusted white at the ankles; hat on, held down against the wind; sunglasses hooked in the tank neckline; hair blown across her cheek.
+- Photo 2 — Crouched, touching the water, looking at her reflection. WHERE/WHEN: Salar de Uyuni, Bolivia, in February, mid-afternoon under a bright overcast sky that has closed in after a storm. FRAMING: Waist-up, close, from about two metres. LIGHT: Flat overcast, soft downward light from the whole sky, no direct sun, no hard shadows anywhere. POSE: She is squatting on her heels in the water, forearms on her knees, her right hand trailing its fingertips through the surface, making rings. WORN: shirt buttoned to the chest against the cooler overcast, cuffs pushed up; leggings dark with salt water to mid-shin; boots on; the hat pushed back to hang down her back on its cord; sunglasses pushed up on her head.
+- Photo 3 — Sitting on the Land Cruiser tailgate, laughing. WHERE/WHEN: Salar de Uyuni, Bolivia, February, about 12:30 pm. FRAMING: Full-body, from about three metres, slightly to one side of the car. LIGHT: Hard sun from the left of frame and almost directly overhead: very short dark shadows straight down. POSE: She sits on the tailgate edge, leaning back on her left hand, her right hand holding a half-empty plastic water bottle by the neck. WORN: shirt open, sleeves rolled; a white salt tide-line across the leggings where they got wet and dried; boots dangling; sunglasses on; the hat on the seat beside her.
+
+### 03-pamukkale — Pamukkale travertines
+OUTFIT (one for all three, and the plate): a sky-blue cotton camp shirt with short sleeves, worn open over a white ribbed cotton vest; white linen shorts; tan leather flat sandals; a woven straw tote bag; black sunglasses; a thin black hair tie on her wrist.
+CAPTION HOOK: pamukkale. shoes off by law, feet in 36 degree water, and the ground is a giant wet meringue.
+ALT TEXT: Woman walking barefoot down the white travertine terraces at Pamukkale, Turkey, carrying her sandals, turquoise pools and other barefoot visitors behind, hard midday sun.
+HASHTAGS: #pamukkale #turkiye #girlstrip #passionpassport #photodump
+- Photo 1 — Walking down the terraces, sandals in hand. WHERE/WHEN: The white travertine terraces of Pamukkale, Turkey, in mid-July, around 11 am, 34 degrees. FRAMING: Full-body, wide. LIGHT: Hard sun from high and slightly to the left of frame: short, dark, sharp-edged shadows. POSE: She is walking toward the camera down the wet flow, mid-step, her left hand holding the sandals by the straps, her right hand lifted slightly for balance. WORN: shirt open and damp at the back from sweat; shorts creased from sitting; barefoot, the sandals held by their straps in her hand, wet feet and calves; sunglasses on; hair loose with a damp curl at the neck.
+- Photo 2 — Calf-deep in a pool, looking back over her shoulder. WHERE/WHEN: A shallow terrace pool at Pamukkale, Turkey, mid-July, about 12:30 pm. FRAMING: Waist-up, close, from about two metres. LIGHT: Hard sun from directly overhead and slightly right: very short dark shadows under her chin, under the sunglasses, under her nose. POSE: She has her back three-quarters to the camera and is looking back over her left shoulder, her head turned about seventy degrees, chin slightly lifted, with her sunglasses pushed halfway down her nose by her right hand so she is looking at the camera over the top of them, one eyebrow raised, mouth open mid-sentence. WORN: shirt off and stuffed in the tote, so bare shoulders in the vest; shorts wet at the hem and clinging; barefoot in the water, the sandals in a clear plastic bag in her hand; sunglasses on; hair up in a messy knot, wet strands at the nape.
+- Photo 3 — Sitting on the pool rim, feet in the water, on her phone. WHERE/WHEN: The white rim between two terrace pools at Pamukkale, Turkey, mid-July, about 10 am. FRAMING: Three-quarter length, from about two and a half metres, slightly above her. LIGHT: Hard sun from the left of frame, about fifty degrees up: her bowed head puts her eyes and the top of her cheeks in their own shadow, the lower half of her face is lit by white bounce from the calcium. POSE: She sits with her knees together and feet in the water, her phone held low in her right hand, and her head tipped down toward the screen and toward the camera side, so we see the top of her head with the sunglasses pushed up in her hair, her forehead and her face foreshortened from above and slightly to her left; her eyes are on the screen, her lips pressed together in a smirk at whatever she is reading. WORN: shirt on and open, sleeves creased; shorts dry; bare feet in the water, the sandals lined up on the rim beside her hip, the tote in her lap; sunglasses pushed up on her head; hair loose; a darker patch of sweat down the spine of the shirt.
+
+### 04-antelope-canyon — Upper Antelope Canyon
+OUTFIT (one for all three, and the plate): a white cropped cotton T-shirt; high-waisted tan linen drawstring trousers; white leather trainers; a small black nylon backpack; a tortoiseshell claw clip; black sunglasses.
+CAPTION HOOK: upper antelope canyon at 11:20, and the guide throws a handful of sand into the light.
+ALT TEXT: Woman looking up inside Upper Antelope Canyon, Arizona, a vertical shaft of sunlight lit by thrown sand landing on the sand floor beside her, orange sandstone walls.
+HASHTAGS: #antelopecanyon #arizona #hikingadventures #beautifuldestinations #traveldiaries
+- Photo 1 — Standing beside the light beam, looking up. WHERE/WHEN: Inside Upper Antelope Canyon near Page, Arizona, on a guided Navajo tour in mid-June, about 11:20 am. FRAMING: Full-body, from about three metres, in the tight slot. LIGHT: The only direct light is the beam, which is hard, white and vertical and does not touch her; everything else is lit by orange bounce off the sandstone. POSE: She stands just outside the beam, body facing the camera at a slight angle, and has tipped her head all the way back to look up at the slit of sky where the beam comes from, so we see the underside of her jaw, her throat, her nostrils and her eyes looking straight up; her mouth is open. WORN: trousers creased at the hips with orange dust on the cuffs; trainers coated orange to the laces; backpack on both shoulders; the claw clip holding half her hair back; a fine layer of orange dust on her forearms.
+- Photo 2 — Hand on the wall in a narrow bend, looking back. WHERE/WHEN: A narrow bend of Upper Antelope Canyon, Page, Arizona, mid-June, around 11:45 am, on a guided tour. FRAMING: Waist-up, close, from about a metre and a half in the slot. LIGHT: No direct sun anywhere. POSE: She is walking sideways through the narrow bend with her right hand trailing flat along the curved sandstone wall, and has looked back over her right shoulder toward the camera, head turned about seventy degrees, a wide grin, mouth open, eyes bright, one eyebrow up. WORN: T-shirt slightly stuck to her back with sweat in the warm still air; orange dust on the seat and thighs of the trousers; trainers dusty; backpack on one shoulder; hair loose, the clip on the backpack strap.
+- Photo 3 — Crouched at the foot of the beam, in profile. WHERE/WHEN: Upper Antelope Canyon, Page, Arizona, mid-June, about 11:30 am, on a guided Navajo tour. FRAMING: Three-quarter length, from about two and a half metres. LIGHT: The beam is hard, white and vertical, a metre in front of her, and does not fall on her, but the blown-out patch of sand throws strong white-orange light up onto her from low and in front: her face is lit from below and from her left, bright on the underside of her jaw, her chin and the front of her thighs, dark across her back. POSE: She is squatting low on her heels, her left hand on her left knee, her right hand resting on the sand. WORN: trousers dusted orange at the knees; trainers dusty; backpack on both shoulders; hair clipped up; sunglasses hooked in the neckline; dust on her hands.
+
+### 05-deadvlei — Deadvlei, Namibia
+OUTFIT (one for all three, and the plate): an oversized white linen shirt worn open, sleeves rolled, over a black cotton tank top; stone-coloured cotton shorts with a brown leather belt; dusty grey trail runners; a khaki cotton cap; black sunglasses; a small green daypack.
+CAPTION HOOK: deadvlei. the trees have been dead for six hundred years and still look better than me at 9am.
+ALT TEXT: Woman walking across the white cracked clay pan at Deadvlei, Namibia, black dead camel-thorn trees and the orange Big Daddy dune behind, hard morning sun.
+HASHTAGS: #deadvlei #namibia #hikingadventures #beautifuldestinations #photodump
+- Photo 1 — Walking across the pan, looking back. WHERE/WHEN: Deadvlei in the Namib-Naukluft Park, Namibia, late August, about 9:30 am. FRAMING: Full-body, wide, from about four metres. LIGHT: Hard morning sun from the left of frame, about thirty-five degrees up, dry and white. POSE: She is walking away from the camera toward the trees, mid-stride, and has turned her head back over her right shoulder to say something, head turned about sixty degrees, a half laugh, mouth open. WORN: shirt open and creased from the car; cap on; sand up her calves; daypack on one shoulder.
+- Photo 2 — Under a dead tree, looking up into its branches. WHERE/WHEN: Deadvlei, Namibia, late August, about 10 am. FRAMING: Waist-up, close, from about two metres, slightly below her eye line. LIGHT: Hard sun from the right of frame, high, about forty-five degrees. POSE: She stands with her back three-quarters to the camera and her head tilted far back and over to her left, looking straight up into the branches, sunglasses on, mouth a little open. WORN: shirt open with a tide-mark of sweat under the arms; cap in her back pocket; sunglasses on; sand on her shins; daypack on both shoulders.
+- Photo 3 — Sitting on the clay, laughing at her phone. WHERE/WHEN: Deadvlei, Namibia, late August, around 10:30 am, already hot. FRAMING: Three-quarter length, from about two metres, slightly above her. LIGHT: Hard sun from the left of frame, high. POSE: She sits with her knees up and to one side, leaning on her left hand, her right hand holding her phone low near her thigh. WORN: shirt off and tied around her waist over the shorts; tank top; cap on backwards; sunglasses pushed up onto the cap; dust on her knees; the daypack on the clay beside her; sweat at the hairline.
+
+### 06-plitvice-lakes — Plitvice Lakes
+OUTFIT (one for all three, and the plate): a dark-green nylon rain shell with a hood; a navy-and-cream striped long-sleeve cotton top; black leggings; grey trail shoes; a small black backpack.
+CAPTION HOOK: plitvice at 9am. boardwalk still wet, fish under my feet, a waterfall every twenty metres.
+ALT TEXT: Woman walking along a wet wooden boardwalk over turquoise water at Plitvice Lakes, Croatia, waterfalls and forest behind, overcast light.
+HASHTAGS: #plitvicelakes #croatia #hikingadventures #passionpassport #traveldiaries
+- Photo 1 — On the boardwalk over the water, looking at the fish. WHERE/WHEN: The Lower Lakes at Plitvice Lakes National Park, Croatia, mid-May, about 9 am, after rain. FRAMING: Full-body, wide, from about four metres along the boardwalk. LIGHT: Flat bright overcast: a white sky above the trees, no direct sun, soft downward light. POSE: She is walking toward the camera along the planks and has turned her head sharply to her left and down, looking at the fish in the water beside the boardwalk, chin down, so we see her face at three-quarters from her right, tilted down, her lips parted in a smile. WORN: shell on and unzipped, damp on the shoulders, cuffs pushed up; trail shoes wet and dark at the toes; backpack on; hair loose, damp and heavy, a strand stuck to her cheek.
+- Photo 2 — At a viewpoint below the Great Waterfall, looking back. WHERE/WHEN: The wooden-railed viewpoint on the boardwalk near the foot of Veliki Slap (the Great Waterfall) at Plitvice, Croatia, mid-May, late morning, overcast with spray in the air. FRAMING: Waist-up, close, from about two metres. LIGHT: Flat overcast, bright white sky above the cliff, the mist glowing. POSE: Her left hand rests on the top of a wooden rail post; her body is turned toward the waterfall, and she has looked back over her right shoulder at the camera, head turned about sixty degrees, chin down, eyebrows raised, mouth open mid-sentence, as if asking if the photo is done yet. WORN: shell zipped to the chest against the spray, hood down, shoulders beaded with water; leggings wet to the knee; trail shoes gone dark with wet; backpack on; hair pulled back in a low ponytail with wet strands loose at the temples; droplets on her eyebrows.
+- Photo 3 — Crouched at the plank edge, pointing at the water. WHERE/WHEN: A boardwalk on the Upper Lakes at Plitvice, Croatia, mid-May, about 2 pm. FRAMING: Three-quarter length, from about two and a half metres, looking slightly down. LIGHT: Bright overcast that has thinned enough to cast faint soft shadows: no sun disc, but a slightly directional light from above and the left. POSE: She is squatting at the edge of the boardwalk, her left hand steadying herself on the plank behind her, her right arm stretched out low, pointing with one finger at the trout. WORN: shell off and tied around her waist by the sleeves; the striped top with the sleeves pushed up; leggings damp at the knees from the planks; trail shoes muddy; backpack beside her on the planks; hair in a loose plait over one shoulder.
+
+### 07-meteora — Meteora, Greece
+OUTFIT (one for all three, and the plate): a plain white cotton T-shirt with short sleeves; black cotton bike shorts; white leather trainers; a small tan leather crossbody bag; black sunglasses; small gold hoops; and, inside the monasteries only, a plain dull-brown cotton wrap skirt borrowed at the gate, tied at the waist and falling below the knee.
+CAPTION HOOK: meteora. they lend you a wrap skirt at the gate because trousers don't count. monastery couture, 150 steps.
+ALT TEXT: Woman in a borrowed brown wrap skirt climbing the stone steps to Varlaam Monastery at Meteora, Greece, rock pillars and monasteries behind, hard sun.
+HASHTAGS: #meteora #greece #girlstrip #beautifuldestinations #photodump
+- Photo 1 — On the Varlaam steps in a borrowed wrap skirt. WHERE/WHEN: The stone stairway cut into the rock up to Varlaam Monastery at Meteora, Greece, late June, about 10 am. FRAMING: Full-body, from about three metres below her on the steps, looking slightly up. LIGHT: Hard sun from the right of frame, about fifty degrees up. POSE: She is climbing the steps with her right hand on the iron handrail, body facing up the stairs, and has turned back to look down over her right shoulder at the camera below her, head turned about seventy degrees, chin dipped, laughing with her mouth open at how the skirt looks. WORN: the borrowed brown wrap skirt tied over the bike shorts for the climb, faded and creased from hundreds of wearers; T-shirt with a sweat patch at the neckline; dusty trainers; bag across her chest; sunglasses pushed up on her head; hair loose.
+- Photo 2 — At a roadside pull-off with a frappe, looking at the rocks. WHERE/WHEN: A gravel pull-off on the road between the monasteries at Meteora, Greece, late June, about 11:30 am. FRAMING: Waist-up, from about two metres, slightly behind her. LIGHT: Hard sun from the left of frame and high, about sixty degrees. POSE: She stands facing the view, body turned away from the camera by about a hundred and twenty degrees, and holds a plastic cup of iced frappe with a straw in her right hand, lifted near her chin. WORN: no wrap skirt here, she is between monasteries: T-shirt and bike shorts, the T-shirt damp at the small of her back; dusty trainers; bag across her chest; sunglasses on; hair loose, lifted by the breeze.
+- Photo 3 — At the Great Meteoron entrance, tying the wrap skirt. WHERE/WHEN: The entrance area of the Great Meteoron monastery at Meteora, Greece, late June, about 9:30 am, just inside the gate at the top of the steps. FRAMING: Three-quarter length, from about two metres, slightly above her. LIGHT: Hard sun from the right of frame and high, about fifty-five degrees. POSE: She is standing with her feet apart, both hands at her waist tying the wrap skirt's tapes, her head bowed forward and turned slightly to her right, looking down at the knot, so we see the top of her bun, her forehead and her face foreshortened from above, her mouth pulled to one side in a half laugh at the situation. WORN: tying the borrowed brown wrap skirt over the bike shorts at the gate; T-shirt with a sweat patch on the back; dusty trainers; bag across her chest; sunglasses hanging from the T-shirt collar; hair up in a high messy bun.
+
+### 08-petra — Petra, Jordan
+OUTFIT (one for all three, and the plate): a white linen long-sleeve shirt, untucked; wide-leg tan cotton trousers; white leather trainers; a small olive canvas backpack; a thin red cotton scarf; black sunglasses.
+CAPTION HOOK: petra. 1.2 km of shadow in the siq and then the treasury just appears through a crack.
+ALT TEXT: Woman stepping out of the narrow Siq at Petra, Jordan, looking back over her shoulder, the sunlit Treasury facade visible through the gap ahead.
+HASHTAGS: #petra #visitjordan #girlstrip #passionpassport #traveldiaries
+- Photo 1 — Stepping out of the Siq as the Treasury appears. WHERE/WHEN: The last few metres of the Siq at Petra, Jordan, in late October, about 10:30 am. FRAMING: Full-body, from about three metres behind her in the Siq. LIGHT: She is still in the deep shade of the Siq, so no direct sun touches her: her face and shirt are lit by the warm rose-orange bounce from the sunlit Treasury facade ahead, soft but clearly from in front and slightly above, so the side of her face toward the plaza is warm and bright and the side toward the camera is darker; a rim of warm light on her hair. POSE: She is walking forward out of the shadow of the Siq toward the light, body facing away from the camera, and has just seen the Treasury: she has turned her head back over her left shoulder toward the camera, head turned about sixty-five degrees, mouth wide open in an 'oh my god', eyebrows up. WORN: shirt with the sleeves rolled, dusty at the cuffs; sand on the trouser hems; trainers gone pink-brown with sand; backpack on; scarf loose around her neck; sunglasses pushed up; hair loose, a little flat from the scarf.
+- Photo 2 — In the plaza with a glass of Bedouin tea, watching a camel. WHERE/WHEN: The plaza in front of the Treasury at Petra, Jordan, late October, about 11 am. FRAMING: Waist-up, from about two metres. LIGHT: Hard sun from the left of frame and high, about fifty degrees. POSE: She holds a small glass of hot sweet Bedouin tea by its rim in her right hand, raised toward her mouth, and has turned her head to her right, away from the camera, to watch the camel, so she is in near profile from her left side, chin dipped, laughing, mouth open, eyes narrowed behind the sunglasses. WORN: sleeves rolled above the elbow, a damp patch on the shirt under the backpack strap; sand on the trouser knees; dusty trainers; backpack on both shoulders; scarf tied around her wrist; sunglasses on; hair in a low bun with loose strands.
+- Photo 3 — Sitting on the rock ledge, looking up at the urn. WHERE/WHEN: The sandstone ledge at the side of the plaza in front of the Treasury at Petra, Jordan, late October, about 11:30 am. FRAMING: Three-quarter length, from about two and a half metres, slightly below her eye level. LIGHT: Hard sun from the right of frame and high, about fifty-five degrees. POSE: She sits on the ledge with her knees apart and her feet on the sand, her right hand gripping the backpack's top strap on her lap, and has tipped her head all the way back, looking straight up at the urn at the top of the facade: we see her throat, the underside of her chin, her nostrils, her mouth open. WORN: shirt open at the collar with the sleeves rolled; the scarf draped over her hair against the sun and tucked behind her ears; sunglasses on; sand on the trouser seat and cuffs; dusty trainers; the backpack on her lap; dust on her hands.
+
+### 09-moraine-lake — Moraine Lake, Banff
+OUTFIT (one for all three, and the plate): a black puffer vest over a light-grey cotton hoodie; black leggings; grey trail runners; a dark-green knit beanie; a small black backpack; black sunglasses.
+CAPTION HOOK: moraine lake at 9am, eight degrees, coffee for survival.
+ALT TEXT: Woman sitting on a boulder at the Rockpile viewpoint above turquoise Moraine Lake in Banff, Canada, holding a coffee, snowy peaks behind, hard morning sun.
+HASHTAGS: #morainelake #banff #hikingadventures #beautifuldestinations #photodump
+- Photo 1 — On the Rockpile boulders with a coffee, looking out. WHERE/WHEN: The top of the Rockpile trail at Moraine Lake, Banff National Park, Canada, in early July, about 9 am, air at eight degrees. FRAMING: Full-body, from about three metres, slightly behind and to the side of her. LIGHT: Hard morning sun from the left of frame, low, about twenty-five degrees. POSE: She sits on the boulder with her knees up, one foot on a lower rock, body turned three-quarters away from the camera toward the lake, holding the coffee cup with both hands wrapped around it near her chin, the right hand on top. WORN: vest zipped, hood down, beanie on, the hoodie cuffs pulled down over her hands around the coffee cup; cheeks pink from the cold, a few strands of hair out from under the beanie; backpack on.
+- Photo 2 — At the canoe dock with a paddle, looking back. WHERE/WHEN: The canoe dock at Moraine Lake, Banff, Canada, early July, around 11 am, flat overcast. FRAMING: Waist-up, from about two metres. LIGHT: Flat overcast: the sky a pale grey-white sheet, the cloud on the peaks the same tone, no direct sun. POSE: She stands with a wooden canoe paddle held upright in her left hand, its blade on the dock, like a staff, and has looked back over her right shoulder toward the camera, head turned about sixty degrees, chin down, laughing with her mouth open and her eyes half shut. WORN: vest zipped to the chest; beanie off and stuffed in the vest pocket; hair in a single plait over one shoulder; leggings wet at one ankle from the dock; trail runners wet; backpack on.
+- Photo 3 — Crouched at the shoreline, hand in the water. WHERE/WHEN: The lakeshore trail at Moraine Lake, Banff, Canada, early July, about 3 pm. FRAMING: Three-quarter length, from about two and a half metres, slightly above her. LIGHT: Hard afternoon sun from the right of frame, about forty degrees up. POSE: She is squatting on the stones at the water's edge with her right hand dipped into the lake to the wrist, testing how cold it is, her left hand on her left knee. WORN: vest unzipped in the afternoon sun, hoodie sleeves pushed up; sunglasses pushed up on her head; beanie in the backpack; hair in a low ponytail; leggings dusty at the knees; trail runners wet at the toes; backpack on.
+
+### 10-lauterbrunnen — Lauterbrunnen, Switzerland
+OUTFIT (one for all three, and the plate): a light-grey hooded nylon rain jacket; a plain white cotton T-shirt; blue straight-leg jeans; white leather trainers; a small woven crossbody bag; a tortoiseshell claw clip; black sunglasses.
+CAPTION HOOK: lauterbrunnen. a 300 metre waterfall behind the church, cowbells, paragliders landing in the meadow.
+ALT TEXT: Woman on the main street of Lauterbrunnen, Switzerland, holding a bakery bag and looking back, the white church and Staubbach Falls behind, overcast.
+HASHTAGS: #lauterbrunnen #switzerland #girlstrip #passionpassport #traveldiaries
+- Photo 1 — On the main street with a bakery bag, church and falls behind. WHERE/WHEN: The main street of Lauterbrunnen village, Switzerland, in late June, about 10 am, bright overcast after morning drizzle. FRAMING: Full-body, wide, from about four metres. LIGHT: Flat bright overcast: a white sky above the cliff, no direct sun. POSE: She is walking away from the camera along the pavement toward the church and has stopped, turned back over her left shoulder to look at the camera, head turned about seventy degrees, laughing with her mouth open, chin down, as if caught halfway through a bite of the pastry. WORN: jacket on and unzipped, hood down and wet, cuffs damp; jeans dark at the hems; trainers with wet toes; bag across her chest; hair clipped up, damp strands loose at the neck.
+- Photo 2 — In the meadow by the river, watching a paraglider land. WHERE/WHEN: The riverside meadow at the edge of Lauterbrunnen village, Switzerland, late June, about 2 pm, sun out between clouds. FRAMING: Waist-up, from about two metres, slightly below her eye line. LIGHT: Hard sun from the right of frame, high, about fifty-five degrees, through a gap in the clouds. POSE: She is standing in the grass with her body facing the camera at a slight angle and her head tipped back and turned to her left, looking up at the paraglider coming in, mouth open in delight, eyes wide. WORN: jacket off and tied around her waist in the sun; T-shirt; jeans rolled once; trainers with grass on them; bag across her chest; sunglasses hooked in the T-shirt neck; hair loose and blown.
+- Photo 3 — At the Staubbach railing in the spray, hood up. WHERE/WHEN: The viewing path at the foot of the Staubbach waterfall at Lauterbrunnen, Switzerland, late June, about 4 pm, overcast and drizzling. FRAMING: Three-quarter length, from about two metres, slightly to the side. LIGHT: Flat overcast, drizzle, the cloud close above. POSE: She holds the top of the railing with her left hand and has turned her head to her right, away from the camera, looking down the valley, so we see her in three-quarter profile from her left, chin up, squinting hard against the spray, mouth open, laughing at being soaked. WORN: jacket zipped to the chin with the hood up and beaded with water; jeans wet and dark below the knee; trainers dripping; bag under the jacket; hair mostly inside the hood, a wet fringe stuck to her forehead; droplets on her cheeks and eyelashes.
+
+### 11-machu-picchu — Machu Picchu, Peru
+OUTFIT (one for all three, and the plate): a lilac fleece jacket; a plain white cotton T-shirt; black leggings; grey trail runners; a small black backpack with a folded blue rain poncho strapped under its lid; a cream cotton cap; black sunglasses.
+CAPTION HOOK: machu picchu at 8am, the cloud lifting off huayna picchu, and a llama who did not care about any of it.
+ALT TEXT: Woman on the upper terrace path at Machu Picchu, Peru, looking back over her shoulder, the stone citadel and Huayna Picchu behind, a llama at the edge of the frame.
+HASHTAGS: #machupicchu #peru #hikingadventures #beautifuldestinations #photodump
+- Photo 1 — On the upper terrace path, a llama at the edge of the frame. WHERE/WHEN: The upper terrace path near the Guardian's House at Machu Picchu, Peru, in mid-May, about 8 am, on the classic circuit. FRAMING: Full-body, from about three metres. LIGHT: Bright overcast, cloud thinning: a white sky, no sun disc, soft downward shadows with a hint of direction from above and the right. POSE: She stands with her body three-quarters turned away from the camera, toward the citadel, and has looked back over her right shoulder at the camera, head turned about sixty-five degrees, chin down, her mouth open in a 'wow' with her eyebrows up. WORN: fleece zipped with the collar up in the cool cloud, T-shirt under it; cap clipped to the backpack; trail runners wet from the grass; backpack on; hair loose and slightly damp; a hair tie on her wrist.
+- Photo 2 — On the stone stair, laughing at a llama. WHERE/WHEN: A stone stairway between terraces at Machu Picchu, Peru, mid-May, about 9:30 am, cloud gone, hard sun. FRAMING: Waist-up, from about two metres, slightly below her on the stair. LIGHT: Hard sun from the left of frame, about forty degrees up. POSE: She has stopped on the stair with her body facing up the steps and her head turned sharply to her left, up toward the llama, so she is in profile from her right side, chin down, laughing hard with her mouth open. WORN: fleece tied around her waist in the sun; T-shirt with a sweat line at the neck; leggings dusty at the knees; trail runners dusty; backpack on; sunglasses on; cap in the backpack; hair in a high ponytail.
+- Photo 3 — Sitting on the grass, hat in hand, looking up at Huayna Picchu. WHERE/WHEN: A grass verge beside the path on the terraces at Machu Picchu, Peru, mid-May, about 11 am, hard sun. FRAMING: Three-quarter length, from about two and a half metres, slightly above her. LIGHT: Hard sun from the right of frame and high, about sixty degrees. POSE: She sits on the grass with her knees bent to one side, leaning back on her left hand, her right hand holding the cap by its peak down against her thigh. WORN: fleece on and unzipped with the sleeves pushed up; T-shirt; the cap held in her hand by its peak; sunglasses pushed up on her head; grass on the seat of the leggings; trail runners dusty; backpack in the grass beside her; hair loose; a faint sunburn line at her neck.
+
+### 12-diamond-beach — Diamond Beach, Iceland
+OUTFIT (one for all three, and the plate): a red nylon rain shell with a hood; a black fleece under it; black waterproof over-trousers; brown leather hiking boots; a grey wool beanie; a grey wool scarf; black wool mittens.
+CAPTION HOOK: diamond beach. glacier ice on black sand, wind from every direction, and i am not turning my back on that sea.
+ALT TEXT: Woman in a red rain shell beside a clear block of glacier ice on black sand at Diamond Beach, Iceland, grey surf and low cloud behind.
+HASHTAGS: #diamondbeach #iceland #girlstrip #passionpassport #traveldiaries
+- Photo 1 — Beside a clear ice block, holding her hood in the wind. WHERE/WHEN: Diamond Beach (Breiðamerkursandur) by Jökulsárlón, south-east Iceland, in late September, about 1 pm, overcast and windy. FRAMING: Full-body, wide, from about three metres. LIGHT: Flat overcast, cold and grey-blue: a pale grey sky, no direct sun, soft downward light. POSE: She stands with her body three-quarters turned away from the camera, toward the ice block, and has looked back over her left shoulder at the camera, head turned about seventy degrees, chin down, laughing with her mouth open while hair whips across her face. WORN: shell zipped to the chin with the hood up over the beanie, wet on the shoulders, hem flapping; over-trousers on; boots with wet black sand up the sides; scarf tucked inside the shell; mittens on; hair blown out of the hood across her face; nose and cheeks red.
+- Photo 2 — Crouched behind an ice block, looking through it. WHERE/WHEN: Diamond Beach, south-east Iceland, late September, about 2 pm, overcast, wind dropping. FRAMING: Waist-up, close, from about a metre and a half, level with her. LIGHT: Flat overcast, grey-blue, no direct sun. POSE: She is squatting on her heels behind the ice block with her right hand cupped around its top edge, looking into it, so she is in profile from her right side, chin down, eyes narrowed in the wind, mouth pulled to one side in a half smile at the bubbles inside. WORN: shell zipped with the hood down; beanie on; scarf wrapped twice; mittens off and lying on the ice block beside her; over-trousers on; boots with wet black sand; hair tucked into the scarf with a few strands loose; nose red.
+- Photo 3 — Walking the sand with a coffee, looking down at the ice. WHERE/WHEN: Diamond Beach, south-east Iceland, late September, about 11 am, overcast with a light drizzle just stopped, strong wind from behind her. FRAMING: Three-quarter length, from about two and a half metres, slightly above her. LIGHT: Flat overcast, grey-blue, no direct sun, drizzle in the air. POSE: She is walking toward the camera along the sand, mid-step, with the paper coffee cup in her right hand held near her chest, and her head bowed down and turned to her left, looking at a clear ice chunk by her foot, so we see the top of her head, her forehead and her face foreshortened from above at three-quarters, lips parted. WORN: shell unzipped and flapping, hood down, the black fleece showing; beanie off and in her pocket; scarf loose; mittens off; over-trousers on; boots with wet black sand up to the laces; hair loose and blown forward around her face by the wind at her back; cheeks red; the fleece cuffs dark with wet.
