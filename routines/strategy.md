@@ -50,3 +50,8 @@ change to the **Change log** with the numbers that caused it. Never changed by a
   reach n/a, sends_per_reach n/a, saves_per_reach n/a, for both posts and Reels, look_variant
   candid. No threshold rule can fire under rule 6 (noise guard). Run aborted at step 0: 9
   scheduled + 0 needs_approval = 9 against the Free plan cap of 10.
+- review 2026-09-20 (12:00 IST slot, run 2): no change, no judged rows in any stats/ file
+  (all 10 sent posts are under 24 h old and Buffer returned metrics: null for every one) —
+  median views n/a, reach n/a, sends_per_reach n/a, saves_per_reach n/a, for both posts and
+  Reels, look_variant candid. No threshold rule can fire under rule 6 (noise guard). Queue at
+  step 0: 6 scheduled + 0 needs_approval, so the run continues with step 5b.
