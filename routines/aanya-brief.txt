@@ -24,7 +24,7 @@ Fixed values
   `delete_post`, `execute_query`; Exa `web_search_exa`.
 - Reel host: public GitHub repo `SJ-suraj/aanya-reels` (attached as this session's repository);
   raw URL base `https://raw.githubusercontent.com/SJ-suraj/aanya-reels/main/`. Video only; the
-  photos themselves stay on TopView URLs.
+  photos themselves stay on TopView URLs. The render runs on GitHub Actions (see 5b).
 
 ## 0. Set up
 Topview `topview_get_credit` → note the balance as `before`.
@@ -112,29 +112,30 @@ Everything in this step is optional for the run: if any part fails, skip the res
 the carousel post from step 5, and say what failed in the final message. **Never generate a
 new image for the Reel; it is cut from the same three photo URLs used in step 5.**
 The repository `SJ-suraj/aanya-reels` is cloned in the working directory (`git remote -v`
-shows it). Its `tools/make_reel.sh` turns three stills into one silent 9:16 MP4 of about
-7.8 seconds (each photo held three seconds with a slow push-in over a blurred copy of
-itself, 0.6-second transitions).
-1. Render:
+shows it). This sandbox cannot download from TopView's CloudFront host (the egress proxy
+answers 403), so the render happens on GitHub: you push one small job file, the repo's
+`render` workflow downloads the three photos, runs `tools/make_reel.sh` (three stills into
+one silent 9:16 MP4 of about 7.8 seconds) and commits `reels/<name>.mp4` within about two
+minutes. Do not try to download the photos or run ffmpeg here.
+1. Job file and push:
    ```
-   pip install --quiet imageio-ffmpeg
-   FF=$(python3 -c "import imageio_ffmpeg as f;print(f.get_ffmpeg_exe())")
-   REPO=$(pwd); mkdir -p /tmp/reel && cd /tmp/reel
-   curl -fsSL -o 01.png "<photo 01 png url>" && curl -fsSL -o 02.png "<photo 02 png url>" && curl -fsSL -o 03.png "<photo 03 png url>"
    NAME=<place slug without the NN>-$(TZ=Asia/Kolkata date +%F)     # e.g. petra-2026-09-20
-   FFMPEG="$FF" bash "$REPO/tools/make_reel.sh" 01.png 02.png 03.png "$REPO/reels/$NAME.mp4"
-   cd "$REPO" && "$FF" -i "reels/$NAME.mp4" 2>&1 | grep -E 'Duration|1080x1920'
-   ```
-   Duration must read about 00:00:07.8 and the stream 1080x1920; otherwise skip 5b.
-2. Push (the sandbox's git credential is already set; no `gh` needed):
-   ```
+   python3 - <<'EOF'
+   import json; json.dump({"name": "NAME-VALUE", "urls": ["<photo 01 png url>", "<photo 02 png url>", "<photo 03 png url>"]}, open("jobs/NAME-VALUE.json", "w"), indent=1)
+   EOF
    git config user.name aanya-routine && git config user.email aanya-routine@users.noreply.github.com
-   git add "reels/$NAME.mp4" && git commit -qm "host: $NAME" && git push origin HEAD:main
+   git add "jobs/$NAME.json" && git commit -qm "job: $NAME"
+   for try in 1 2 3; do git fetch -q origin main && git rebase -q origin/main && git push -q origin HEAD:main && break; done
    ```
-   On a rejected push: `git pull --rebase origin main` once, push again; a second rejection skips 5b.
-   Then `curl -sI https://raw.githubusercontent.com/SJ-suraj/aanya-reels/main/reels/$NAME.mp4`
-   until it returns `HTTP/2 200` (wait with the HOW TO WAIT command between tries, at most five
-   tries). `VIDEO_URL` is that raw URL.
+   (write the real NAME and the three full URLs into the Python line; the URLs keep their
+   `?Policy=…&Signature=…&Key-Pair-Id=…` query string exactly). If the push still fails after
+   three tries, skip 5b.
+2. Wait for the render. Poll with
+   `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/SJ-suraj/aanya-reels/main/reels/$NAME.mp4`
+   (a bare `curl -sI` prints the proxy's own "200 Connection Established" line first, so use
+   the `-w` form). Between polls wait with the HOW TO WAIT command; at most 15 polls (about
+   five minutes). `200` → `VIDEO_URL` is that raw URL. Still `404` after 15 polls → skip 5b and
+   say "render did not finish" (the job file stays; the next run does not need it).
 3. Trending audio (optional): Buffer `execute_query` with
    `query T($input: TrendingInstagramAudioInput!) { trendingInstagramAudio(input: $input) { ... on SearchInstagramAudioSuccess { audio { id title displayArtist } } ... on ChannelRefreshRequired { message } } }`
    and variables `{"input": {"audioType": "music", "channelId": "6aae8bcdea19ca0bde87d8e7"}}`.
