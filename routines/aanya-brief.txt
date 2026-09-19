@@ -17,14 +17,14 @@ Fixed values
 - **Hard cap 0.8 credits per run = exactly four submits (one plate + three photos). No retries.**
   A failed or timed-out task aborts the run. Never submit a fifth image.
 - Buffer: organization `6aa7c7f3ac8fd4ea0a97166a`, channel `samairabell` id `6aaef241ea19ca0bde8cdcbc`.
-- TopView result links expire **72 hours** after generation. Buffer fetches the image when the
-  post is published, so the post must go out within that window; say so in the final message.
+- TopView result links expire **72 hours** after generation, which is why step 4b copies the
+  photos to GitHub before anything is posted; Buffer only ever sees GitHub URLs.
 - Connector tools are found with `ToolSearch`: Topview `topview_get_credit`,
   `topview_generate_image`, `topview_query_task`; Buffer `list_posts`, `create_post`, `get_post`,
   `delete_post`, `execute_query`; Exa `web_search_exa`.
 - Reel host: public GitHub repo `SJ-suraj/travel-reels` (attached as this session's repository);
-  raw URL base `https://raw.githubusercontent.com/SJ-suraj/travel-reels/main/`. Video only; the
-  photos themselves stay on TopView URLs. The render runs on GitHub Actions (see 5b).
+  raw URL base `https://raw.githubusercontent.com/SJ-suraj/travel-reels/main/`. Graded photos
+  and Reels both live there; the grade and render run on GitHub Actions (see 4b).
 
 ## 0. Set up
 Topview `topview_get_credit` → note the balance as `before`.
@@ -109,6 +109,35 @@ timeout only at 360 real seconds) with `taskType: "image_edit"`, `shortenUrls: f
 `needCloudFrontUrl: true`; take `images[0].filePath` (the full-size PNG). Count submits; after
 the fourth submit of the run, never submit again.
 
+## 4b. Grade and host the photos on GitHub (no credits; required for step 5)
+The repository `SJ-suraj/travel-reels` is cloned in the working directory. The sandbox cannot
+download from TopView's host, so GitHub Actions does it: you push one job file, the `render`
+workflow downloads the three photos, applies the film grade (`tools/grade_photos.py`: Kodak
+Portra 400 look, grain, highlight roll-off, faint vignette, JPEG), commits them as
+`photos/<name>/01.jpg … 03.jpg`, and cuts the Reel `reels/<name>.mp4` from the graded frames.
+Both appear within about two to three minutes.
+1. Job file and push:
+   ```
+   NAME=<place slug without the NN>-$(TZ=Asia/Kolkata date +%F)     # e.g. petra-2026-09-20
+   python3 - <<'EOF'
+   import json; json.dump({"name": "NAME-VALUE", "kind": "set", "urls": ["<photo 01 png url>", "<photo 02 png url>", "<photo 03 png url>"]}, open("jobs/NAME-VALUE.json", "w"), indent=1)
+   EOF
+   git config user.name aanya-routine && git config user.email aanya-routine@users.noreply.github.com
+   git add "jobs/$NAME.json" && git commit -qm "job: $NAME"
+   for try in 1 2 3; do git fetch -q origin main && git rebase -q origin/main && git push -q origin HEAD:main && break; done
+   ```
+   (write the real NAME and the three full URLs into the Python line; the URLs keep their
+   `?Policy=…&Signature=…&Key-Pair-Id=…` query string exactly). If the push still fails after
+   three tries, abort: "could not push job file".
+2. Wait for the graded photos. Poll with
+   `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/SJ-suraj/travel-reels/main/photos/$NAME/03.jpg`
+   (a bare `curl -sI` prints the proxy's own "200 Connection Established" line first, so use
+   the `-w` form). Between polls wait with the HOW TO WAIT command; at most 15 polls (about
+   five minutes). `200` → the three photo URLs for step 5 are
+   `https://raw.githubusercontent.com/SJ-suraj/travel-reels/main/photos/$NAME/01.jpg`, `02.jpg`,
+   `03.jpg`. Still `404` after 15 polls → abort: "grade did not finish" (nothing is posted; the
+   job file stays and the next run does not need it).
+
 ## 5. Create the Buffer post (direct publish, AI flagged)
 `TEXT` = the card's three CAPTION lines, a blank line, then the HASHTAGS line. `ALT` = one
 alt-text line per photo describing that photo (the card gives one; write the other two in the
@@ -119,44 +148,25 @@ channelId: "6aaef241ea19ca0bde8cdcbc"
 schedulingType: "automatic"             # Buffer publishes to Instagram itself; never "notification" (that only pings a phone)
 mode: "addToQueue"                      # next free slot in the channel's posting schedule, always within a day
 text: TEXT
-assets: [ {image:{url:"<photo 01 png url>", metadata:{altText: ALT1}}},
-          {image:{url:"<photo 02 png url>", metadata:{altText: ALT2}}},
-          {image:{url:"<photo 03 png url>", metadata:{altText: ALT3}}} ]
+assets: [ {image:{url:"<graded photo 01 jpg url from 4b>", metadata:{altText: ALT1}}},
+          {image:{url:"<graded photo 02 jpg url from 4b>", metadata:{altText: ALT2}}},
+          {image:{url:"<graded photo 03 jpg url from 4b>", metadata:{altText: ALT3}}} ]
 metadata: { instagram: { type: "post", shouldShareToFeed: false, isAiGenerated: true } }
 ```
 `isAiGenerated` must be `true`; if the tool refuses the field, abort — do not post without it.
 After creating, `get_post` once: status must be `scheduled` (or `sent`), `schedulingType`
 `automatic`. If it is `notification`, delete it and abort: "post was created as a reminder".
 
-## 5b. Build and post the Reel (no credits; best effort, never aborts the carousel)
+## 5b. Post the Reel (no credits; best effort, never aborts the carousel)
 Everything in this step is optional for the run: if any part fails, skip the rest of 5b, keep
 the carousel post from step 5, and say what failed in the final message. **Never generate a
-new image for the Reel; it is cut from the same three photo URLs used in step 5.**
-The repository `SJ-suraj/travel-reels` is cloned in the working directory (`git remote -v`
-shows it). This sandbox cannot download from TopView's CloudFront host (the egress proxy
-answers 403), so the render happens on GitHub: you push one small job file, the repo's
-`render` workflow downloads the three photos, runs `tools/make_reel.sh` (three stills into
-one silent 9:16 MP4 of about 7.8 seconds) and commits `reels/<name>.mp4` within about two
-minutes. Do not try to download the photos or run ffmpeg here.
-1. Job file and push:
-   ```
-   NAME=<place slug without the NN>-$(TZ=Asia/Kolkata date +%F)     # e.g. petra-2026-09-20
-   python3 - <<'EOF'
-   import json; json.dump({"name": "NAME-VALUE", "urls": ["<photo 01 png url>", "<photo 02 png url>", "<photo 03 png url>"]}, open("jobs/NAME-VALUE.json", "w"), indent=1)
-   EOF
-   git config user.name aanya-routine && git config user.email aanya-routine@users.noreply.github.com
-   git add "jobs/$NAME.json" && git commit -qm "job: $NAME"
-   for try in 1 2 3; do git fetch -q origin main && git rebase -q origin/main && git push -q origin HEAD:main && break; done
-   ```
-   (write the real NAME and the three full URLs into the Python line; the URLs keep their
-   `?Policy=…&Signature=…&Key-Pair-Id=…` query string exactly). If the push still fails after
-   three tries, skip 5b.
-2. Wait for the render. Poll with
+new image for the Reel; it is cut from the same three photos.**
+1. The `set` job from step 4b also renders `reels/$NAME.mp4` (three graded stills, about 7.8
+   seconds, 9:16). Poll
    `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/SJ-suraj/travel-reels/main/reels/$NAME.mp4`
-   (a bare `curl -sI` prints the proxy's own "200 Connection Established" line first, so use
-   the `-w` form). Between polls wait with the HOW TO WAIT command; at most 15 polls (about
-   five minutes). `200` → `VIDEO_URL` is that raw URL. Still `404` after 15 polls → skip 5b and
-   say "render did not finish" (the job file stays; the next run does not need it).
+   with the HOW TO WAIT command between polls, at most 10 polls. `200` → `VIDEO_URL` is that
+   raw URL. Still `404` → skip 5b and say "reel did not finish".
+2. (nothing else to build)
 3. Trending audio (optional): Buffer `execute_query` with
    `query T($input: TrendingInstagramAudioInput!) { trendingInstagramAudio(input: $input) { ... on SearchInstagramAudioSuccess { audio { id title displayArtist } } ... on ChannelRefreshRequired { message } } }`
    and variables `{"input": {"audioType": "music", "channelId": "6aaef241ea19ca0bde8cdcbc"}}`.
@@ -184,8 +194,7 @@ minutes. Do not try to download the photos or run ffmpeg here.
 
 ## 7. Final message (this is the run record; nothing else is written anywhere)
 One paragraph: slot, place, the four TopView task ids, credits before/after, the Buffer post id
-and its scheduled publish time, the sentence "images expire <date time UTC, generation + 72 h>; publish
-before then", the Reel post id and its video URL (or why 5b was skipped), the audio note used,
+and its scheduled publish time, the graded photo URLs (GitHub, permanent), the Reel post id and its video URL (or why 5b was skipped), the audio note used,
 the stats file written, three numbers from the judged rows (median Reel views in the last 7
 days, median sends_per_reach, follows summed; "n/a" where Buffer gave nothing), whether the
 daily review ran and what it changed, and any abort reason. Nothing else.

@@ -1,2 +1,2 @@
-One file per reel: `jobs/<name>.json` = `{"name": "<place>-<date>", "urls": ["<photo 01>", "<photo 02>", "<photo 03>"]}`; add `"kind": "montage", "seconds": 12` with any number of urls for a fast-cut montage.
+Kinds: `set` (three photo urls → graded `photos/<name>/NN.jpg` + `reels/<name>.mp4`; what the routine uses), `reel`, `montage` (+`seconds`). Every frame is film-graded by `tools/grade_photos.py` before use. One file per job: `jobs/<name>.json` = `{"name": "<place>-<date>", "urls": ["<photo 01>", "<photo 02>", "<photo 03>"]}`; add `"kind": "montage", "seconds": 12` with any number of urls for a fast-cut montage.
 Pushing it to main runs `.github/workflows/render.yml`, which writes `reels/<name>.mp4` within a couple of minutes.
