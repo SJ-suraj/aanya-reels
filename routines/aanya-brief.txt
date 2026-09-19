@@ -1,4 +1,4 @@
-# aanya — run brief (self-contained; nothing is stored outside TopView and Buffer)
+# samaira — run brief (state lives in Buffer's post history and this repository's stats/ and routines/strategy.md)
 
 You are the scheduled session that publishes one Instagram carousel of Aanya at one place.
 Aanya is a **disclosed AI persona**: an AI-generated character. The images keep the AI
@@ -41,8 +41,29 @@ call it without `channelIds` (the whole organisation comes back, too large to re
 - A place counts as **done** if any post's text contains that place's first hashtag
   (for example `#zhangjiajie`). Build the done set from this.
 
+## 0b. Read the numbers (every run; no spend)
+Buffer `list_posts` with `channelIds: ["6aaef241ea19ca0bde8cdcbc"]`, `status: ["sent"]`,
+`first: 50`, `includeMetrics: true`. For every post write one row: id, sentAt, type (`post` or
+`reel` from `metadata.type`), place (first hashtag), first caption line, and the metrics that
+came back (views, reach, likes, comments, saves, shares, follows; missing ones as null), plus
+`sends_per_reach = shares/reach` and `saves_per_reach = saves/reach` when both exist. Metrics
+refresh about once a day, so mark rows younger than 24 hours `judged: false`. Save the rows
+as `stats/<YYYY-MM-DD-HHMM>.json` in the repository and push it with the same
+fetch → rebase → push line used in step 5b. Then read `routines/strategy.md`: its **Current
+directives** apply to every later step of this run.
+
+## 0c. Daily review (every 12:00 IST run; the 18:30 run skips this step)
+Using all judged rows across `stats/`, compute the median of views, reach, sends_per_reach and
+saves_per_reach per type (post vs reel) and per look variant (from the change log dates in
+`strategy.md`). Apply the **Thresholds** in `strategy.md` exactly as written; where a rule
+fires, change the matching line under Current directives and append a Change log entry with
+the date, the rule, the numbers, and the new directive. Rules never touch spend, the face
+reference, the channel or the AI disclosure. Commit `strategy: review <date>` and push. If no
+rule fires, append one line "review <date>: no change, <the medians>".
+
 ## 1. Choose the place
-Go down the PLACE CARDS below in order; the first place whose first hashtag is not in the done
+Go down the PLACE CARDS below in order (or the order given under Current directives in
+`routines/strategy.md`, if one is set); the first place whose first hashtag is not in the done
 set is this run's place. If every card is done, author a new place per the PROMPT SPEC
 (Exa fact-check first, a first hashtag that names the place), then continue with it.
 
@@ -141,9 +162,9 @@ minutes. Do not try to download the photos or run ffmpeg here.
    and variables `{"input": {"audioType": "music", "channelId": "6aaef241ea19ca0bde8cdcbc"}}`.
    If it returns a list, take the first track whose title does not appear in any post text or
    sticker text from the step 0 `list_posts` results, and set
-   `NOTE = "Add audio: <title> — <displayArtist>, then share."`. If it returns a message (the
+   `NOTE = "Toggle Trial Reel on. Add audio: <title> — <displayArtist>, then share."`. If it returns a message (the
    channel is not connected through Facebook Login) or fails, set
-   `NOTE = "Add audio: pick a track from Instagram's Trending tab, then share."`.
+   `NOTE = "Toggle Trial Reel on. Add audio: pick a track from Instagram's Trending tab, then share."`.
 4. Buffer `create_post` (this one is a **reminder on purpose**: Instagram's API cannot attach
    library music, so Suraj adds the track on the phone with one tap):
    ```
@@ -165,7 +186,9 @@ minutes. Do not try to download the photos or run ffmpeg here.
 One paragraph: slot, place, the four TopView task ids, credits before/after, the Buffer post id
 and its scheduled publish time, the sentence "images expire <date time UTC, generation + 72 h>; publish
 before then", the Reel post id and its video URL (or why 5b was skipped), the audio note used,
-and any abort reason. Nothing else.
+the stats file written, three numbers from the judged rows (median Reel views in the last 7
+days, median sends_per_reach, follows summed; "n/a" where Buffer gave nothing), whether the
+daily review ran and what it changed, and any abort reason. Nothing else.
 
 # PROMPT SPEC — how every prompt is written
 
@@ -177,28 +200,29 @@ Upload the same tight head-and-shoulders crop of her as @Image1 every time, and 
 
 <IDENTITY block, verbatim>
 
-PLACE. <90–140 words: named spot, month, clock time, weather, the real ground surface, barriers, crowds, vehicles, animals, stalls, signs (unreadable), weather marks on everything; nothing invented>
+PLACE. <90–140 words: named spot, month, clock time, the place at its most beautiful hour, the real ground surface and the real landmark, anything in the air (mist, spray, dust in light); other visitors small and far if present; nothing invented>
 
-OUTFIT. Exactly the outfit in @Image2 : <the card's outfit>. Every photo in this set wears this same outfit; nothing swapped, recoloured or added. In this photo: <the card's WORN state>
+OUTFIT. Exactly the outfit in @Image2 : <the card's outfit>, fitted like tailoring. Every photo in this set wears this same outfit; nothing swapped, recoloured or added. In this photo: <the card's WORN state translated into styling: how the pieces are worn, sleeves, tuck, accessory in play; clean, no weather damage>
 
 <PHYSIQUE block, verbatim>
 
-POSE. <one candid action, one hand doing one thing; the head turn in degrees and the gaze target; mouth open, mid-laugh or mid-word; never the reference's own pose>
+POSE. <model vocabulary: long lines, weight on one hip, chin lifted or turned to a named angle, one hand at the collarbone, in the hair, on a strap or in a pocket; walking toward camera mid-stride; seated with legs crossed; or looking back over the shoulder with eyes to camera. The head turn in degrees and the gaze target. Expression: a calm direct gaze, a soft closed-lip smile, or a genuine laugh; never the reference's own pose>
 
-LIGHT. <hard sun from one named side with short dark shadows, or flat overcast with soft downward shadows; never golden hour; her shadow matches every other shadow; a dark contact shadow under the shoes; skin takes the scene's light>
+LIGHT. <one named light with a position, chosen from: low golden-hour sun from a named side with a rim of light on her hair and shoulder; open shade with soft directional light from a named side; bright overcast with a luminous backdrop. Never flat midday, never two moods mixed. Her shadow matches the scene; skin takes the scene's colour temperature; where the place has air with something in it (mist, spray, dust), it catches the light behind her>
 
-FRAMING. <full-body / waist-up / three-quarter as the card says; left or right third; an elbow or shoulder cropped by the edge; something in the near foreground, closer than she is, slightly soft; phone tilted one or two degrees>
+FRAMING. <full-body / waist-up / three-quarter as the card says; she is placed on a third with the landmark composed behind her; something from the place in the near foreground, soft; camera level or a touch below eye line for full-body>
 
-<SKIN AND FABRIC block, verbatim>
+<STYLING block, verbatim>
 
-<PHONE PROCESSING block, verbatim>
+<CAMERA block, verbatim>
 
 <NEVER block, verbatim>
 ```
 Rules: `@Image1 ` and `@Image2 ` always have a space before the `@` and after the digit. The
-three photos of a place use three different head poses (turned away looking back over a
-shoulder; profile or over-the-shoulder toward the camera; head bowed to a phone or drink, or
-tipped back) and one each of full-body, waist-up, three-quarter.
+three photos of a place use three different poses (over the shoulder with eyes to camera;
+profile or three-quarter with a calm direct gaze; a movement, walking or turning, or a seated
+pose) and one each of full-body, waist-up, three-quarter. At least one of the three looks
+straight into the lens.
 
 ## Plate prompt: exact layout
 ```
@@ -215,7 +239,7 @@ Outfit: <the card's outfit>
 
 IDENTITY:
 
-A photo of the woman from @Image1 , taken on a friend's phone while travelling. Take from @Image1 only who she is: her exact face, facial features, eye shape and spacing, nose, lips, teeth, jawline, skin tone, and her hair colour, length and texture, all unchanged. Her body is as described under PHYSIQUE. Do not alter her identity. Do not make her younger, taller or more symmetrical. She is 25 years old.
+A photo of the woman from @Image1 , a professional model on a travel shoot at a real place. Everything about how she is styled, lit, posed and photographed says model; her face is exactly hers. Take from @Image1 only who she is: her exact face, facial features, eye shape and spacing, nose, lips, teeth, jawline, skin tone, and her hair colour, length and texture, all unchanged. Her body is as described under PHYSIQUE. Do not alter her identity. Do not make her younger, taller or more symmetrical. She is 25 years old.
 
 Take nothing else from @Image1 . Do not copy its head angle, head tilt, gaze direction, expression, body pose, hand positions, clothes, framing, background or lighting. Every one of those is set below and must be different from the reference. Her head in this photo is turned and tilted exactly as described under POSE, not as it sits in @Image1 . In @Image1 her head is turned three-quarters to her right, her eyes look off to the side and her lips are closed in a small smile: do not reproduce that head turn, that gaze or that smile. If the result has the same head position as @Image1 , it is wrong.
 
@@ -227,17 +251,17 @@ PHYSIQUE:
 
 PHYSIQUE. She has the fit, athletic build of someone who trains at the gym most days: lean and toned, a flat stomach, a naturally slim waist, defined but not bulky shoulders and arms, toned legs, straight posture. Slim, not skinny; strong, not heavy: no bodybuilder mass, no visible six-pack in a candid photo, no exaggerated curves. Nothing about her is chubby or soft: no rounded belly, no heavy upper arms, no full cheeks, no double chin. The body changes nothing above the neck: her face keeps exactly the slim heart shape, high cheekbones, tapered jaw and delicate chin of @Image1 . Whatever she is wearing fits this build: the waist tucked, belted or fitted so the shape shows even under a loose top.
 
-SKIN AND FABRIC:
+STYLING:
 
-SKIN AND FABRIC. Visible pores, slight shine on the nose and forehead, faint redness on the cheeks and knuckles, a few flyaway hairs, natural asymmetry, no retouching. Her hair edges blend into the background through the same lens; nothing looks cut out. Clothes creased where the body bends and marked by the weather exactly as described under PLACE and OUTFIT. Nothing is symmetrical, glowing, waxy, plastic, painted or glass-smooth. Where clean and real conflict, choose real.
+STYLING. Skin luminous and even with real texture: pores visible up close, natural asymmetry, a faint natural shine on the cheekbones, never plastic, waxy or airbrushed. Editorial makeup that reads natural: groomed brows, defined lashes, soft contour, a satin lip in a natural shade. Hair salon-finished, with shine and movement, styled deliberately for this shot. Nails clean and neutral. The clothes fit as if tailored to her: structured shoulders, the waist tucked or belted, hems sitting right, fabrics that read expensive and hang well. One deliberate accessory catches the light. Clothes are clean and pressed; the weather shows only as beauty (wind lifting the hair, spray or dust catching the light, a damp shine on stone), never as sweat, mud, creases or stains.
 
-PHONE PROCESSING:
+CAMERA:
 
-PHONE PROCESSING. iPhone 15 main camera, 24 mm equivalent, everything in focus from her to the far end of the scene, handheld at chest height, tilted a degree or two. Slight noise in the shadows, mild over-sharpening on edges, a hint of colour fringing on bright edges, sky slightly clipped where it is in frame. Vertical 4:5.
+CAMERA. Shot by a professional travel-fashion photographer on a full-frame camera: an 85 mm lens at f/2 for waist-up and three-quarter frames, a 35 mm lens at f/2.8 for full-body frames. She is razor sharp, eyes in perfect focus; the place falls softly out of focus behind her but stays clearly readable as this exact location. Clean natural colour, gentle contrast, a fine film-like grain, true skin tones, no HDR halo, no over-sharpening, no heavy grade. Vertical 4:5.
 
 NEVER:
 
-NEVER. No text that can be read, no logos, no watermarks, no film look, no cinematic grading, no beauty filter, no background blur, no golden hour, no lens flare added for effect. Nothing invented: only what is really at this spot on this kind of day, including the other visitors, barriers, paths and signs (signs far away and unreadable). Not a pose, not a fashion shot; a friend's phone photo that happens to be somewhere unbelievable.
+NEVER. No text that can be read, no logos, no watermarks. No plastic or waxy skin, no beauty-filter smoothing, no duplicated people, no distorted hands, no extra fingers. No other visitors close to her: other people, if present, are small and far away and out of focus. Nothing invented about the place: the real landmark, the real ground, the real barriers where they matter, signs far away and unreadable. No slouch, no snapshot; every frame is a model on location, shot with intent.
 
 ## Authoring a new place (only when every card is done)
 Pick somewhere people call unbelievable when they see a photo of it, that a 25-year-old could
@@ -273,7 +297,7 @@ PHOTO PROMPT 01 (01-mihuntai-railing.md):
 
 Upload the same tight head-and-shoulders crop of her as @Image1 every time, and this place's outfit plate as @Image2 . Never upload a previous output as the reference.
 
-A photo of the woman from @Image1 , taken on a friend's phone while travelling. Take from @Image1 only who she is: her exact face, facial features, eye shape and spacing, nose, lips, teeth, jawline, skin tone, and her hair colour, length and texture, all unchanged. Her body is as described under PHYSIQUE. Do not alter her identity. Do not make her younger, taller or more symmetrical. She is 25 years old.
+A photo of the woman from @Image1 , a professional model on a travel shoot at a real place. Everything about how she is styled, lit, posed and photographed says model; her face is exactly hers. Take from @Image1 only who she is: her exact face, facial features, eye shape and spacing, nose, lips, teeth, jawline, skin tone, and her hair colour, length and texture, all unchanged. Her body is as described under PHYSIQUE. Do not alter her identity. Do not make her younger, taller or more symmetrical. She is 25 years old.
 
 Take nothing else from @Image1 . Do not copy its head angle, head tilt, gaze direction, expression, body pose, hand positions, clothes, framing, background or lighting. Every one of those is set below and must be different from the reference. Her head in this photo is turned and tilted exactly as described under POSE, not as it sits in @Image1 . In @Image1 her head is turned three-quarters to her right, her eyes look off to the side and her lips are closed in a small smile: do not reproduce that head turn, that gaze or that smile. If the result has the same head position as @Image1 , it is wrong.
 
@@ -281,23 +305,23 @@ She is not wearing the gold jhumka earrings from @Image1 : she wears small plain
 
 Her outfit comes from @Image2 , a clothing plate showing the garments on an invisible mannequin with no person in it. Copy the garments, colours, fabrics, shoes and bag from @Image2 exactly; take no body, pose, light or background from @Image2 .
 
-PLACE. Yuanjiajie in Zhangjiajie National Forest Park, Hunan, China, at the Mihuntai (Enchanting Terrace) viewing platform, mid-May, about 9 am, an hour after rain. Hundreds of quartz-sandstone pillars, grey-green and topped with pine and shrub, rise out of a white mist that fills the valley so their bases vanish and they seem to float. The nearest pillars are sharp and dark; each row behind is paler until the last ones are just grey shapes. The platform is paved with wet dark stone slabs, and has a chest-high grey metal railing with big gaps, beaded with water. Behind and beside her, a dozen other tourists: tour-group members in clear plastic ponchos, a guide with a small flag, a man with a selfie stick, a couple in matching rain jackets. Everything is damp; the air is visibly humid and there is fine drizzle in the air but no rain.
+PLACE. Yuanjiajie in Zhangjiajie National Forest Park, Hunan, China, at the Mihuntai (Enchanting Terrace) viewing platform, mid-May, about 7 am, an hour after rain, the first light coming low from the east. Hundreds of quartz-sandstone pillars, grey-green and topped with pine, rise out of a white mist that fills the valley so their bases vanish and they seem to float; the mist is lit from behind and glows. The nearest pillars are sharp and dark; each row behind is paler. The platform is paved with wet dark stone slabs, shining, and has a chest-high grey metal railing beaded with water. Two or three other visitors stand far along the platform, small and out of focus. The air is visibly humid, fine droplets catching the light.
 
-OUTFIT. Exactly the outfit in @Image2 : a light olive-green nylon rain jacket with a hood, unzipped; a white ribbed cotton tank top; high-waisted black wide-leg cotton trousers cropped at the ankle; white leather trainers; a small black nylon crossbody bag; a black folding umbrella; hair loose. Every photo in this set wears this same outfit; nothing swapped, recoloured or added. In this photo: jacket on and open, its shoulders and hood darkened with drizzle; trouser hems damp; mud around the trainer soles; the umbrella folded and hanging from the rail by its strap; hair damp at the temples, a strand stuck to her cheek.
+OUTFIT. Exactly the outfit in @Image2 : a light olive-green nylon rain jacket with a hood, unzipped; a white ribbed cotton tank top; high-waisted black wide-leg cotton trousers cropped at the ankle; white leather trainers; a small black nylon crossbody bag; a black folding umbrella; hair loose. Fitted like tailoring: the trousers sit high and clean at the waist, the tank tucked, the jacket open and hanging straight from the shoulders. Every photo in this set wears this same outfit; nothing swapped, recoloured or added. In this photo: jacket open, sleeves pushed to the elbow, the crossbody strap across the tank, the umbrella closed and held loosely in her right hand; hair loose with soft movement, a few strands lifted by the damp air.
 
 PHYSIQUE. She has the fit, athletic build of someone who trains at the gym most days: lean and toned, a flat stomach, a naturally slim waist, defined but not bulky shoulders and arms, toned legs, straight posture. Slim, not skinny; strong, not heavy: no bodybuilder mass, no visible six-pack in a candid photo, no exaggerated curves. Nothing about her is chubby or soft: no rounded belly, no heavy upper arms, no full cheeks, no double chin. The body changes nothing above the neck: her face keeps exactly the slim heart shape, high cheekbones, tapered jaw and delicate chin of @Image1 . Whatever she is wearing fits this build: the waist tucked, belted or fitted so the shape shows even under a loose top.
 
-POSE. She stands side-on to the camera at the railing, her left forearm resting on the wet top rail, her right hand holding a folded umbrella by its strap, hanging from the rail. Her head is turned three-quarters away from the camera to her left, looking out at the pillars, chin slightly lifted, mouth open in the middle of saying 'wow' to the friend. We see her face from the side and behind, one eye, the line of her cheek and jaw. Weight on her left leg, right knee soft. Not posing; she has not noticed the photo yet.
+POSE. She stands at the railing in a long line, weight on her left hip, her left forearm resting lightly on the wet top rail, her right hand holding the closed umbrella down by her side. Her body is three-quarters to the camera and her head is turned about forty degrees toward the lens, chin slightly lifted, eyes straight into the camera, a soft closed-lip smile. Shoulders back, neck long. A model who knows where the camera is.
 
-LIGHT. Flat overcast: the sky is one bright white sheet above the pillars, slightly clipped. Light comes from above and everywhere, so shadows are soft and directly downward, a soft grey under her chin, under her jacket hem, under her shoes. Her face and skin take this cool, slightly blue-grey daylight; no warm tone anywhere. The mist behind her is brighter than she is. She casts a soft shadow onto the wet slabs matching every other soft shadow on the platform, with a darker contact line under her trainers.
+LIGHT. Low golden-hour sun from the right of frame, just above the pillars, breaking through thinning cloud: a warm rim of light on her hair, her right cheekbone and her right shoulder, the rest of her face lit softly by the bright mist bouncing light back from the left. The mist behind her glows where the sun comes through it; droplets in the air catch the light. Her shadow falls long to the left across the wet slabs, matching the shadows of the railing posts. Skin warm on the lit side, cool and soft on the other.
 
-FRAMING. Full-body, wide. She is in the right third of the frame, her right elbow cropped by the right edge. In the near foreground at the left edge, closer to the lens than she is and slightly soft, the shoulder of a stranger's blue rain poncho. The pillars fill the rest of the frame behind and above her. Phone tilted two degrees.
+FRAMING. Full-body, 35 mm at f/2.8, camera a touch below her eye line. She is on the right third of the frame with the tallest pillars composed behind her left shoulder; in the near foreground at the left edge, soft, the wet top bar of the railing catching the light. The pillars and mist fill the rest of the frame.
 
-SKIN AND FABRIC. Visible pores, slight shine on the nose and forehead, faint redness on the cheeks and knuckles, a few flyaway hairs, natural asymmetry, no retouching. Her hair edges blend into the background through the same lens; nothing looks cut out. Clothes creased where the body bends and marked by the weather exactly as described under PLACE and OUTFIT. Nothing is symmetrical, glowing, waxy, plastic, painted or glass-smooth. Where clean and real conflict, choose real.
+STYLING. Skin luminous and even with real texture: pores visible up close, natural asymmetry, a faint natural shine on the cheekbones, never plastic, waxy or airbrushed. Editorial makeup that reads natural: groomed brows, defined lashes, soft contour, a satin lip in a natural shade. Hair salon-finished, with shine and movement, styled deliberately for this shot. Nails clean and neutral. The clothes fit as if tailored to her: structured shoulders, the waist tucked or belted, hems sitting right, fabrics that read expensive and hang well. One deliberate accessory catches the light. Clothes are clean and pressed; the weather shows only as beauty (wind lifting the hair, spray or dust catching the light, a damp shine on stone), never as sweat, mud, creases or stains.
 
-PHONE PROCESSING. iPhone 15 main camera, 24 mm equivalent, everything in focus from her to the far end of the scene, handheld at chest height, tilted a degree or two. Slight noise in the shadows, mild over-sharpening on edges, a hint of colour fringing on bright edges, sky slightly clipped where it is in frame. Vertical 4:5.
+CAMERA. Shot by a professional travel-fashion photographer on a full-frame camera: an 85 mm lens at f/2 for waist-up and three-quarter frames, a 35 mm lens at f/2.8 for full-body frames. She is razor sharp, eyes in perfect focus; the place falls softly out of focus behind her but stays clearly readable as this exact location. Clean natural colour, gentle contrast, a fine film-like grain, true skin tones, no HDR halo, no over-sharpening, no heavy grade. Vertical 4:5.
 
-NEVER. No text that can be read, no logos, no watermarks, no film look, no cinematic grading, no beauty filter, no background blur, no golden hour, no lens flare added for effect. Nothing invented: only what is really at this spot on this kind of day, including the other visitors, barriers, paths and signs (signs far away and unreadable). Not a pose, not a fashion shot; a friend's phone photo that happens to be somewhere unbelievable.
+NEVER. No text that can be read, no logos, no watermarks. No plastic or waxy skin, no beauty-filter smoothing, no duplicated people, no distorted hands, no extra fingers. No other visitors close to her: other people, if present, are small and far away and out of focus. Nothing invented about the place: the real landmark, the real ground, the real barriers where they matter, signs far away and unreadable. No slouch, no snapshot; every frame is a model on location, shot with intent.
 
 CAPTION (caption.txt):
 
@@ -317,6 +341,24 @@ Woman at a wet metal railing at the Mihuntai viewpoint in Zhangjiajie, China, sa
 
 HASHTAGS (max 5 on Instagram since Dec 2025; keep the first 3 if you want fewer)
 #zhangjiajie #avatarmountains #hikingadventures #beautifuldestinations #photodump
+
+# LOOK RULES (apply to every card; the cards are scene ideas, this is how they are rendered)
+
+The place cards below were written for a candid snapshot look. That look is retired. Keep
+from each card: the place, the outfit, the caption hook, alt text and hashtags, and the idea
+of each photo (where she is, what she is doing, which framing). Render it in the model look:
+- Translate the candid action into the nearest model pose from the POSE rule (a stumble
+  becomes a mid-stride walk; "laughing at her phone" becomes a seated pose with the phone
+  lowered and a laugh to camera; "looking up" becomes chin lifted with the light on her throat).
+- Drop every sweat patch, mud, dust, crease, wet hem and "tide-mark" in the WORN state; keep
+  the pieces and how they are worn (sleeves rolled, shirt open, cap on).
+- Replace the card's LIGHT with one of the three LIGHT rule options that the place allows
+  at a believable hour (a slot canyon keeps its beam; a misty valley keeps the mist).
+- Other visitors, vehicles and stalls become small and far or leave the frame.
+- Captions: the first line names the place and carries a hook inside 125 characters; the
+  second line one specific true detail; the third line asks the reader to send it to someone
+  ("send this to the friend who…"); exactly five hashtags. Read `routines/strategy.md` first:
+  its Current directives override anything here (caption pattern, post mix, place order).
 
 # PLACE CARDS (in order; the first hashtag is the done-marker)
 
