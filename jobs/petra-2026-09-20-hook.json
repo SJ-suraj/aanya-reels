@@ -1,0 +1,19 @@
+{
+ "name": "petra-2026-09-20-hook",
+ "kind": "hook",
+ "files": [
+  "photos/petra-2026-09-20/01.jpg",
+  "photos/petra-2026-09-20/02.jpg",
+  "photos/petra-2026-09-20/03.jpg"
+ ],
+ "text": {
+  "place": "PETRA · JORDAN",
+  "headline": "The \"free\" camel ride at Petra costs $70",
+  "beats": [
+   "A handler offers a free ride to the viewpoint. Free is the trap.",
+   "At the top he blocks the camel until you pay 50 JOD. Or 70. Or 100.",
+   "Your 50 JOD ticket already includes the horse ride from the gate. Walk the rest, or agree a written price first."
+  ],
+  "close": "Send this to whoever is going to Jordan"
+ }
+}

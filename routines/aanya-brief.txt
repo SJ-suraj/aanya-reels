@@ -46,7 +46,9 @@ Buffer `list_posts` with `channelIds: ["6aaef241ea19ca0bde8cdcbc"]`, `status: ["
 `first: 50`, `includeMetrics: true`. For every post write one row: id, sentAt, type (`post` or
 `reel` from `metadata.type`), place (first hashtag), first caption line, and the metrics that
 came back (views, reach, likes, comments, saves, shares, follows; missing ones as null), plus
-`sends_per_reach = shares/reach` and `saves_per_reach = saves/reach` when both exist. Metrics
+`sends_per_reach = shares/reach` and `saves_per_reach = saves/reach` when both exist, and
+`reel_format` ("hook" when the first caption line is a statement with a number or one of the
+hook words from 2b, else "plain"; carousels get the same tag from their line 1). Metrics
 refresh about once a day, so mark rows younger than 24 hours `judged: false`. Save the rows
 as `stats/<YYYY-MM-DD-HHMM>.json` in the repository and push it with the same
 fetch → rebase → push line used in step 5b. Then read `routines/strategy.md`: its **Current
@@ -75,6 +77,34 @@ structure line for line: the same block order, the same shared blocks verbatim, 
 and worn-state expanded into full PLACE / OUTFIT / POSE / LIGHT / FRAMING blocks of the same
 length and detail as the example. The three photos share the one outfit; their head poses,
 framing types and worn-state differ as the card says.
+
+## 2b. Find the hook (Exa, no credits; required for 4b and 5b)
+Reels of a pretty person at a pretty place with nothing to read get almost no reach on a cold
+account (measured on a comparable AI travel account: 110–134 views, zero saves), while a
+specific warning about the same place gets 10x the views plus saves and shares. So every Reel
+opens on a burned-in headline that names one real mistake, scam, rule or timing trap at this
+place, and the carousel caption's first line carries the same hook.
+1. Exa `web_search_exa`: "first-hand traveller complaints (Reddit r/travel, r/solotravel,
+   forums) about a specific mistake, scam or rule at <place>: exact prices, times, dates".
+   Pick the one fact that is (a) specific (a number, a time, a price, a year), (b) repeated by
+   at least two independent pages, (c) not already used as a headline in any earlier caption
+   from the step 0 `list_posts` results. Keep the two URLs for the final message.
+2. Write `HOOK` as JSON (this goes into the job file in 4b and is burned onto the Reel):
+   ```
+   {"place": "<PLACE · COUNTRY, upper case>",
+    "headline": "<a statement, not a question; 5–9 words; names the place or its landmark; carries the number or the word 'banned', 'costs', 'closed', 'scam', 'trap' or 'ruined'>",
+    "beats": ["<the mistake, one sentence, ≤ 16 words>",
+              "<what it costs you, with the number, ≤ 16 words>",
+              "<the fix, one concrete instruction, ≤ 18 words>"],
+    "close": "<'Send this to' + who: ≤ 8 words>"}
+   ```
+   Examples that render well: headline "The "free" camel ride at Petra costs $70"; "You can't
+   drive to Moraine Lake anymore"; "Lauterbrunnen is ruined by 10 am". Never "wait for it",
+   never a question, never an emoji (the font has none), nothing false or exaggerated: every
+   number comes from the pages you read.
+3. The card's CAPTION line 1 is replaced by the headline (still inside 125 characters, place
+   named); line 2 becomes beat 3 (the fix); line 3 stays the "send this to…" line; hashtags
+   unchanged.
 
 ## 3. Generate the plate (0.2)
 Topview `topview_generate_image` `{taskType: "text_to_image", model: "GPT Image 2.5 Sunburst",
@@ -114,19 +144,21 @@ The repository `SJ-suraj/travel-reels` is cloned in the working directory. The s
 download from TopView's host, so GitHub Actions does it: you push one job file, the `render`
 workflow downloads the three photos, applies the film grade (`tools/grade_photos.py`: Kodak
 Portra 400 look, grain, highlight roll-off, faint vignette, JPEG), commits them as
-`photos/<name>/01.jpg … 03.jpg`, and cuts the Reel `reels/<name>.mp4` from the graded frames.
+`photos/<name>/01.jpg … 03.jpg`, and cuts the Reel `reels/<name>.mp4` from the graded frames
+with the HOOK burned on (`tools/make_hook_reel.py`: headline on frame 0, one beat per cut,
+the close line, ends on photo 1 so it loops; about 11.5 seconds).
 Both appear within about two to three minutes.
 1. Job file and push:
    ```
    NAME=<place slug without the NN>-$(TZ=Asia/Kolkata date +%F)     # e.g. petra-2026-09-20
    python3 - <<'EOF'
-   import json; json.dump({"name": "NAME-VALUE", "kind": "set", "urls": ["<photo 01 png url>", "<photo 02 png url>", "<photo 03 png url>"]}, open("jobs/NAME-VALUE.json", "w"), indent=1)
+   import json; json.dump({"name": "NAME-VALUE", "kind": "set", "urls": ["<photo 01 png url>", "<photo 02 png url>", "<photo 03 png url>"], "text": HOOK}, open("jobs/NAME-VALUE.json", "w"), indent=1, ensure_ascii=False)
    EOF
    git config user.name aanya-routine && git config user.email aanya-routine@users.noreply.github.com
    git add "jobs/$NAME.json" && git commit -qm "job: $NAME"
    for try in 1 2 3; do git fetch -q origin main && git rebase -q origin/main && git push -q origin HEAD:main && break; done
    ```
-   (write the real NAME and the three full URLs into the Python line; the URLs keep their
+   (write the real NAME, the three full URLs and the HOOK object from 2b into the Python line; the URLs keep their
    `?Policy=…&Signature=…&Key-Pair-Id=…` query string exactly). If the push still fails after
    three tries, abort: "could not push job file".
 2. Wait for the graded photos. Poll with
@@ -161,8 +193,8 @@ After creating, `get_post` once: status must be `scheduled` (or `sent`), `schedu
 Everything in this step is optional for the run: if any part fails, skip the rest of 5b, keep
 the carousel post from step 5, and say what failed in the final message. **Never generate a
 new image for the Reel; it is cut from the same three photos.**
-1. The `set` job from step 4b also renders `reels/$NAME.mp4` (three graded stills, about 7.8
-   seconds, 9:16). Poll
+1. The `set` job from step 4b also renders `reels/$NAME.mp4` (the hook reel: three graded
+   stills, headline + beats burned on, about 11.5 seconds, 9:16). Poll
    `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/SJ-suraj/travel-reels/main/reels/$NAME.mp4`
    with the HOW TO WAIT command between polls, at most 10 polls. `200` → `VIDEO_URL` is that
    raw URL. Still `404` → skip 5b and say "reel did not finish".
@@ -186,7 +218,7 @@ new image for the Reel; it is cut from the same three photos.**
    metadata: { instagram: { type: "reel", shouldShareToFeed: true, isAiGenerated: true,
                             stickerFields: { text: NOTE } } }
    ```
-   The response must show `assets[0].mimeType: "video/mp4"` and `video.durationMs` near 7800;
+   The response must show `assets[0].mimeType: "video/mp4"` and `video.durationMs` near 11500;
    if not, `delete_post` it and record the failure. Record the Reel post id.
 
 ## 6. Credits after
@@ -195,7 +227,7 @@ new image for the Reel; it is cut from the same three photos.**
 ## 7. Final message (this is the run record; nothing else is written anywhere)
 One paragraph: slot, place, the four TopView task ids, credits before/after, the Buffer post id
 and its scheduled publish time, the graded photo URLs (GitHub, permanent), the Reel post id and its video URL (or why 5b was skipped), the audio note used,
-the stats file written, three numbers from the judged rows (median Reel views in the last 7
+the headline used and its two source URLs, the stats file written, three numbers from the judged rows (median Reel views in the last 7
 days, median sends_per_reach, follows summed; "n/a" where Buffer gave nothing), whether the
 daily review ran and what it changed, and any abort reason. Nothing else.
 
@@ -358,8 +390,8 @@ overcast, the WORN state with its damp hems and dust. That candid frame is what 
 (golden-hour rim light, blurred backgrounds, clean composition) reads as AI and is retired.
 What is upgraded is her, not the photograph: real skin with texture (STYLING), hair done and
 then lived in, clothes that fit, and model posture inside the candid action (long neck,
-shoulders back, weight on one hip). Captions: the first line names the place and carries a
-hook inside 125 characters; the second line one specific true detail; the third line asks
+shoulders back, weight on one hip). Captions: the first line is the researched headline from
+step 2b (place named, inside 125 characters); the second line is its fix; the third line asks
 the reader to send it to someone ("send this to the friend who…"); exactly five hashtags.
 Read `routines/strategy.md` first: its Current directives override anything here.
 

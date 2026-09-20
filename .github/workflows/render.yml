@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt-get install -y -qq ffmpeg >/dev/null && ffmpeg -version | head -1
+      - run: sudo apt-get install -y -qq ffmpeg fonts-dejavu-core >/dev/null && ffmpeg -version | head -1 && ls /usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf
       - run: pip install --quiet postfx && python3 -c "import postfx; print('postfx', postfx.__version__ if hasattr(postfx,'__version__') else 'ok')"
       - name: render every job without output yet
         env:
@@ -31,13 +31,28 @@ jobs:
               [ -f "reels/$name.mp4" ] && continue
             fi
             d=$(mktemp -d)
+            if [ "$kind" = "hook" ]; then
+              # re-cut from photos already graded and committed: "files": ["photos/x/01.jpg", ...]
+              mkdir -p "$d/graded"; i=1
+              while IFS= read -r f; do cp "$f" "$d/graded/$(printf '%02d' $i).jpg"; i=$((i+1)); done < <(jq -r '.files[]' "$j")
+              jq '.text' "$j" > "$d/text.json"
+              python3 tools/make_hook_reel.py "$d/text.json" "reels/$name.mp4" "$d/graded/01.jpg" "$d/graded/02.jpg" "$d/graded/03.jpg"
+              ffprobe -v error -show_entries format=duration:stream=width,height -of default=nw=1 "reels/$name.mp4"
+              continue
+            fi
             i=1
             while IFS= read -r u; do curl -fsSL -o "$d/$(printf '%03d' $i).png" "$u"; i=$((i+1)); done < <(jq -r '.urls[]' "$j")
             # film grade every frame first (Portra 400, grain, roll-off); reels are cut from the graded frames
             python3 tools/grade_photos.py "$d/graded" "$d"/*.png
             if [ "$kind" = "set" ]; then
               mkdir -p "photos/$name" && cp "$d"/graded/*.jpg "photos/$name/"
-              bash tools/make_reel.sh "$d/graded/01.jpg" "$d/graded/02.jpg" "$d/graded/03.jpg" "reels/$name.mp4"
+              if [ "$(jq -r '.text // empty' "$j")" != "" ]; then
+                # hook reel: headline + beats burned on (see tools/make_hook_reel.py)
+                jq '.text' "$j" > "$d/text.json"
+                python3 tools/make_hook_reel.py "$d/text.json" "reels/$name.mp4" "$d/graded/01.jpg" "$d/graded/02.jpg" "$d/graded/03.jpg"
+              else
+                bash tools/make_reel.sh "$d/graded/01.jpg" "$d/graded/02.jpg" "$d/graded/03.jpg" "reels/$name.mp4"
+              fi
             elif [ "$kind" = "montage" ]; then
               secs=$(jq -r '.seconds // 12' "$j")
               bash tools/make_montage.sh "reels/$name.mp4" "$secs" "$d"/graded/*.jpg
