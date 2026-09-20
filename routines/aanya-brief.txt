@@ -247,11 +247,11 @@ OUTFIT. Exactly the outfit in @Image2 : <the card's outfit>, fitting her properl
 
 <PHYSIQUE block, verbatim>
 
-POSE. <one candid action, one hand doing one thing; the head turn in degrees and the gaze target; mouth open, mid-laugh or mid-word, or a soft closed-lip smile; she carries herself like a model even mid-action: long neck, shoulders back, weight on one hip, never slumped; never the reference's own pose>
+POSE. <one posed move from the POSING list in LOOK RULES, held for the camera: she knows the photo is being taken; one hand doing one thing (in her hair, on her hip, on the wall, holding the skirt or the bag strap); hips pushed to one side, weight on one leg, the other knee bent; long neck, shoulders back, never slumped; the head turn in degrees and the gaze target (eyes to the lens with a soft closed-lip smile or a small laugh in at least one of the three, off to the side in the others); never the reference's own pose>
 
-LIGHT. <hard sun from one named side with short dark shadows and a warm cast on the lit side, or flat overcast with soft downward shadows and a cool grey-blue cast; never golden hour, never a rim light, never mixed moods; her shadow matches every other shadow; a dark contact shadow under the shoes; her skin takes the scene's light and its colour cast>
+LIGHT. <one of: hard midday sun from a named side with short dark shadows; warm low sun in the last two hours of the day from a named side, long shadows, a warm cast on the lit side and her hair lit from behind by it; or bright open shade / flat overcast with soft downward shadows. Never a rim light added for effect, never mixed moods; her shadow matches every other shadow; a dark contact shadow under the shoes; her skin takes the scene's light and its colour cast>
 
-FRAMING. <full-body / waist-up / three-quarter as the card says; left or right third; an elbow or shoulder cropped by the edge; something in the near foreground, closer than she is, slightly soft; phone tilted one or two degrees>
+FRAMING. <full-body / waist-up / three-quarter as the card says; she is the subject and is placed on purpose, centred or on a third, with the street, gate, wall or view composed around her; the phone held straight; nothing cropped by accident>
 
 <STYLING block, verbatim>
 
@@ -260,9 +260,11 @@ FRAMING. <full-body / waist-up / three-quarter as the card says; left or right t
 <NEVER block, verbatim>
 ```
 Rules: `@Image1 ` and `@Image2 ` always have a space before the `@` and after the digit. The
-three photos of a place use three different head poses (turned away looking back over a
-shoulder; profile or over-the-shoulder toward the camera; head bowed to a phone or drink, or
-tipped back) and one each of full-body, waist-up, three-quarter.
+three photos of a place use the three POSING slots from LOOK RULES in order (1 eyes to the
+lens, hand in hair or on hip; 2 walking away or looking back over a shoulder, skirt or hair in
+motion; 3 leaning on or sitting against something) and one each of full-body, waist-up,
+three-quarter; photo 2 or 3 is at a street, gate, door or wall near the landmark, with the
+landmark out of frame.
 
 ## Plate prompt: exact layout
 ```
@@ -289,19 +291,19 @@ Her outfit comes from @Image2 , a clothing plate showing the garments on an invi
 
 PHYSIQUE:
 
-PHYSIQUE. She has the fit, athletic build of someone who trains at the gym most days: lean and toned, a flat stomach, a naturally slim waist, defined but not bulky shoulders and arms, toned legs, straight posture. Slim, not skinny; strong, not heavy: no bodybuilder mass, no visible six-pack in a candid photo, no exaggerated curves. Nothing about her is chubby or soft: no rounded belly, no heavy upper arms, no full cheeks, no double chin. The body changes nothing above the neck: her face keeps exactly the slim heart shape, high cheekbones, tapered jaw and delicate chin of @Image1 . Whatever she is wearing fits this build: the waist tucked, belted or fitted so the shape shows even under a loose top.
+PHYSIQUE. A slim hourglass: about 167 cm, a small defined waist, a full bust and rounded hips in proportion, a flat toned stomach, long toned legs, slim arms, straight posture with the shoulders back. Skin lightly sun-tanned all over, the same tone on face, arms and legs. Slim, not skinny; shapely, not heavy: no bodybuilder mass, no visible six-pack, no exaggerated curves. Nothing about her is chubby or soft: no rounded belly, no heavy upper arms, no full cheeks, no double chin. The body changes nothing above the neck: her face keeps exactly the slim heart shape, high cheekbones, tapered jaw and delicate chin of @Image1 . Whatever she is wearing is cut to this shape: the waist shows, the hem is short or the top is cropped, so the figure reads in every frame.
 
 STYLING:
 
-STYLING. Real skin at full size: visible pores across the nose and cheeks, fine peach fuzz along the jaw, a faint uneven tone with a little redness at the nostrils and knuckles, natural shine on the forehead and the bridge of the nose, one small mole or a few faint freckles, natural asymmetry (one eyebrow a touch higher, the smile pulling slightly to one side). Eyes moist. Makeup that reads as skin: groomed brows with individual hairs, a little mascara, a tinted lip; no foundation mask. Hair done that morning and then lived in: shine, movement, flyaways, wind. Her clothes fit her (structured shoulders, waist tucked or belted, hems right) and are real cloth with weave and honest creases where the body bends, marked by the day exactly as described under PLACE and OUTFIT. Her hair edges blend into the background through the same lens; nothing looks cut out. Nothing is symmetrical, glowing, waxy, plastic, painted or glass-smooth. Where clean and real conflict, choose real.
+STYLING. Real skin at full size: visible pores across the nose and cheeks, fine peach fuzz along the jaw, an even light tan, natural shine on the forehead and the bridge of the nose, one small mole or a few faint freckles, natural asymmetry (one eyebrow a touch higher, the smile pulling slightly to one side). Eyes moist. Makeup that reads as skin: groomed brows with individual hairs, a little mascara, a tinted lip; no foundation mask. Hair done that morning and then lived in: shine, movement, flyaways, wind. Her clothes fit her (structured shoulders, waist tucked or belted, hems right) and are real cloth with weave and honest creases where the body bends, marked by the day exactly as described under PLACE and OUTFIT. Her hair edges blend into the background through the same lens; nothing looks cut out. Nothing is symmetrical, glowing, waxy, plastic, painted or glass-smooth. Where clean and real conflict, choose real.
 
 CAMERA:
 
-CAMERA. iPhone 15 back camera, main 24 mm lens, held by a friend at chest height or a little above, tilted a degree or two, HDR off, no filter, unedited. Everything in focus from her to the far end of the scene (a phone's deep focus, no portrait mode, no background blur). The frame is the one taken a moment before or after the intended one: off-centre, a shoulder or elbow cropped, something from the scene soft in the near corner. File artifacts of a real phone photo: slight noise in the shadows, JPEG compression visible in the dark areas, blacks a little crushed, mild over-sharpening on edges, a hint of colour fringing on bright edges, the sky slightly clipped where it is in frame, a faint motion blur on whatever hand or hair is moving. Vertical 4:5.
+CAMERA. iPhone 15 back camera, main 24 mm lens, held by a friend at chest height, straight, default settings (Smart HDR on, no filter), the best of four or five tries. Everything in focus from her to the far end of the scene (a phone's deep focus, no portrait mode, no background blur). Bright, clean and sharp the way a phone photo posted the same evening looks: true colours, the sky held, shadows open, a little noise only in the darkest corners. Vertical 4:5.
 
 NEVER:
 
-NEVER. No text that can be read, no logos, no watermarks, no film look, no cinematic grading, no beauty filter, no background blur, no golden hour, no lens flare added for effect. Nothing invented: only what is really at this spot on this kind of day, including the other visitors, barriers, paths and signs (signs far away and unreadable). No plastic, waxy or airbrushed skin, no beauty-filter smoothing, no perfectly symmetrical face, no distorted hands. Not a pose, not a fashion shot; a friend's phone photo of a striking woman who happens to be somewhere unbelievable. Never any of these words or looks: professional photography, studio lighting, cinematic, magazine, editorial, portrait mode, bokeh, 8K, stunning, flawless.
+NEVER. No text that can be read, no logos, no watermarks, no film look, no cinematic grading, no beauty filter, no background blur, no rim light or lens flare added for effect. Nothing invented: only what is really at this spot on this kind of day, including the other visitors, barriers, paths and signs (signs far away and unreadable). No plastic, waxy or airbrushed skin, no beauty-filter smoothing, no perfectly symmetrical face, no distorted hands. Not a studio shot and not a magazine spread: a friend's phone photo of a model who is posing for it, somewhere unbelievable. Never any of these words or looks: professional photography, studio lighting, cinematic, magazine, editorial, portrait mode, bokeh, 8K, stunning, flawless.
 
 ## Authoring a new place (only when every card is done)
 Pick somewhere people call unbelievable when they see a photo of it, that a 25-year-old could
@@ -349,7 +351,7 @@ PLACE. Yuanjiajie in Zhangjiajie National Forest Park, Hunan, China, at the Mihu
 
 OUTFIT. Exactly the outfit in @Image2 : a light olive-green nylon rain jacket with a hood, unzipped; a white ribbed cotton tank top; high-waisted black wide-leg cotton trousers cropped at the ankle; white leather trainers; a small black nylon crossbody bag; a black folding umbrella; hair loose. Every photo in this set wears this same outfit; nothing swapped, recoloured or added. In this photo: jacket on and open, its shoulders and hood darkened with drizzle; trouser hems damp; mud around the trainer soles; the umbrella folded and hanging from the rail by its strap; hair damp at the temples, a strand stuck to her cheek.
 
-PHYSIQUE. She has the fit, athletic build of someone who trains at the gym most days: lean and toned, a flat stomach, a naturally slim waist, defined but not bulky shoulders and arms, toned legs, straight posture. Slim, not skinny; strong, not heavy: no bodybuilder mass, no visible six-pack in a candid photo, no exaggerated curves. Nothing about her is chubby or soft: no rounded belly, no heavy upper arms, no full cheeks, no double chin. The body changes nothing above the neck: her face keeps exactly the slim heart shape, high cheekbones, tapered jaw and delicate chin of @Image1 . Whatever she is wearing fits this build: the waist tucked, belted or fitted so the shape shows even under a loose top.
+PHYSIQUE. A slim hourglass: about 167 cm, a small defined waist, a full bust and rounded hips in proportion, a flat toned stomach, long toned legs, slim arms, straight posture with the shoulders back. Skin lightly sun-tanned all over, the same tone on face, arms and legs. Slim, not skinny; shapely, not heavy: no bodybuilder mass, no visible six-pack, no exaggerated curves. Nothing about her is chubby or soft: no rounded belly, no heavy upper arms, no full cheeks, no double chin. The body changes nothing above the neck: her face keeps exactly the slim heart shape, high cheekbones, tapered jaw and delicate chin of @Image1 . Whatever she is wearing is cut to this shape: the waist shows, the hem is short or the top is cropped, so the figure reads in every frame.
 
 POSE. She stands side-on to the camera at the railing, her left forearm resting on the wet top rail, her right hand holding a folded umbrella by its strap, hanging from the rail. Her head is turned three-quarters away from the camera to her left, looking out at the pillars, chin slightly lifted, mouth open in the middle of saying 'wow' to the friend. We see her face from the side and behind, one eye, the line of her cheek and jaw. Weight on her left leg, right knee soft. Not posing; she has not noticed the photo yet, but she stands the way she always does: long neck, shoulders back, weight on one hip.
 
@@ -357,11 +359,11 @@ LIGHT. Flat overcast: the sky is one bright white sheet above the pillars, sligh
 
 FRAMING. Full-body, wide. She is in the right third of the frame, her right elbow cropped by the right edge. In the near foreground at the left edge, closer to the lens than she is and slightly soft, the shoulder of a stranger's blue rain poncho. The pillars fill the rest of the frame behind and above her. Phone tilted two degrees.
 
-STYLING. Real skin at full size: visible pores across the nose and cheeks, fine peach fuzz along the jaw, a faint uneven tone with a little redness at the nostrils and knuckles, natural shine on the forehead and the bridge of the nose, one small mole or a few faint freckles, natural asymmetry (one eyebrow a touch higher, the smile pulling slightly to one side). Eyes moist. Makeup that reads as skin: groomed brows with individual hairs, a little mascara, a tinted lip; no foundation mask. Hair done that morning and then lived in: shine, movement, flyaways, wind. Her clothes fit her (structured shoulders, waist tucked or belted, hems right) and are real cloth with weave and honest creases where the body bends, marked by the day exactly as described under PLACE and OUTFIT. Her hair edges blend into the background through the same lens; nothing looks cut out. Nothing is symmetrical, glowing, waxy, plastic, painted or glass-smooth. Where clean and real conflict, choose real.
+STYLING. Real skin at full size: visible pores across the nose and cheeks, fine peach fuzz along the jaw, an even light tan, natural shine on the forehead and the bridge of the nose, one small mole or a few faint freckles, natural asymmetry (one eyebrow a touch higher, the smile pulling slightly to one side). Eyes moist. Makeup that reads as skin: groomed brows with individual hairs, a little mascara, a tinted lip; no foundation mask. Hair done that morning and then lived in: shine, movement, flyaways, wind. Her clothes fit her (structured shoulders, waist tucked or belted, hems right) and are real cloth with weave and honest creases where the body bends, marked by the day exactly as described under PLACE and OUTFIT. Her hair edges blend into the background through the same lens; nothing looks cut out. Nothing is symmetrical, glowing, waxy, plastic, painted or glass-smooth. Where clean and real conflict, choose real.
 
-CAMERA. iPhone 15 back camera, main 24 mm lens, held by a friend at chest height or a little above, tilted a degree or two, HDR off, no filter, unedited. Everything in focus from her to the far end of the scene (a phone's deep focus, no portrait mode, no background blur). The frame is the one taken a moment before or after the intended one: off-centre, a shoulder or elbow cropped, something from the scene soft in the near corner. File artifacts of a real phone photo: slight noise in the shadows, JPEG compression visible in the dark areas, blacks a little crushed, mild over-sharpening on edges, a hint of colour fringing on bright edges, the sky slightly clipped where it is in frame, a faint motion blur on whatever hand or hair is moving. Vertical 4:5.
+CAMERA. iPhone 15 back camera, main 24 mm lens, held by a friend at chest height, straight, default settings (Smart HDR on, no filter), the best of four or five tries. Everything in focus from her to the far end of the scene (a phone's deep focus, no portrait mode, no background blur). Bright, clean and sharp the way a phone photo posted the same evening looks: true colours, the sky held, shadows open, a little noise only in the darkest corners. Vertical 4:5.
 
-NEVER. No text that can be read, no logos, no watermarks, no film look, no cinematic grading, no beauty filter, no background blur, no golden hour, no lens flare added for effect. Nothing invented: only what is really at this spot on this kind of day, including the other visitors, barriers, paths and signs (signs far away and unreadable). No plastic, waxy or airbrushed skin, no beauty-filter smoothing, no perfectly symmetrical face, no distorted hands. Not a pose, not a fashion shot; a friend's phone photo of a striking woman who happens to be somewhere unbelievable. Never any of these words or looks: professional photography, studio lighting, cinematic, magazine, editorial, portrait mode, bokeh, 8K, stunning, flawless.
+NEVER. No text that can be read, no logos, no watermarks, no film look, no cinematic grading, no beauty filter, no background blur, no rim light or lens flare added for effect. Nothing invented: only what is really at this spot on this kind of day, including the other visitors, barriers, paths and signs (signs far away and unreadable). No plastic, waxy or airbrushed skin, no beauty-filter smoothing, no perfectly symmetrical face, no distorted hands. Not a studio shot and not a magazine spread: a friend's phone photo of a model who is posing for it, somewhere unbelievable. Never any of these words or looks: professional photography, studio lighting, cinematic, magazine, editorial, portrait mode, bokeh, 8K, stunning, flawless.
 
 CAPTION (caption.txt):
 
@@ -384,31 +386,45 @@ HASHTAGS (max 5 on Instagram since Dec 2025; keep the first 3 if you want fewer)
 
 # LOOK RULES (apply to every card)
 
-Render every card exactly as written, except its OUTFIT line (see WARDROBE below): the place
-with its crowds, barriers and weather, the candid action, the phone camera, hard sun or flat
-overcast, the WORN state with its damp hems and dust. That candid frame is what makes the photos read as real; a "model shoot" look
-(golden-hour rim light, blurred backgrounds, clean composition) reads as AI and is retired.
-What is upgraded is her, not the photograph: real skin with texture (STYLING), hair done and
-then lived in, clothes that fit, and model posture inside the candid action (long neck,
-shoulders back, weight on one hip). Captions: the first line is the researched headline from
-step 2b (place named, inside 125 characters); the second line is its fix; the third line asks
-the reader to send it to someone ("send this to the friend who…"); exactly five hashtags.
-Read `routines/strategy.md` first: its Current directives override anything here.
+The reference for every photo is the Instagram account @leaelui (Léa Elui, 10M followers;
+measured 20 Sep 2026: 12 of her last 12 posts are carousels of 9–13 photos, no Reels, one post
+a week, 120–140k likes each). Her photos are a friend's iPhone shots of a model who is posing
+for them: bright, sharp, composed, real streets and gates and walls behind her, no grade, no
+blur, no film look. Render the card's PLACE with its crowds, barriers and weather, but replace
+the card's OUTFIT line with WARDROBE below and its POSE line with a POSING slot below. The
+old "candid, has not noticed the camera" frame is retired (20 Sep 19:30 IST); so is the
+"model shoot" look with rim light and blurred backgrounds. Captions: the first line is the
+researched headline from step 2b (place named, inside 125 characters); the second line is its
+fix; the third line asks the reader to send it to someone ("send this to the friend who…");
+exactly five hashtags. Read `routines/strategy.md` first: its Current directives override
+anything here.
 
-WARDROBE (replaces every card's OUTFIT line; Suraj, 20 Sep: "i want the super model clothing").
-She dresses like a top model off duty, never like a hiker. For this run's place, write a new
-OUTFIT for the plate and all three photos: designer-looking pieces that flatter and show her
-figure (fitted or cropped tops, high-waisted trousers or a mini, a slip or bodycon dress, a
-tailored linen or silk set, well-cut denim, a leather or wool coat over it where it is cold),
-skin shown where the climate allows (bare shoulders, midriff, legs), one statement accessory
-(oversized sunglasses, gold jewellery, a silk scarf, a designer-looking bag), and footwear from a
-model's suitcase (heeled mules, sleek boots, strappy sandals, clean white trainers), never
-hiking boots, rain shells, fleeces or leggings-and-hoodie. It must still be wearable on that
-terrain at that hour (a long wool coat open over a slip dress at Moraine Lake; a linen set and
-sandals at Pamukkale; the monastery's borrowed wrap skirt at Meteora over a fitted top). Keep
-the card's colour mood and translate its WORN state to the new pieces (a damp hem, hair in the
-wind, a coat slipping off one shoulder). Fabrics named, fit named ("cropped", "high-waisted",
-"fitted", "bias-cut"). Write the plate's Outfit line from this new OUTFIT.
+POSING (one slot per photo, in order 1, 2, 3):
+1. Facing the camera, eyes to the lens, a soft closed-lip smile or a small laugh; one hand in
+   her hair at the temple or on her hip, the other holding the bag strap; hips pushed to one
+   side, one knee bent; standing at a gate, a doorway or a wall.
+2. Walking away from the camera or stopped mid-step and looking back over one shoulder; the
+   skirt held out to one side or the hair swinging; on a cobbled lane, steps or a path.
+3. Leaning back against a wall, a railing or a lamp post with one foot flat against it, or
+   sitting on a ledge or steps with the legs extended and crossed at the ankle, one hand on the
+   stone; chin down a little, eyes off to the side or to the lens.
+Every pose is held on purpose and looks easy; long neck, shoulders back, never slumped, never
+the reference's own pose.
+
+WARDROBE (replaces every card's OUTFIT line; Suraj, 20 Sep: "the same dress, fashion attire").
+One outfit per set, in the @leaelui formula: a mini dress or a mini skirt with a fitted or
+cropped top, in ONE colour (choose from: white cotton lace, butter yellow linen, baby blue
+satin, blush floral cotton, black chiffon with ruffles) with a square, halter or deep-V
+neckline; bare legs; heeled strappy sandals in black or tan; one bag (a tan leather shoulder
+bag or a small black tote); delicate gold jewellery (small hoops, a thin chain, a bracelet);
+hair long and loose in blow-dried waves with a centre parting, nothing tied over it; no
+sunglasses on the face, no scarf on the head, no blazer, no trousers, no jacket unless the
+place is genuinely cold, then a cropped leather jacket open over the dress. It must still be
+wearable on that terrain at that hour: swap the heels for flat leather sandals only where the
+ground makes heels absurd (a wet trail, sand), and say so in WORN. Keep the card's colour
+mood and translate its WORN state to the new pieces (a hem lifted by the wind, hair moved by
+it, dust on the sandals). Fabrics named, fit named ("fitted", "cropped", "mini", "bias-cut").
+Write the plate's Outfit line from this new OUTFIT.
 
 # PLACE CARDS (in order; the first hashtag is the done-marker)
 
