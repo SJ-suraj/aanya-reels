@@ -442,13 +442,15 @@ generated image at the output stage ("the image was filtered"). An output block 
 fixed with words: on image_edit with a real face reference, swimwear in the result is what it
 blocks. Nano Banana Pro blocks it too (Google, same likeness + skin rule, 20 Sep 20:55 IST). So for
 SWIM cards photo 01 is submitted on this ladder, each rung only after the previous one was
-rejected with credits refunded: (1) `model: "Grok Image Quality"`, (2) `model: "Seedream 5.0
-Pro"`, (3) `model: "Kling V3 Omni"` (all taskType image_edit, same inputImageFileIds,
-aspectRatio 4:5, resolution 1K, no quality field); (4) if all three reject, rewrite the
+rejected with credits refunded: (1) `model: "Grok Image Quality"` (resolution 1K; the model
+known for image-to-image swimwear with a reference, PicassoIA Sep 2026), (2) `model:
+"Seedream 4.5"` (resolution 2K, its lowest; passes swimwear where Seedream 5.0 Pro filters
+30–40 % of runs, so 5.0 is never used here) (both taskType image_edit, same
+inputImageFileIds, aspectRatio 4:5, no quality field); (3) if both reject, rewrite the
 OUTFIT as the closed version of the same scene (sarong tied at the waist, the shirt or
 crochet dress buttoned over the swimsuit) and submit on GPT Image 2.5 Sunburst as usual.
 Whatever rung passed for photo 01 is used for photos 02 and 03 without trying the earlier
-rungs again. A rejection at rung 4 aborts the run. The plate for a SWIM card is still GPT Image 2.5 Sunburst
+rungs again. A rejection at rung 3 aborts the run. The plate for a SWIM card is still GPT Image 2.5 Sunburst
 text_to_image (no face, so no block) but shows the cover-up worn over the swimsuit. Swim
 prompts are still written like a fashion caption, not a body description: "swimsuit",
 "two-piece swimsuit" or "one-piece", never "bikini"; the cover-up "worn open" or "buttoned
