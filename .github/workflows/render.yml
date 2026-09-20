@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get install -y -qq ffmpeg fonts-dejavu-core >/dev/null && ffmpeg -version | head -1 && ls /usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf
-      - run: pip install --quiet postfx && python3 -c "import postfx; print('postfx', postfx.__version__ if hasattr(postfx,'__version__') else 'ok')"
+      - run: pip install --quiet postfx pillow && python3 -c "import postfx; print('postfx', postfx.__version__ if hasattr(postfx,'__version__') else 'ok')"
       - name: render every job without output yet
         env:
           GRADE_STRENGTH: "0.3"
@@ -26,7 +26,14 @@ jobs:
             name=$(jq -r .name "$j")
             kind=$(jq -r '.kind // "reel"' "$j")
             if [ "$kind" = "set" ]; then
-              [ -f "photos/$name/01.jpg" ] && [ -f "reels/$name.mp4" ] && continue
+              if [ -f "photos/$name/01.jpg" ] && [ -f "reels/$name.mp4" ]; then
+                # already rendered; only add the slides if this job has text and they are missing
+                if [ "$(jq -r '.text // empty' "$j")" != "" ] && [ ! -f "slides/$name/07.jpg" ]; then
+                  d=$(mktemp -d); jq '.text' "$j" > "$d/text.json"
+                  python3 tools/make_slides.py "$d/text.json" "slides/$name" "photos/$name/01.jpg" "photos/$name/02.jpg" "photos/$name/03.jpg"
+                fi
+                continue
+              fi
             else
               [ -f "reels/$name.mp4" ] && continue
             fi
@@ -50,6 +57,8 @@ jobs:
                 # hook reel: headline + beats burned on (see tools/make_hook_reel.py)
                 jq '.text' "$j" > "$d/text.json"
                 python3 tools/make_hook_reel.py "$d/text.json" "reels/$name.mp4" "$d/graded/01.jpg" "$d/graded/02.jpg" "$d/graded/03.jpg"
+                # seven carousel slides: cover with headline, two clean photos, three text slides, close (tools/make_slides.py)
+                python3 tools/make_slides.py "$d/text.json" "slides/$name" "$d/graded/01.jpg" "$d/graded/02.jpg" "$d/graded/03.jpg"
               else
                 bash tools/make_reel.sh "$d/graded/01.jpg" "$d/graded/02.jpg" "$d/graded/03.jpg" "reels/$name.mp4"
               fi
@@ -64,7 +73,7 @@ jobs:
       - name: commit outputs
         run: |
           git config user.name aanya-render && git config user.email aanya-render@users.noreply.github.com
-          git add reels/*.mp4 photos 2>/dev/null || true
+          git add reels/*.mp4 photos slides 2>/dev/null || true
           git diff --cached --quiet && exit 0
           git commit -qm "render: $(git diff --cached --name-only | xargs -n1 basename | sort -u | tr '\n' ' ')"
           for try in 1 2 3 4 5; do

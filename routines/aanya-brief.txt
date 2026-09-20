@@ -14,7 +14,10 @@ Fixed values
 - Board: every TopView task goes to the **AI-UGC board**, `boardId: "8ff914f298bd4714b942d1965b4b25ec"`.
 - Model: `GPT Image 2.5 Sunburst` for both `text_to_image` and `image_edit`; `quality: "medium"`,
   `aspectRatio: "4:5"`, `resolution: "1K"`, `generateCount: 1`. 0.2 credits per submit.
-- **Hard cap 0.8 credits per run = exactly four submits (one plate + three photos). No retries.**
+- **Hard cap 0.8 credits per run = exactly four submits (one plate + three photos). No retries**,
+  with one exception: a submit that TopView reports as "rejected by the safety system …
+  credits have been refunded" cost nothing, so it may be resubmitted, at most twice, and never
+  with the same prompt (see SAFETY REWRITE under LOOK RULES). A third rejection aborts the run.
   A failed or timed-out task aborts the run. Never submit a fifth image.
 - Buffer: organization `6aa7c7f3ac8fd4ea0a97166a`, channel `samairabell` id `6aaef241ea19ca0bde8cdcbc`.
 - TopView result links expire **72 hours** after generation, which is why step 4b copies the
@@ -146,8 +149,10 @@ workflow downloads the three photos, applies the film grade (`tools/grade_photos
 Portra 400 look, grain, highlight roll-off, faint vignette, JPEG), commits them as
 `photos/<name>/01.jpg … 03.jpg`, and cuts the Reel `reels/<name>.mp4` from the graded frames
 with the HOOK burned on (`tools/make_hook_reel.py`: headline on frame 0, one beat per cut,
-the close line, ends on photo 1 so it loops; about 11.5 seconds).
-Both appear within about two to three minutes.
+the close line, ends on photo 1 so it loops; about 11.5 seconds), and builds the seven
+carousel slides `slides/<name>/01.jpg … 07.jpg` (`tools/make_slides.py`: 01 photo 1 with the
+headline on it, 02 photo 2, 03 the mistake, 04 what it costs, 05 photo 3, 06 the fix, 07 "save
+this for when you book <place>" + the close line). All of it appears within about three minutes.
 1. Job file and push:
    ```
    NAME=<place slug without the NN>-$(TZ=Asia/Kolkata date +%F)     # e.g. petra-2026-09-20
@@ -161,28 +166,30 @@ Both appear within about two to three minutes.
    (write the real NAME, the three full URLs and the HOOK object from 2b into the Python line; the URLs keep their
    `?Policy=…&Signature=…&Key-Pair-Id=…` query string exactly). If the push still fails after
    three tries, abort: "could not push job file".
-2. Wait for the graded photos. Poll with
-   `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/SJ-suraj/travel-reels/main/photos/$NAME/03.jpg`
+2. Wait for the slides (they are written last, after the photos). Poll with
+   `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/SJ-suraj/travel-reels/main/slides/$NAME/07.jpg`
    (a bare `curl -sI` prints the proxy's own "200 Connection Established" line first, so use
    the `-w` form). Between polls wait with the HOW TO WAIT command; at most 15 polls (about
-   five minutes). `200` → the three photo URLs for step 5 are
-   `https://raw.githubusercontent.com/SJ-suraj/travel-reels/main/photos/$NAME/01.jpg`, `02.jpg`,
-   `03.jpg`. Still `404` after 15 polls → abort: "grade did not finish" (nothing is posted; the
-   job file stays and the next run does not need it).
+   five minutes). `200` → the seven slide URLs for step 5 are
+   `https://raw.githubusercontent.com/SJ-suraj/travel-reels/main/slides/$NAME/01.jpg` … `07.jpg`
+   (and the graded photos sit at `photos/$NAME/01.jpg` … `03.jpg`). Still `404` after 15 polls →
+   abort: "render did not finish" (nothing is posted; the job file stays and the next run does
+   not need it).
 
 ## 5. Create the Buffer post (direct publish, AI flagged)
 `TEXT` = the card's three CAPTION lines, a blank line, then the HASHTAGS line. `ALT` = one
-alt-text line per photo describing that photo (the card gives one; write the other two in the
-same form).
+alt-text line per slide: slides 01, 02, 05 describe the photo (the card gives one; write the
+other two in the same form) and add "Text: <headline>" on 01; slides 03, 04, 06, 07 are
+"Text slide: <the words on it>" (a blind reader gets the whole carousel from the alt text).
 Buffer `create_post`:
 ```
 channelId: "6aaef241ea19ca0bde8cdcbc"
 schedulingType: "automatic"             # Buffer publishes to Instagram itself; never "notification" (that only pings a phone)
 mode: "addToQueue"                      # next free slot in the channel's posting schedule, always within a day
 text: TEXT
-assets: [ {image:{url:"<graded photo 01 jpg url from 4b>", metadata:{altText: ALT1}}},
-          {image:{url:"<graded photo 02 jpg url from 4b>", metadata:{altText: ALT2}}},
-          {image:{url:"<graded photo 03 jpg url from 4b>", metadata:{altText: ALT3}}} ]
+assets: [ {image:{url:"<slide 01 url from 4b>", metadata:{altText: ALT1}}},
+          … one entry per slide, in order 01 to 07 …
+          {image:{url:"<slide 07 url from 4b>", metadata:{altText: ALT7}}} ]     # seven assets, never fewer
 metadata: { instagram: { type: "post", shouldShareToFeed: false, isAiGenerated: true } }
 ```
 `isAiGenerated` must be `true`; if the tool refuses the field, abort — do not post without it.
@@ -419,7 +426,30 @@ neckline; bare legs; heeled strappy sandals in black or tan; one bag (a tan leat
 bag or a small black tote); delicate gold jewellery (small hoops, a thin chain, a bracelet);
 hair long and loose in blow-dried waves with a centre parting, nothing tied over it; no
 sunglasses on the face, no scarf on the head, no blazer, no trousers, no jacket unless the
-place is genuinely cold, then a cropped leather jacket open over the dress. It must still be
+place is genuinely cold, then a cropped leather jacket open over the dress.
+SWIM (Suraj, 20 Sep 20:10 IST): at any card on a beach, a boat, a pool, a lake shore, hot
+springs or an island (the card's WHERE says so), the outfit is swimwear instead: a bikini
+(triangle, bandeau or ribbed) or a cut-out one-piece in ONE colour (cream, black, butter
+yellow, baby blue, blush), with one cover-up worn open or tied low: a sheer chiffon shirt, a
+crochet mini, a printed sarong, a linen shirt; bare feet or flat leather sandals; the gold
+jewellery; hair loose, or under a straw hat in one photo; a drink or a towel as the prop. The
+plate shows the swimwear and the cover-up together. POSING slot 3 at these places is sitting
+back on a deck, lounger or rock, propped on one hand, legs crossed at the ankle, as on
+@leaelui.
+SAFETY REWRITE (GPT Image's filter, learned 20 Sep 20:20 IST): the first swim prompt was
+rejected with safety_violations=[sexual]. The filter scores the prompt AND the reference
+image, is stricter on image_edit than on text_to_image, and reads body words + swimwear +
+a real face as one thing. So swim prompts are written like a fashion caption, not a body
+description: say "swimsuit", "one-piece" or "two-piece swimsuit", never "bikini"; the
+cover-up is "worn open" or "buttoned once", never "sheer", "off one shoulder" or "pushed
+off"; no "tan line", "wet", "drops of water", "bust", "hips", "legs extended toward the
+camera", "lying"; PHYSIQUE for swim cards is only "slim and toned, shoulders back"; drop
+the NEVER block's "no lingerie / nothing pulled aside" style lines (naming the category
+adds it to the input; describe what she wears instead); keep the whole prompt under 1,800
+characters. On a rejection: 1st resubmit = the same model with the swimwear changed to a
+one-piece and the cover-up buttoned, framing "full body, environment visible"; 2nd resubmit
+= model "Nano Banana Pro" (same taskType image_edit, same inputImageFileIds; a looser
+filter). Note in the final message which submit passed. It must still be
 wearable on that terrain at that hour: swap the heels for flat leather sandals only where the
 ground makes heels absurd (a wet trail, sand), and say so in WORN. Keep the card's colour
 mood and translate its WORN state to the new pieces (a hem lifted by the wind, hair moved by
@@ -535,3 +565,30 @@ HASHTAGS: #diamondbeach #iceland #girlstrip #passionpassport #traveldiaries
 - Photo 1 — Beside a clear ice block, holding her hood in the wind. WHERE/WHEN: Diamond Beach (Breiðamerkursandur) by Jökulsárlón, south-east Iceland, in late September, about 1 pm, overcast and windy. FRAMING: Full-body, wide, from about three metres. LIGHT: Flat overcast, cold and grey-blue: a pale grey sky, no direct sun, soft downward light. POSE: She stands with her body three-quarters turned away from the camera, toward the ice block, and has looked back over her left shoulder at the camera, head turned about seventy degrees, chin down, laughing with her mouth open while hair whips across her face. WORN: shell zipped to the chin with the hood up over the beanie, wet on the shoulders, hem flapping; over-trousers on; boots with wet black sand up the sides; scarf tucked inside the shell; mittens on; hair blown out of the hood across her face; nose and cheeks red.
 - Photo 2 — Crouched behind an ice block, looking through it. WHERE/WHEN: Diamond Beach, south-east Iceland, late September, about 2 pm, overcast, wind dropping. FRAMING: Waist-up, close, from about a metre and a half, level with her. LIGHT: Flat overcast, grey-blue, no direct sun. POSE: She is squatting on her heels behind the ice block with her right hand cupped around its top edge, looking into it, so she is in profile from her right side, chin down, eyes narrowed in the wind, mouth pulled to one side in a half smile at the bubbles inside. WORN: shell zipped with the hood down; beanie on; scarf wrapped twice; mittens off and lying on the ice block beside her; over-trousers on; boots with wet black sand; hair tucked into the scarf with a few strands loose; nose red.
 - Photo 3 — Walking the sand with a coffee, looking down at the ice. WHERE/WHEN: Diamond Beach, south-east Iceland, late September, about 11 am, overcast with a light drizzle just stopped, strong wind from behind her. FRAMING: Three-quarter length, from about two and a half metres, slightly above her. LIGHT: Flat overcast, grey-blue, no direct sun, drizzle in the air. POSE: She is walking toward the camera along the sand, mid-step, with the paper coffee cup in her right hand held near her chest, and her head bowed down and turned to her left, looking at a clear ice chunk by her foot, so we see the top of her head, her forehead and her face foreshortened from above at three-quarters, lips parted. WORN: shell unzipped and flapping, hood down, the black fleece showing; beanie off and in her pocket; scarf loose; mittens off; over-trousers on; boots with wet black sand up to the laces; hair loose and blown forward around her face by the wind at her back; cheeks red; the fleece cuffs dark with wet.
+
+### 13-positano — Positano, Amalfi Coast (SWIM card)
+OUTFIT (one for all three, and the plate): a cream ribbed two-piece swimsuit; a black sheer chiffon shirt worn open; flat tan leather sandals; small gold hoops, a thin gold chain; a straw tote.
+CAPTION HOOK: positano. the "free" beach is 40 metres wide and the sunbeds next to it are 60 euros.
+ALT TEXT: Woman in a cream two-piece swimsuit and open black chiffon shirt on the foredeck of a moored catamaran off Positano, Italy, the pastel houses stacked up the cliff behind her, hard afternoon sun.
+HASHTAGS: #positano #amalficoast #italiansummer #beachdays #girlstrip
+- Photo 1 — On the catamaran deck, Positano behind. WHERE/WHEN: The white foredeck of a 12-metre sailing catamaran moored two hundred metres off Spiaggia Grande, Positano, mid-July, about 4 pm. FRAMING: Full-body, from the deck, camera at chest height. LIGHT: Hard sun from high on the right, the deck bright white, short shadows. POSE: slot 1 standing at the bow rail. WORN: swimsuit and the chiffon shirt open; hair loose; bare feet on the warm deck.
+- Photo 2 — The steps of Via dei Mulini. WHERE/WHEN: The steep stepped lane of Via dei Mulini in Positano, below the church of Santa Maria Assunta, mid-July, about 6 pm, tourists and a ceramics shop behind. FRAMING: Full-body, from a few steps below. LIGHT: Warm low sun from the sea side, left of frame, long shadows on the steps. POSE: slot 2 walking down the steps looking back over her shoulder. WORN: the chiffon shirt buttoned once over the swimsuit, sarong tied low, sandals on, straw tote on the shoulder, hair dry and loose.
+- Photo 3 — Lying back on the deck. WHERE/WHEN: The catamaran's trampoline net at the bow, Positano's cliff behind, mid-July, about 4:30 pm. FRAMING: Three-quarter, from beside her, camera low. LIGHT: Hard sun from the right, the sea glittering behind. POSE: slot 3 sitting back on the net propped on one hand, legs crossed at the ankle, a bottle of water in the other hand. WORN: swimsuit only, the shirt beside her on the net; hair over one shoulder.
+
+### 14-mykonos — Mykonos, Little Venice (SWIM card)
+OUTFIT (one for all three, and the plate): a black bandeau two-piece swimsuit; a white crochet mini dress worn open over it; flat black leather sandals; gold hoops, a gold bracelet; a small black tote.
+CAPTION HOOK: mykonos. the little venice sunset bars charge 25 euros for a cocktail and the free wall next door has the same view.
+ALT TEXT: Woman in a black two-piece swimsuit under an open white crochet dress on the whitewashed sea wall at Little Venice, Mykonos, the windmills on the ridge behind her, warm evening sun.
+HASHTAGS: #mykonos #littlevenice #greeksummer #beachdays #girlstrip
+- Photo 1 — On the sea wall at Little Venice. WHERE/WHEN: The whitewashed sea wall below the balconies of Little Venice, Mykonos Town, late June, about 7:30 pm, the Kato Mili windmills on the ridge behind, a bar's tables and other visitors along the wall. FRAMING: Full-body, from the promenade. LIGHT: Warm low sun from the sea, left of frame, long shadows, her hair lit from behind. POSE: slot 1 standing against the wall, hand in hair. WORN: crochet dress open over the swimsuit, sandals, tote on the shoulder, hair dry and loose.
+- Photo 2 — The lane behind the windmills. WHERE/WHEN: A whitewashed lane with blue doors and bougainvillea in Mykonos Town, late June, about 6:30 pm, two tourists and a cat further down. FRAMING: Full-body, from behind. LIGHT: Open shade, the walls bouncing bright white light. POSE: slot 2 walking away, looking back over her shoulder, the crochet hem held out to one side. WORN: as photo 1.
+- Photo 3 — Sitting on the wall, feet over the sea. WHERE/WHEN: The same sea wall, late June, about 7:50 pm, the sun just above the horizon. FRAMING: Three-quarter, from the side, camera low. LIGHT: Warm low sun straight into the scene from the left, deep long shadows. POSE: slot 3 sitting on the wall leaning back on one hand, legs along the wall crossed at the ankle, a glass in the other hand. WORN: the crochet dress off the shoulders and around her hips, swimsuit top showing, sandals off beside her, hair moving in the sea wind.
+
+### 15-uluwatu — Uluwatu, Bali (SWIM card)
+OUTFIT (one for all three, and the plate): a butter-yellow ribbed one-piece with a cut-out waist; a printed cotton sarong tied low; bare feet; a straw hat; gold hoops; a woven bag.
+CAPTION HOOK: uluwatu. the "secret" beach clubs cost 100 dollars minimum spend for a bed and the beach below them is free at low tide.
+ALT TEXT: Woman in a butter-yellow one-piece and printed sarong on the cliff path at Uluwatu, Bali, the Indian Ocean and the surf line far below, midday sun.
+HASHTAGS: #uluwatu #bali #balibeach #islandlife #girlstrip
+- Photo 1 — The cliff path above Suluban. WHERE/WHEN: The concrete cliff path above Suluban beach, Uluwatu, Bali, in August, about 11 am, warungs and surfers with boards on the path, the reef and surf line far below. FRAMING: Full-body, from the path. LIGHT: Hard sun from overhead, short shadows, the sea glittering. POSE: slot 1 standing at the railing facing the camera, one hand on the hat brim. WORN: one-piece, the sarong tied low, hat on, bag on the shoulder, bare feet on the warm concrete.
+- Photo 2 — The stairs down through the rock. WHERE/WHEN: The narrow stairway cut through the limestone down to Suluban beach, August, about 11:30 am, a surfer coming up with a board. FRAMING: Full-body, from above. LIGHT: Open shade inside the rock, bright sea light at the bottom. POSE: slot 2 going down the stairs looking back up over her shoulder, the sarong lifted in one hand. WORN: as photo 1, hat in the other hand.
+- Photo 3 — On the rocks at low tide. WHERE/WHEN: The flat wet limestone shelf at Suluban at low tide, the cave arch and the surf behind, August, about noon. FRAMING: Three-quarter, camera low. LIGHT: Hard overhead sun, wet rock reflecting the sky. POSE: slot 3 sitting back on the rock propped on one hand, legs crossed at the ankle, a coconut with a straw in the other hand. WORN: one-piece only, the sarong and hat beside her, hair loose, the hat beside her.
