@@ -7,7 +7,11 @@ change to the **Change log** with the numbers that caused it. Never changed by a
 
 ## Current directives
 
-- look_variant: C (candid frame, upgraded person: friend's phone camera, hard sun or flat overcast, real crowds and weather marks, real skin with texture, hair done, clothes that fit, model posture inside candid actions). Started 2026-09-20 04:35 IST. A (polished model shoot, Petra) and B (model shoot with real-skin prompt, Moraine Lake) both read as AI to Suraj; the 19 Sep candid sets read better. Rows: candid = 19 Sep sets, A = Petra, B = Moraine Lake, C from here.
+- look_variant: D (the @leaelui look, 2026-09-20 19:30 IST: posed for a friend's iPhone, bright
+  and sharp, no grade to speak of; mini dress or mini + cropped top in one colour, heels, loose
+  waves; slim hourglass; one of three frames at a street or gate with no landmark). Rows before
+  that: candid / A / B / C as tagged. Evidence: @leaelui 10.09M followers, 12/12 latest posts are
+  9–13-photo carousels, no Reels, 120–140k likes each (Bright Data, 20 Sep 2026).
 - wardrobe: supermodel off duty (WARDROBE rule in the brief overrides every card's OUTFIT). Started 2026-09-20 04:45 IST; rows before that wore the cards' traveller outfits.
 - reel_format: hook (step 2b: a researched, specific mistake/scam/rule at the place, burned
   onto the Reel as headline + three beats + close; the carousel caption opens on the same
@@ -83,3 +87,8 @@ change to the **Change log** with the numbers that caused it. Never changed by a
   the saves/shares that drive reach. Step 2b (hook research) and tools/make_hook_reel.py added;
   the three hosted sets (Petra, Moraine Lake, Lauterbrunnen) re-cut as hook Reels.
 - review 2026-09-20 (12:00 IST slot, run 4): no change, no judged rows in any stats/ file (all 10 sent posts are under 24 h old — sent 2026-09-19 20:39–22:23 UTC — and Buffer returned metrics: null for every one) — median views n/a, reach n/a, sends_per_reach n/a, saves_per_reach n/a, for both posts and Reels, look_variant candid. No threshold rule can fire under rule 6 (noise guard). Queue at step 0: 3 scheduled + 0 needs_approval, so the run continues with step 5b. Place: Petra (card 08) — the first card whose first hashtag is in no post text; its earlier look-A run was never posted, so it is regenerated here in look C, supermodel wardrobe, with a researched hook.
+- 2026-09-20 19:30 IST (Suraj): "create the images like lealui, the same dress, pose, looks and
+  figure, how natural it looks". @leaelui measured (see look_variant D). Brief: PHYSIQUE,
+  POSING slots, WARDROBE formula, LIGHT allows warm low sun, CAMERA composed with HDR on, the
+  candid clauses removed from NEVER; render grade strength 0.6 → 0.3. Photo count stays 3
+  until Suraj decides (Léa posts 9–13; 2 would break the hook reel).

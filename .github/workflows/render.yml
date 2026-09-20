@@ -18,7 +18,7 @@ jobs:
       - run: pip install --quiet postfx && python3 -c "import postfx; print('postfx', postfx.__version__ if hasattr(postfx,'__version__') else 'ok')"
       - name: render every job without output yet
         env:
-          GRADE_STRENGTH: "0.6"
+          GRADE_STRENGTH: "0.3"
         run: |
           set -euo pipefail
           for j in jobs/*.json; do
