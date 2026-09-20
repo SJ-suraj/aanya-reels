@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""make_slides.py TEXT.json OUTDIR IMG1 IMG2 IMG3
+"""make_slides.py TEXT.json OUTDIR IMG1 IMG2 [IMG3]
 
-Seven 4:5 carousel slides (1080x1350 JPEG) from three graded stills and the HOOK text:
+Seven 4:5 carousel slides (1080x1350 JPEG) from two or three graded stills and the HOOK text
+(with two stills, slide 05 is photo 1 again without the headline):
   01  photo 1 + HEADLINE burned on (the cover: headline inside the centre square, so the profile grid
       and the top/bottom UI bands never hide it; under 40 characters reads without zooming; "swipe" cue)
   02  photo 2 + one-line promise (the second cover: Instagram re-serves the post opening on slide 2)
@@ -19,6 +20,8 @@ import json, os, sys, textwrap
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 text, outdir, imgs = json.load(open(sys.argv[1])), sys.argv[2], sys.argv[3:6]
+assert len(imgs) in (2, 3), "two or three stills"
+if len(imgs) == 2: imgs = imgs + [imgs[0]]
 W, H = 1080, 1350
 SAFE = 60 + 34           # 34 px each side is what the 3:4 grid crop removes; keep text inside
 FONT = os.environ.get("FONT") or next(p for p in [

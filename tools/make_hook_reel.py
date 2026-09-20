@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""make_hook_reel.py TEXT.json OUT.mp4 IMG1 IMG2 IMG3
+"""make_hook_reel.py TEXT.json OUT.mp4 IMG1 IMG2 [IMG3]
 
-"Mistake reel": three 4:5 stills -> ~11.5 s 9:16 Reel with the hook burned on.
+"Mistake reel": two or three 4:5 stills (with two, the third cut re-uses photo 2) -> ~11.5 s 9:16 Reel with the hook burned on.
   0.0- 3.2 s  photo 1, HEADLINE (frame 0, big, readable with sound off) + place tag
   3.2- 6.2 s  photo 2, beat 1 (the mistake)
   6.2- 9.2 s  photo 3, beat 2 (what it costs you)
@@ -13,6 +13,8 @@ Env: FONT (path to a bold TTF; default DejaVu Sans Bold, then Arial Bold on macO
 import json, os, subprocess, sys, tempfile, textwrap
 
 text, out, imgs = json.load(open(sys.argv[1])), sys.argv[2], sys.argv[3:6]
+assert len(imgs) in (2, 3), "two or three stills"
+if len(imgs) == 2: imgs = imgs + [imgs[1]]
 FF = os.environ.get("FFMPEG", "ffmpeg")
 FONT = os.environ.get("FONT") or next(p for p in [
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
