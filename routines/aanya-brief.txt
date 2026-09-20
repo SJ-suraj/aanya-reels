@@ -440,8 +440,19 @@ SAFETY REWRITE (learned 20 Sep 20:20–20:50 IST): GPT Image 2.5 rejected the sw
 the input stage (safety_violations=[sexual]) and, after a fashion-worded rewrite, blocked the
 generated image at the output stage ("the image was filtered"). An output block cannot be
 fixed with words: on image_edit with a real face reference, swimwear in the result is what it
-blocks. Nano Banana Pro blocks it too (Google, same likeness + skin rule, 20 Sep 20:55 IST). So for
-SWIM cards photo 01 is submitted on this ladder, each rung only after the previous one was
+blocks. Nano Banana Pro blocks it too (Google, same likeness + skin rule, 20 Sep 20:55 IST).
+HYBRID SET (Suraj, 20 Sep 21:20 IST, after a soft Seedream 4.5 result): on a SWIM card,
+photo 01 (the cover, the frame everyone sees) is the CLOSED version of the scene on GPT
+Image 2.5 Sunburst as usual: the shirt or crochet dress buttoned over the swimsuit, or the
+sarong tied at the waist, full quality. Photos 02 and 03 are the swim frames and go on the
+ladder below. Seedream reads phone-camera words as a quality level and renders soft, so a
+swim prompt's STYLE block says instead: "Photographed on a full-frame camera, 35 mm lens at
+f/4, ISO 100, natural daylight only. Sharp from her to the far end of the scene. Real skin
+texture with visible pores and fine hair, even light tan, one small mole, slight facial
+asymmetry; the cloth shows its weave and creases. True colours, sky held, deep contact
+shadows under her from the same sun as every other shadow. Candid holiday photo, not a
+studio shoot; no smoothing, no glow, no text." So for SWIM cards photo 02 is submitted on
+this ladder, each rung only after the previous one was
 rejected with credits refunded: (1) `model: "Seedream 4.5"` (resolution 2K, its lowest;
 Suraj's 20 Sep test showed Seedream 5.0 Pro passes swimwear but at a higher price and lower
 quality, and PicassoIA's Sep 2026 tests put 4.5 equal to 5 Pro on skin and fabric with no
@@ -449,10 +460,10 @@ swimwear filter, so 5.0 Pro is never used), (2) `model: "Grok Image Quality"` (r
 the image-to-image swimwear model, a step below Seedream on skin detail) (both taskType
 image_edit, same inputImageFileIds, aspectRatio 4:5, no quality field); (3) if both reject,
 rewrite the
-OUTFIT as the closed version of the same scene (sarong tied at the waist, the shirt or
-crochet dress buttoned over the swimsuit) and submit on GPT Image 2.5 Sunburst as usual.
-Whatever rung passed for photo 01 is used for photos 02 and 03 without trying the earlier
-rungs again. A rejection at rung 3 aborts the run. The plate for a SWIM card is still GPT Image 2.5 Sunburst
+OUTFIT as the closed version of the same scene (like photo 01) and submit on GPT Image 2.5
+Sunburst as usual.
+Whatever rung passed for photo 02 is used for photo 03 without trying the earlier rungs
+again. A rejection at rung 3 aborts the run. The plate for a SWIM card is still GPT Image 2.5 Sunburst
 text_to_image (no face, so no block) but shows the cover-up worn over the swimsuit. Swim
 prompts are still written like a fashion caption, not a body description: "swimsuit",
 "two-piece swimsuit" or "one-piece", never "bikini"; the cover-up "worn open" or "buttoned
