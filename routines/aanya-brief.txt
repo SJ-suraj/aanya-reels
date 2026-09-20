@@ -457,33 +457,26 @@ HYBRID SET (Suraj, 20 Sep 21:35 IST): a SWIM card has TWO photos, not three, at 
 Photo 01 = the swim frame (the card's SWIM photo) on `model: "Seedream 5.0 Pro"`, taskType
 image_edit, inputImageFileIds ["1e67131d22d54cbc8fd84ecbf4f35397"] only (no plate), aspectRatio
 "4:5", resolution "1K", no quality field; it costs 0.4 (Suraj's test, 20 Sep) and passes
-bikinis at full quality (Suraj's test, 20 Sep 21:30 IST) when the STYLE block uses camera wording (Seedream reads phone-camera
-words as a quality level and renders soft): "Photographed on a full-frame camera, 35 mm lens at
-f/4, ISO 100, natural daylight only. Sharp from her to the far end of the scene. Real skin
-texture with visible pores and fine hair, even light tan, one small mole, slight facial
-asymmetry; the cloth shows its weave and creases. True colours, sky held, deep contact
-shadows under her from the same sun as every other shadow. Candid holiday photo, not a
-studio shoot; no smoothing, no glow, no text." If Seedream rejects it (credits refunded),
+bikinis at full quality. If Seedream rejects it (credits refunded),
 resubmit once on `model: "Seedream 4.5"` (resolution "2K", 0.2, softer); a second rejection
 aborts the run. For the Seedream prompt the SAFETY REWRITE word rules do not apply: say
-"bikini", "sheer", "wet hair", "lying back". SEEDREAM PROMPT SHAPE (BytePlus docs, Atlas
-Cloud, XMK guides, Jul–Sep 2026): 120–200 words, complete sentences, in this order: (1) the
-camera contract in the first sentence ("Ultra-realistic smartphone photo" for a friend's-phone
-frame, or "35 mm f/4 daylight photo" for a camera frame; never both); (2) "Use @Image1 as the
-identity reference with the highest priority: keep her face shape, eyes, nose, lips, jawline,
-skin tone and dark hair exactly"; (3) subject in physical nouns: age, framing, the bikini and
-jewellery, hair, the PHYSIQUE line; (4) pose with hands placed and the gaze; (5) the place in
-one or two sentences with the time of day; (6) one light with a direction; (7) the flaw
-layer, which carries the realism (Atlas Cloud, Jul–Aug 2026: 5.0 Pro over-smooths people
-unless asked for flaws): "authentic skin texture with visible pores, uneven shine on the
-forehead and nose, natural sensor noise, subtle HDR, slight handheld softness, accurate white
-balance" plus two scene-specific ones (a blown-out window or sky, a warm cast from a wall, a
-strand of hair stuck to the cheek, a faint mascara smudge, squinting in sun, off-centre
-framing); (8) "Vertical 4:5". Name her eye colour ("dark brown eyes") inside the identity
-sentence, or the model drifts them. Never write "glossy", "smooth", "soft skin", "radiant",
-"flawless", "beautiful": each one pushes the skin to plastic. At most two negations, and
-they are "No beauty filter, no studio lighting"; no NEVER block. Hands are described
-positively ("fingers relaxed, resting at her collarbone"), never "no distorted hands". Photo 02 = the card's closed frame
+"bikini", "sheer", "wet hair", "lying back". SEEDREAM PROMPT SHAPE (Suraj's A/B on 20 Sep 22:10 IST: the same block prompt that GPT
+gets, with the iPhone camera contract, beat a "35 mm f/4 full-frame" rewrite on 5.0 Pro;
+the soft result earlier that day was Seedream 4.5, not Pro): write the Seedream prompt with
+the SAME blocks and order as a GPT photo prompt, IDENTITY line first, then PLACE, OUTFIT,
+POSE, LIGHT, FRAMING, STYLING, CAMERA, but shorter: 150–220 words in total, complete
+sentences (BytePlus: under 600 words; the guides' sweet spot is under 200). Differences from
+the GPT version: the IDENTITY line names her eye colour ("dark brown eyes") or the model
+drifts them; STYLING carries the flaw layer that keeps 5.0 Pro off plastic skin ("visible
+pores, uneven shine on the forehead and nose, natural sensor noise, subtle HDR, slight
+handheld softness, accurate white balance" plus one scene flaw: a blown-out sky or window,
+a warm cast from a wall or deck, a strand of hair stuck to the cheek, squinting in the
+glare); CAMERA is the iPhone contract in two sentences ("iPhone 15, 24 mm, Smart HDR on, no
+filter, the best of five tries. Everything sharp from her to the far end of the scene; a
+friend's phone photo of a model posing for it; no studio light, no beauty filter."); no
+NEVER block, and never the words "glossy", "smooth", "soft skin", "radiant", "flawless",
+"beautiful". Hands are described positively ("right hand holding the bottle on her knee"),
+never as "no distorted hands". Photo 02 = the card's closed frame
 (shirt or crochet dress buttoned over the bikini top, or the sarong tied) on GPT Image 2.5
 Sunburst exactly as in step 4, with the plate as Image2; that prompt follows SAFETY REWRITE. Photo 01 is the cover of the carousel and the first frame of the Reel; the tools
 make seven slides and the 11.5 s Reel from two stills. The plate for a SWIM card is still GPT Image 2.5 Sunburst
