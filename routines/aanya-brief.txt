@@ -458,7 +458,12 @@ prompts are still written like a fashion caption, not a body description: "swims
 "two-piece swimsuit" or "one-piece", never "bikini"; the cover-up "worn open" or "buttoned
 once", never "sheer" or "off one shoulder"; no "tan line", "wet", "bust", "hips", "lying";
 PHYSIQUE for swim cards is only "slim and toned, shoulders back"; no lines that name what
-she is not wearing; whole prompt under 1,800 characters. Name the model that passed in the
+she is not wearing; whole prompt under 1,400 characters (Seedream 4.5 caps prompts at 1,500;
+Suraj, 20 Sep 21:10 IST): for swim photos merge STYLING, CAMERA and NEVER into one short STYLE
+block (real skin with pores, even tan, one mole, slight asymmetry; iPhone 15, Smart HDR, no
+filter, everything sharp, true colours; a friend's phone photo of a model posing for it; no
+studio light, no blur, no text) and shorten PLACE to about 60 words; count the characters
+with `python3 -c 'import sys;print(len(open(sys.argv[1]).read()))' FILE` before submitting. Name the model that passed in the
 final message. It must still be
 wearable on that terrain at that hour: swap the heels for flat leather sandals only where the
 ground makes heels absurd (a wet trail, sand), and say so in WORN. Keep the card's colour
