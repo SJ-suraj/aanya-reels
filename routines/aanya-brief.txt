@@ -473,11 +473,17 @@ frame, or "35 mm f/4 daylight photo" for a camera frame; never both); (2) "Use @
 identity reference with the highest priority: keep her face shape, eyes, nose, lips, jawline,
 skin tone and dark hair exactly"; (3) subject in physical nouns: age, framing, the bikini and
 jewellery, hair, the PHYSIQUE line; (4) pose with hands placed and the gaze; (5) the place in
-one or two sentences with the time of day; (6) one light with a direction; (7) texture cues
-(pores, fine hair, damp shine, one mole, slight asymmetry, the fabric's sheen or weave) and
-two honest flaws (slight sensor grain, off-centre framing, a soft far edge); (8) "Vertical
-4:5". At most two negations ("no smoothing, no text"); no quality words (8K, flawless,
-masterpiece); no NEVER block. Photo 02 = the card's closed frame
+one or two sentences with the time of day; (6) one light with a direction; (7) the flaw
+layer, which carries the realism (Atlas Cloud, Jul–Aug 2026: 5.0 Pro over-smooths people
+unless asked for flaws): "authentic skin texture with visible pores, uneven shine on the
+forehead and nose, natural sensor noise, subtle HDR, slight handheld softness, accurate white
+balance" plus two scene-specific ones (a blown-out window or sky, a warm cast from a wall, a
+strand of hair stuck to the cheek, a faint mascara smudge, squinting in sun, off-centre
+framing); (8) "Vertical 4:5". Name her eye colour ("dark brown eyes") inside the identity
+sentence, or the model drifts them. Never write "glossy", "smooth", "soft skin", "radiant",
+"flawless", "beautiful": each one pushes the skin to plastic. At most two negations, and
+they are "No beauty filter, no studio lighting"; no NEVER block. Hands are described
+positively ("fingers relaxed, resting at her collarbone"), never "no distorted hands". Photo 02 = the card's closed frame
 (shirt or crochet dress buttoned over the bikini top, or the sarong tied) on GPT Image 2.5
 Sunburst exactly as in step 4, with the plate as Image2; that prompt follows SAFETY REWRITE. Photo 01 is the cover of the carousel and the first frame of the Reel; the tools
 make seven slides and the 11.5 s Reel from two stills. The plate for a SWIM card is still GPT Image 2.5 Sunburst
