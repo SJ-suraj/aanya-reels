@@ -7,6 +7,13 @@ change to the **Change log** with the numbers that caused it. Never changed by a
 
 ## Current directives
 
+- card_order: 13-positano next, then 14-mykonos, 15-uluwatu, then the remaining cards in
+  their own order (set 2026-09-20 20:30 IST to test the SWIM wardrobe first).
+- carousel: seven slides from `slides/<name>/` (cover + headline, photo 2 + promise, mistake,
+  cost, photo 3, fix, save-CTA); never the three bare photos. Started 2026-09-20 20:30 IST.
+- cadence: one run a day (the 12:00 IST routine); the 18:30 routine is disabled since
+  2026-09-20 20:30 IST. Reason: growth studies put 3–5 posts a week as the useful band and
+  Léa posts weekly; two thin sets a day filled the Buffer queue for nothing.
 - look_variant: D (the @leaelui look, 2026-09-20 19:30 IST: posed for a friend's iPhone, bright
   and sharp, no grade to speak of; mini dress or mini + cropped top in one colour, heels, loose
   waves; slim hourglass; one of three frames at a street or gate with no landmark). Rows before
@@ -92,3 +99,12 @@ change to the **Change log** with the numbers that caused it. Never changed by a
   POSING slots, WARDROBE formula, LIGHT allows warm low sun, CAMERA composed with HDR on, the
   candid clauses removed from NEVER; render grade strength 0.6 → 0.3. Photo count stays 3
   until Suraj decides (Léa posts 9–13; 2 would break the hook reel).
+- 2026-09-20 20:30 IST (Suraj): "i want the fast followers"; Eromify-style private media declined
+  (filter, Buffer terms, disclosure); swimwear/resort content adopted instead (SWIM wardrobe,
+  cards 13–15). Suraj's own test of the swim prompt on GPT Image 2.5 Sunburst was rejected
+  (safety_violations=[sexual], credits refunded) → SAFETY REWRITE rule + refund-retry exception
+  + Nano Banana Pro fallback. Seven-slide carousel built (tools/make_slides.py, render.yml):
+  cover text in the grid-safe square, swipe cue, slide-2 promise, n/7 markers, one CTA.
+  Evidence: Buffer 52M posts (carousels 6.9 % engagement by reach), Sprout (5–7 slides 3.4x
+  saves vs images), Hootsuite/Socialinsider (7–10 slides best), TryMyPost (top/bottom 270 px
+  hidden on the grid), Adpicto (numbered slides raise completion; one CTA).
