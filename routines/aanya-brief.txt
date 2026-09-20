@@ -466,8 +466,18 @@ shadows under her from the same sun as every other shadow. Candid holiday photo,
 studio shoot; no smoothing, no glow, no text." If Seedream rejects it (credits refunded),
 resubmit once on `model: "Seedream 4.5"` (resolution "2K", 0.2, softer); a second rejection
 aborts the run. For the Seedream prompt the SAFETY REWRITE word rules do not apply: say
-"bikini", "sheer", "wet hair", "lying back", and use the full PHYSIQUE block; only the
-1,400-character cap and the camera STYLE block apply. Photo 02 = the card's closed frame
+"bikini", "sheer", "wet hair", "lying back". SEEDREAM PROMPT SHAPE (BytePlus docs, Atlas
+Cloud, XMK guides, Jul–Sep 2026): 120–200 words, complete sentences, in this order: (1) the
+camera contract in the first sentence ("Ultra-realistic smartphone photo" for a friend's-phone
+frame, or "35 mm f/4 daylight photo" for a camera frame; never both); (2) "Use @Image1 as the
+identity reference with the highest priority: keep her face shape, eyes, nose, lips, jawline,
+skin tone and dark hair exactly"; (3) subject in physical nouns: age, framing, the bikini and
+jewellery, hair, the PHYSIQUE line; (4) pose with hands placed and the gaze; (5) the place in
+one or two sentences with the time of day; (6) one light with a direction; (7) texture cues
+(pores, fine hair, damp shine, one mole, slight asymmetry, the fabric's sheen or weave) and
+two honest flaws (slight sensor grain, off-centre framing, a soft far edge); (8) "Vertical
+4:5". At most two negations ("no smoothing, no text"); no quality words (8K, flawless,
+masterpiece); no NEVER block. Photo 02 = the card's closed frame
 (shirt or crochet dress buttoned over the bikini top, or the sarong tied) on GPT Image 2.5
 Sunburst exactly as in step 4, with the plate as Image2; that prompt follows SAFETY REWRITE. Photo 01 is the cover of the carousel and the first frame of the Reel; the tools
 make seven slides and the 11.5 s Reel from two stills. The plate for a SWIM card is still GPT Image 2.5 Sunburst
