@@ -14,7 +14,9 @@ Fixed values
 - Board: every TopView task goes to the **AI-UGC board**, `boardId: "8ff914f298bd4714b942d1965b4b25ec"`.
 - Model: `GPT Image 2.5 Sunburst` for both `text_to_image` and `image_edit`; `quality: "medium"`,
   `aspectRatio: "4:5"`, `resolution: "1K"`, `generateCount: 1`. 0.2 credits per submit.
-- **Hard cap 0.8 credits per run = exactly four submits (one plate + three photos). No retries**,
+- **Hard cap 0.8 credits per run: one plate (0.2) + three GPT photos (0.6); on a SWIM card one
+  plate (0.2) + one Seedream 5.0 Pro swim photo (0.4) + one GPT photo (0.2), two photos. No
+  retries**,
   with one exception: a submit that TopView reports as "rejected by the safety system …
   credits have been refunded" cost nothing, so it may be resubmitted, at most twice, and never
   with the same prompt (see SAFETY REWRITE under LOOK RULES). A third rejection aborts the run.
@@ -132,8 +134,9 @@ this instead:
   feels; a task usually needs 60 to 120 seconds and sometimes more. Only a real 360-second
   timeout or `status: failed` aborts the run.
 
-## 4. Generate the three photos (0.6)
-For photo 01, 02, 03 in order: `topview_generate_image` `{taskType: "image_edit", model: "GPT
+## 4. Generate the photos (0.6; three photos, or two on a SWIM card, see HYBRID SET)
+For photo 01, 02, 03 in order (on a SWIM card: photo 01 on Seedream 5.0 Pro per HYBRID SET,
+then photo 02 on GPT as below, and there is no photo 03): `topview_generate_image` `{taskType: "image_edit", model: "GPT
 Image 2.5 Sunburst", prompt: <PHOTO prompt>, inputImageFileIds: ["1e67131d22d54cbc8fd84ecbf4f35397",
 "<plate fileId>"], aspectRatio: "4:5", resolution: "1K", quality: "medium", generateCount: 1,
 boardId: "8ff914f298bd4714b942d1965b4b25ec"}`. The face is Image1, the plate is Image2, in that
@@ -145,7 +148,7 @@ the fourth submit of the run, never submit again.
 ## 4b. Grade and host the photos on GitHub (no credits; required for step 5)
 The repository `SJ-suraj/travel-reels` is cloned in the working directory. The sandbox cannot
 download from TopView's host, so GitHub Actions does it: you push one job file, the `render`
-workflow downloads the three photos, applies the film grade (`tools/grade_photos.py`: Kodak
+workflow downloads the photos (three, or two on a SWIM card), applies the film grade (`tools/grade_photos.py`: Kodak
 Portra 400 look, grain, highlight roll-off, faint vignette, JPEG), commits them as
 `photos/<name>/01.jpg … 03.jpg`, and cuts the Reel `reels/<name>.mp4` from the graded frames
 with the HOOK burned on (`tools/make_hook_reel.py`: headline on frame 0, one beat per cut,
@@ -441,29 +444,22 @@ the input stage (safety_violations=[sexual]) and, after a fashion-worded rewrite
 generated image at the output stage ("the image was filtered"). An output block cannot be
 fixed with words: on image_edit with a real face reference, swimwear in the result is what it
 blocks. Nano Banana Pro blocks it too (Google, same likeness + skin rule, 20 Sep 20:55 IST).
-HYBRID SET (Suraj, 20 Sep 21:20 IST, after a soft Seedream 4.5 result): on a SWIM card,
-photo 01 (the cover, the frame everyone sees) is the CLOSED version of the scene on GPT
-Image 2.5 Sunburst as usual: the shirt or crochet dress buttoned over the swimsuit, or the
-sarong tied at the waist, full quality. Photos 02 and 03 are the swim frames and go on the
-ladder below. Seedream reads phone-camera words as a quality level and renders soft, so a
-swim prompt's STYLE block says instead: "Photographed on a full-frame camera, 35 mm lens at
+HYBRID SET (Suraj, 20 Sep 21:35 IST): a SWIM card has TWO photos, not three, at the same 0.8.
+Photo 01 = the swim frame (the card's SWIM photo) on `model: "Seedream 5.0 Pro"`, taskType
+image_edit, inputImageFileIds ["1e67131d22d54cbc8fd84ecbf4f35397"] only (no plate), aspectRatio
+"4:5", resolution "1K", no quality field; it costs 0.4 (Suraj's test, 20 Sep) and passes
+swimwear at full quality when the STYLE block uses camera wording (Seedream reads phone-camera
+words as a quality level and renders soft): "Photographed on a full-frame camera, 35 mm lens at
 f/4, ISO 100, natural daylight only. Sharp from her to the far end of the scene. Real skin
 texture with visible pores and fine hair, even light tan, one small mole, slight facial
 asymmetry; the cloth shows its weave and creases. True colours, sky held, deep contact
 shadows under her from the same sun as every other shadow. Candid holiday photo, not a
-studio shoot; no smoothing, no glow, no text." So for SWIM cards photo 02 is submitted on
-this ladder, each rung only after the previous one was
-rejected with credits refunded: (1) `model: "Seedream 4.5"` (resolution 2K, its lowest;
-Suraj's 20 Sep test showed Seedream 5.0 Pro passes swimwear but at a higher price and lower
-quality, and PicassoIA's Sep 2026 tests put 4.5 equal to 5 Pro on skin and fabric with no
-swimwear filter, so 5.0 Pro is never used), (2) `model: "Grok Image Quality"` (resolution 1K;
-the image-to-image swimwear model, a step below Seedream on skin detail) (both taskType
-image_edit, same inputImageFileIds, aspectRatio 4:5, no quality field); (3) if both reject,
-rewrite the
-OUTFIT as the closed version of the same scene (like photo 01) and submit on GPT Image 2.5
-Sunburst as usual.
-Whatever rung passed for photo 02 is used for photo 03 without trying the earlier rungs
-again. A rejection at rung 3 aborts the run. The plate for a SWIM card is still GPT Image 2.5 Sunburst
+studio shoot; no smoothing, no glow, no text." If Seedream rejects it (credits refunded),
+resubmit once on `model: "Seedream 4.5"` (resolution "2K", 0.2, softer); a second rejection
+aborts the run. Photo 02 = the card's closed frame (shirt or crochet dress buttoned over the
+swimsuit, or the sarong tied) on GPT Image 2.5 Sunburst exactly as in step 4, with the plate
+as Image2. Photo 01 is the cover of the carousel and the first frame of the Reel; the tools
+make seven slides and the 11.5 s Reel from two stills. The plate for a SWIM card is still GPT Image 2.5 Sunburst
 text_to_image (no face, so no block) but shows the cover-up worn over the swimsuit. Swim
 prompts are still written like a fashion caption, not a body description: "swimsuit",
 "two-piece swimsuit" or "one-piece", never "bikini"; the cover-up "worn open" or "buttoned
@@ -597,24 +593,21 @@ OUTFIT (one for all three, and the plate): a cream ribbed two-piece swimsuit; a 
 CAPTION HOOK: positano. the "free" beach is 40 metres wide and the sunbeds next to it are 60 euros.
 ALT TEXT: Woman in a cream two-piece swimsuit and open black chiffon shirt on the foredeck of a moored catamaran off Positano, Italy, the pastel houses stacked up the cliff behind her, hard afternoon sun.
 HASHTAGS: #positano #amalficoast #italiansummer #beachdays #girlstrip
-- Photo 1 — On the catamaran deck, Positano behind. WHERE/WHEN: The white foredeck of a 12-metre sailing catamaran moored two hundred metres off Spiaggia Grande, Positano, mid-July, about 4 pm. FRAMING: Full-body, from the deck, camera at chest height. LIGHT: Hard sun from high on the right, the deck bright white, short shadows. POSE: slot 1 standing at the bow rail. WORN: swimsuit and the chiffon shirt open; hair loose; bare feet on the warm deck.
-- Photo 2 — The steps of Via dei Mulini. WHERE/WHEN: The steep stepped lane of Via dei Mulini in Positano, below the church of Santa Maria Assunta, mid-July, about 6 pm, tourists and a ceramics shop behind. FRAMING: Full-body, from a few steps below. LIGHT: Warm low sun from the sea side, left of frame, long shadows on the steps. POSE: slot 2 walking down the steps looking back over her shoulder. WORN: the chiffon shirt buttoned once over the swimsuit, sarong tied low, sandals on, straw tote on the shoulder, hair dry and loose.
-- Photo 3 — Lying back on the deck. WHERE/WHEN: The catamaran's trampoline net at the bow, Positano's cliff behind, mid-July, about 4:30 pm. FRAMING: Three-quarter, from beside her, camera low. LIGHT: Hard sun from the right, the sea glittering behind. POSE: slot 3 sitting back on the net propped on one hand, legs crossed at the ankle, a bottle of water in the other hand. WORN: swimsuit only, the shirt beside her on the net; hair over one shoulder.
+- Photo 1 (SWIM, Seedream 5.0 Pro) — Sitting back on the deck. WHERE/WHEN: The catamaran's trampoline net at the bow, Positano's cliff behind, mid-July, about 4:30 pm. FRAMING: Three-quarter, from beside her, camera low. LIGHT: Hard sun from the right, the sea glittering behind. POSE: slot 3 sitting back on the net propped on one hand, legs crossed at the ankle, a bottle of water in the other hand. WORN: swimsuit only, the shirt beside her on the net; hair over one shoulder.
+- Photo 2 (closed, GPT) — The steps of Via dei Mulini. WHERE/WHEN: The steep stepped lane of Via dei Mulini in Positano, below the church of Santa Maria Assunta, mid-July, about 6 pm, tourists and a ceramics shop behind. FRAMING: Full-body, from a few steps below. LIGHT: Warm low sun from the sea side, left of frame, long shadows on the steps. POSE: slot 2 walking down the steps looking back over her shoulder. WORN: the chiffon shirt buttoned once over the swimsuit, sarong tied low, sandals on, straw tote on the shoulder, hair dry and loose.
 
 ### 14-mykonos — Mykonos, Little Venice (SWIM card)
 OUTFIT (one for all three, and the plate): a black bandeau two-piece swimsuit; a white crochet mini dress worn open over it; flat black leather sandals; gold hoops, a gold bracelet; a small black tote.
 CAPTION HOOK: mykonos. the little venice sunset bars charge 25 euros for a cocktail and the free wall next door has the same view.
 ALT TEXT: Woman in a black two-piece swimsuit under an open white crochet dress on the whitewashed sea wall at Little Venice, Mykonos, the windmills on the ridge behind her, warm evening sun.
 HASHTAGS: #mykonos #littlevenice #greeksummer #beachdays #girlstrip
-- Photo 1 — On the sea wall at Little Venice. WHERE/WHEN: The whitewashed sea wall below the balconies of Little Venice, Mykonos Town, late June, about 7:30 pm, the Kato Mili windmills on the ridge behind, a bar's tables and other visitors along the wall. FRAMING: Full-body, from the promenade. LIGHT: Warm low sun from the sea, left of frame, long shadows, her hair lit from behind. POSE: slot 1 standing against the wall, hand in hair. WORN: crochet dress open over the swimsuit, sandals, tote on the shoulder, hair dry and loose.
-- Photo 2 — The lane behind the windmills. WHERE/WHEN: A whitewashed lane with blue doors and bougainvillea in Mykonos Town, late June, about 6:30 pm, two tourists and a cat further down. FRAMING: Full-body, from behind. LIGHT: Open shade, the walls bouncing bright white light. POSE: slot 2 walking away, looking back over her shoulder, the crochet hem held out to one side. WORN: as photo 1.
-- Photo 3 — Sitting on the wall, feet over the sea. WHERE/WHEN: The same sea wall, late June, about 7:50 pm, the sun just above the horizon. FRAMING: Three-quarter, from the side, camera low. LIGHT: Warm low sun straight into the scene from the left, deep long shadows. POSE: slot 3 sitting on the wall leaning back on one hand, legs along the wall crossed at the ankle, a glass in the other hand. WORN: the crochet dress off the shoulders and around her hips, swimsuit top showing, sandals off beside her, hair moving in the sea wind.
+- Photo 1 (SWIM, Seedream 5.0 Pro) — Sitting on the wall, feet over the sea. WHERE/WHEN: The same sea wall, late June, about 7:50 pm, the sun just above the horizon. FRAMING: Three-quarter, from the side, camera low. LIGHT: Warm low sun straight into the scene from the left, deep long shadows. POSE: slot 3 sitting on the wall leaning back on one hand, legs along the wall crossed at the ankle, a glass in the other hand. WORN: the crochet dress off the shoulders and around her hips, swimsuit top showing, sandals off beside her, hair moving in the sea wind.
+- Photo 2 (closed, GPT) — The lane behind the windmills. WHERE/WHEN: A whitewashed lane with blue doors and bougainvillea in Mykonos Town, late June, about 6:30 pm, two tourists and a cat further down. FRAMING: Full-body, from behind. LIGHT: Open shade, the walls bouncing bright white light. POSE: slot 2 walking away, looking back over her shoulder, the crochet hem held out to one side. WORN: crochet dress buttoned over the swimsuit, sandals, tote on the shoulder, hair dry and loose.
 
 ### 15-uluwatu — Uluwatu, Bali (SWIM card)
 OUTFIT (one for all three, and the plate): a butter-yellow ribbed one-piece with a cut-out waist; a printed cotton sarong tied low; bare feet; a straw hat; gold hoops; a woven bag.
 CAPTION HOOK: uluwatu. the "secret" beach clubs cost 100 dollars minimum spend for a bed and the beach below them is free at low tide.
 ALT TEXT: Woman in a butter-yellow one-piece and printed sarong on the cliff path at Uluwatu, Bali, the Indian Ocean and the surf line far below, midday sun.
 HASHTAGS: #uluwatu #bali #balibeach #islandlife #girlstrip
-- Photo 1 — The cliff path above Suluban. WHERE/WHEN: The concrete cliff path above Suluban beach, Uluwatu, Bali, in August, about 11 am, warungs and surfers with boards on the path, the reef and surf line far below. FRAMING: Full-body, from the path. LIGHT: Hard sun from overhead, short shadows, the sea glittering. POSE: slot 1 standing at the railing facing the camera, one hand on the hat brim. WORN: one-piece, the sarong tied low, hat on, bag on the shoulder, bare feet on the warm concrete.
-- Photo 2 — The stairs down through the rock. WHERE/WHEN: The narrow stairway cut through the limestone down to Suluban beach, August, about 11:30 am, a surfer coming up with a board. FRAMING: Full-body, from above. LIGHT: Open shade inside the rock, bright sea light at the bottom. POSE: slot 2 going down the stairs looking back up over her shoulder, the sarong lifted in one hand. WORN: as photo 1, hat in the other hand.
-- Photo 3 — On the rocks at low tide. WHERE/WHEN: The flat wet limestone shelf at Suluban at low tide, the cave arch and the surf behind, August, about noon. FRAMING: Three-quarter, camera low. LIGHT: Hard overhead sun, wet rock reflecting the sky. POSE: slot 3 sitting back on the rock propped on one hand, legs crossed at the ankle, a coconut with a straw in the other hand. WORN: one-piece only, the sarong and hat beside her, hair loose, the hat beside her.
+- Photo 1 (SWIM, Seedream 5.0 Pro) — On the rocks at low tide. WHERE/WHEN: The flat wet limestone shelf at Suluban at low tide, the cave arch and the surf behind, August, about noon. FRAMING: Three-quarter, camera low. LIGHT: Hard overhead sun, wet rock reflecting the sky. POSE: slot 3 sitting back on the rock propped on one hand, legs crossed at the ankle, a coconut with a straw in the other hand. WORN: one-piece only, the sarong and hat beside her, hair loose, the hat beside her.
+- Photo 2 (closed, GPT) — The stairs down through the rock. WHERE/WHEN: The narrow stairway cut through the limestone down to Suluban beach, August, about 11:30 am, a surfer coming up with a board. FRAMING: Full-body, from above. LIGHT: Open shade inside the rock, bright sea light at the bottom. POSE: slot 2 going down the stairs looking back up over her shoulder, the sarong lifted in one hand. WORN: one-piece, the sarong tied low, bag on the shoulder, hat in the other hand.
