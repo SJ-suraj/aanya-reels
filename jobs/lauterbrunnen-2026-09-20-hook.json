@@ -1,0 +1,19 @@
+{
+ "name": "lauterbrunnen-2026-09-20-hook",
+ "kind": "hook",
+ "files": [
+  "photos/lauterbrunnen-2026-09-20/01.jpg",
+  "photos/lauterbrunnen-2026-09-20/02.jpg",
+  "photos/lauterbrunnen-2026-09-20/03.jpg"
+ ],
+ "text": {
+  "place": "LAUTERBRUNNEN · SWITZERLAND",
+  "headline": "Lauterbrunnen is ruined by 10 am",
+  "beats": [
+   "25,000 people a day come for one 10-minute waterfall selfie. The streets are jammed 10 am to 8 pm.",
+   "By late August Staubbach is a trickle, and the village is voting on charging for the path.",
+   "Be there before 9, walk past the falls up the valley, then take the cable car to Mürren."
+  ],
+  "close": "Send this to whoever booked Switzerland"
+ }
+}

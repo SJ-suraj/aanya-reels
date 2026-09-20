@@ -1,0 +1,19 @@
+{
+ "name": "morainelake-2026-09-20-hook",
+ "kind": "hook",
+ "files": [
+  "photos/morainelake-2026-09-20/01.jpg",
+  "photos/morainelake-2026-09-20/02.jpg",
+  "photos/morainelake-2026-09-20/03.jpg"
+ ],
+ "text": {
+  "place": "MORAINE LAKE · CANADA",
+  "headline": "You can't drive to Moraine Lake anymore",
+  "beats": [
+   "Private cars have been banned from the road since 2023. People still drive up and get turned around.",
+   "Shuttle seats drop at 8 am two days before. Last bus back 7:30 pm; the gate locks at 8.",
+   "Book the Parks Canada shuttle from the Lake Louise ski lot, or a 4 am sunrise bus from $99."
+  ],
+  "close": "Send this to your Banff group chat"
+ }
+}
