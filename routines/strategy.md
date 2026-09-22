@@ -145,3 +145,21 @@ change to the **Change log** with the numbers that caused it. Never changed by a
   6aaef3614594e3153f40530f, 6aaef3394594e3153f4050c9, 6aaef2e74594e3153f404cd8 — but it fired
   today already in the 12:04 review, so under rule 6 it does not fire again; the
   distribution/metrics problem is reported in the final message instead.
+- review 2026-09-22 (12:00 IST slot, run 3): no change. Buffer returned metrics for 18 of the 29
+  sent posts on this run's `includeMetrics` call; merged with `stats/`, 29 unique posts, 20 judged.
+  Medians, judged rows only — carousels (n=12): views 0.5, reach 0, sends_per_reach 0 (5
+  computable), saves_per_reach 0; Reels (n=8): views 628, reach 521, sends_per_reach 0.00097,
+  saves_per_reach 0.00242, but only 2 of the 8 judged Reels returned views or reach at all.
+  look_variant: every judged row still predates look D, so D has 0 judged rows. Rule 1 (HOOK) does
+  not fire: 2 of the last 6 judged Reels have a computable sends_per_reach, under the 6 the rule
+  states (rule 6 noise guard). Rule 1b (FORMAT) does not fire: hook Reels 3 judged, under the 4 the
+  rule states. Rule 2 (MIX) does not fire: carousel median reach 0 is below a third of the Reel
+  median reach 521, but that Reel median rests on 2 usable rows of 8, under the 4 judged the rule
+  states (rule 6). Rule 3 (LOOK) does not fire: only one variant has >= 6 judged posts. Rule 4
+  (PLACES) does not fire: one judged post has a non-zero sends_per_reach
+  (6ab10b1f6c901ceb057f91b6, 0.00193) and every other is 0 or null, so there is no top two. Rule 5
+  (ZERO) still holds — 8 judged posts past 48 h with views 0 or null: 6aaef4394594e3153f40617d,
+  6aaef431140a3024025f9195, 6aaef3f8140a3024025f8ef3, 6aaef3c04594e3153f4057bd,
+  6aaef3994594e3153f405610, 6aaef3614594e3153f40530f, 6aaef3394594e3153f4050c9,
+  6aaf0b2dbb86436624a91284 — but it fired today already in the 12:04 review, so under rule 6 it
+  does not fire again; the distribution/metrics problem is reported in the final message instead.
