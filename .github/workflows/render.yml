@@ -27,7 +27,7 @@ jobs:
             kind=$(jq -r '.kind // "reel"' "$j")
             # Samaira's voice line (TopView TTS, short api.topview.ai link): the reel's audio and page-turn clock
             voice=""; vurl=$(jq -r '.voice // empty' "$j")
-            if [ -n "$vurl" ]; then voice=$(mktemp -t voice).mp3; curl -fsSL -o "$voice" "$vurl" || { echo "voice download failed for $name"; voice=""; }; fi
+            if [ -n "$vurl" ]; then voice=$(mktemp -t voice.XXXXXX).mp3; curl -fsSL -o "$voice" "$vurl" || { echo "voice download failed for $name"; voice=""; }; fi
             if [ "$kind" = "set" ]; then
               if [ -f "photos/$name/01.jpg" ]; then
                 # photos already graded and committed (the CloudFront URLs expire): only back-fill
