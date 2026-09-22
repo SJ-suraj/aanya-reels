@@ -83,37 +83,48 @@ and worn-state expanded into full PLACE / OUTFIT / POSE / LIGHT / FRAMING blocks
 length and detail as the example. The three photos share the one outfit; their head poses,
 framing types and worn-state differ as the card says.
 
-## 2b. Find the hook (Exa, no credits; required for 4b and 5b)
-Reels of a pretty person at a pretty place with nothing to read get almost no reach on a cold
-account (measured on a comparable AI travel account: 110–134 views, zero saves), while a
-specific warning about the same place gets 10x the views plus saves and shares. So every Reel
-opens on a burned-in headline that names one real mistake, scam, rule or timing trap at this
-place, and the carousel caption's first line carries the same hook.
-1. Exa `web_search_exa`: "first-hand traveller complaints (Reddit r/travel, r/solotravel,
+## 2b. Research the day (Exa, no credits; required for 4b and 5b)
+The carousel is a one-day travel diary of this place: the café, the dish, the spot, what the
+day cost, and one mistake to avoid. Research (22 Sep 2026, instacarousel / AttentionClaw /
+two Viralfy case studies): the day-diary format "consistently generates the highest save
+rates for travel creators"; food and café slides are "immediately actionable"; cost-breakdown
+carousels average 0.9–1.2% saves/reach and posts above 0.6% were 2.5x likelier to reach
+Explore; the save trigger is specificity (a named café, a named dish, a price, an hour), and
+a searchable series title ("One day in X for €84") beats a clever hook. One warning stays,
+as page 6, because warnings are what got this account its first shares.
+1. Exa `web_search_exa`, three searches, all first-hand and recent (2025–2026): (a) "best
+   café or breakfast spot in <place> that locals and recent visitors name, with what to order
+   and prices" (b) "the one dish to eat in <place> and where, with prices, from recent
+   first-hand reviews" (c) "first-hand traveller complaints (Reddit r/travel, r/solotravel,
    forums) about a specific mistake, scam or rule at <place>: exact prices, times, dates".
-   Pick the one fact that is (a) specific (a number, a time, a price, a year), (b) repeated by
-   at least two independent pages, (c) not already used as a headline in any earlier caption
-   from the step 0 `list_posts` results. Keep the two URLs for the final message.
-2. Write `HOOK` as JSON (this goes into the job file in 4b and is burned onto the Reel):
+   Every fact you use must be on a page you read, with a price or an hour, and not older than
+   2025. Prefer places with a name a viewer can search on Maps. Keep the URLs (at least one
+   per field) for the final message; the job file carries them under "sources".
+2. Write `DIARY` as JSON (this goes into the job file in 4b; the pages and the Reel are built from it):
    ```
    {"place": "<PLACE · COUNTRY, upper case>",
-    "headline": "<a statement, not a question; 5–9 words; names the place or its landmark; carries the number or the word 'banned', 'costs', 'closed', 'scam', 'trap' or 'ruined'>",
-    "beats": ["<the mistake, one sentence, ≤ 16 words>",
-              "<what it costs you, with the number, ≤ 16 words>",
-              "<the fix, one concrete instruction, ≤ 18 words>"],
+    "title": "<searchable, 5–9 words, names the place, carries the day's total: 'One day in Positano for 84 euros'>",
+    "cafe":  {"name": "<the café>", "order": "<what to order>", "price": "<with currency>", "when": "<the hour to arrive, booking rule>"},
+    "dish":  {"name": "<the dish>", "where": "<the restaurant>", "price": "<with currency>", "tip": "<one concrete tip, ≤ 14 words>"},
+    "spot":  {"name": "<the place she visited in the photos, ≤ 6 words>", "how": "<how to reach it, ≤ 12 words>", "when": "<the hour to go, ≤ 8 words>"},
+    "cost":  {"total": "<currency + number, e.g. €84 or 50 JD>", "items": ["<item — price>", … 4 to 6 lines, the entry ticket included, they add up to total]},
+    "priced": "<month year the prices are from>",
+    "mistake": "<the one mistake, scam, rule or timing trap, one or two sentences with the number, ≤ 30 words>",
     "close": "<'Send this to' + who: ≤ 8 words>",
+    "sources": ["<url>", …],
     "palette": "<one of offcentre, monocle, kinfolk, culture, harbour, viagem — pick it with
                 `python3 -c "import random;print(random.choice('offcentre monocle kinfolk culture harbour viagem'.split()))"`,
                 never by preference; it sets the issue's colours (tools/make_slides.py PALETTES) and
                 goes into the final message>"}
    ```
-   Examples that render well: headline "The "free" camel ride at Petra costs $70"; "You can't
-   drive to Moraine Lake anymore"; "Lauterbrunnen is ruined by 10 am". Never "wait for it",
-   never a question, never an emoji (the font has none), nothing false or exaggerated: every
-   number comes from the pages you read.
-3. The card's CAPTION line 1 is replaced by the headline (still inside 125 characters, place
-   named); line 2 becomes beat 3 (the fix); line 3 stays the "send this to…" line; hashtags
-   unchanged.
+   Currency in the place's own money with the symbol the locals use (€, $, JD, CHF, C$, ¥).
+   Never an emoji (the font has none), nothing invented: every name, number and hour comes
+   from the pages you read. If a field cannot be sourced, say so in the final message and use
+   the best-sourced alternative (a second café, a different dish); never leave it blank.
+3. The card's CAPTION line 1 is replaced by the title (still inside 125 characters, place
+   named); line 2 becomes "<cafe name> for breakfast, <dish name> at <where>, <spot name>";
+   line 3 stays the "send this to…" line; hashtags unchanged. In the alt text, pages 02–07
+   name what is on them (the café, the dish, the spot, the cost, the mistake, the save line).
 
 ## 3. Generate the plate (0.2)
 Topview `topview_generate_image` `{taskType: "text_to_image", model: "GPT Image 2.5 Sunburst",
@@ -155,22 +166,22 @@ download from TopView's host, so GitHub Actions does it: you push one job file, 
 workflow downloads the photos (three, or two on a SWIM card), applies the film grade (`tools/grade_photos.py`: Kodak
 Portra 400 look, grain, highlight roll-off, faint vignette, JPEG), commits them as
 `photos/<name>/01.jpg … 03.jpg`, builds the seven magazine pages `slides/<name>/01.jpg … 07.jpg`
-(`tools/make_slides.py`: 01 the cover with the headline, 02 inside this issue, 03 the mistake,
-04 what it costs, 05 full-page photo, 06 the fix, 07 the back cover with the save line), and
+(`tools/make_slides.py`: 01 the cover with the title, 02 the café, 03 the dish, 04 the spot,
+05 what the day cost, 06 the mistake to avoid, 07 the back cover with the save line), and
 cuts the Reel `reels/<name>.mp4` as a flick through those seven pages (`tools/make_page_reel.py`:
-the cover holds 2.6 s so the HOOK is on frame 0, then each page slides up over the last, ends on
+the cover holds 2.6 s so the title is on frame 0, then each page slides up over the last, ends on
 the back cover so it loops; about 11.5 seconds). All of it appears within about three minutes.
 1. Job file and push:
    ```
    NAME=<place slug without the NN>-$(TZ=Asia/Kolkata date +%F)     # e.g. petra-2026-09-20
    python3 - <<'EOF'
-   import json; json.dump({"name": "NAME-VALUE", "kind": "set", "urls": ["<photo 01 png url>", "<photo 02 png url>", "<photo 03 png url>"], "text": HOOK}, open("jobs/NAME-VALUE.json", "w"), indent=1, ensure_ascii=False)
+   import json; json.dump({"name": "NAME-VALUE", "kind": "set", "urls": ["<photo 01 png url>", "<photo 02 png url>", "<photo 03 png url>"], "text": DIARY}, open("jobs/NAME-VALUE.json", "w"), indent=1, ensure_ascii=False)
    EOF
    git config user.name aanya-routine && git config user.email aanya-routine@users.noreply.github.com
    git add "jobs/$NAME.json" && git commit -qm "job: $NAME"
    for try in 1 2 3; do git fetch -q origin main && git rebase -q origin/main && git push -q origin HEAD:main && break; done
    ```
-   (write the real NAME, the three full URLs and the HOOK object from 2b into the Python line; the URLs keep their
+   (write the real NAME, the three full URLs and the DIARY object from 2b into the Python line; the URLs keep their
    `?Policy=…&Signature=…&Key-Pair-Id=…` query string exactly). If the push still fails after
    three tries, abort: "could not push job file".
 2. Wait for the slides (they are written last, after the photos). Poll with
@@ -185,15 +196,18 @@ the back cover so it loops; about 11.5 seconds). All of it appears within about 
 
 ## 5. Create the Buffer post (direct publish, AI flagged)
 `TEXT` = the card's three CAPTION lines, a blank line, then the HASHTAGS line. `ALT` = one
-alt-text line per slide: slides 01, 02, 05 describe the photo (the card gives one; write the
-other two in the same form) and add "Text: <headline>" on 01; slides 03, 04, 06, 07 are
-"Text slide: <the words on it>" (a blind reader gets the whole carousel from the alt text).
-The slides are set like an issue of a fashion magazine in the run's palette (HOOK.palette, one
-of six editorial sets in tools/make_slides.py, chosen at random each run; approved 22 Sep): 01 the cover with the SAMAIRA masthead up
-an ink-coloured band and the headline as the cover line, 02 "Inside this issue" with the photo as a
-tilted print, 03 and 06 pull-quote pages with the photo cut into offset strips, 04 the accent-colour
-page with the price set huge, 05 a full-page photo, 07 the back cover with the save line. Her
-photo is on every slide, so every alt line describes the photo AND the words on it.
+alt-text line per slide, each describing the photo on it AND the words on it (a blind reader
+gets the whole carousel from the alt text): 01 "Magazine cover: <photo>. Text: <title>";
+02 "<photo strips>. The morning: <cafe name>, <order>, <price>, <when>"; 03 "<photo print>. The
+table: <dish> at <where>, <price>, <tip>"; 04 "<photo>. The spot: <spot name>, <how>, <when>";
+05 "Cost page: <total>, <items>"; 06 "<photo strips>. The mistake to avoid: <mistake>"; 07
+"<photo>. Save this for when you book <Place>. <close>".
+The slides are set like an issue of a fashion magazine in the run's palette (DIARY.palette, one
+of six editorial sets in tools/make_slides.py, chosen at random each run; approved 22 Sep): 01
+the cover with the SAMAIRA masthead up an ink-coloured band and the title as the cover line,
+02 the café (photo strips), 03 the dish (tilted print), 04 the spot (full-page photo), 05 the
+accent-colour page with the day's total set huge and the line items, 06 the mistake as a pull
+quote over photo strips, 07 the back cover with the save line. Her photo is on every slide.
 Buffer `create_post`:
 ```
 channelId: "6aaef241ea19ca0bde8cdcbc"
@@ -247,7 +261,7 @@ new image for the Reel; it is cut from the same three photos.**
 ## 7. Final message (this is the run record; nothing else is written anywhere)
 One paragraph: slot, place, the four TopView task ids, credits before/after, the Buffer post id
 and its scheduled publish time, the graded photo URLs (GitHub, permanent), the Reel post id and its video URL (or why 5b was skipped), the audio note used,
-the headline used and its two source URLs, the stats file written, three numbers from the judged rows (median Reel views in the last 7
+the DIARY title, palette and source URLs, the stats file written, three numbers from the judged rows (median Reel views in the last 7
 days, median sends_per_reach, follows summed; "n/a" where Buffer gave nothing), whether the
 daily review ran and what it changed, and any abort reason. Nothing else.
 
@@ -414,8 +428,8 @@ blur, no film look. Render the card's PLACE with its crowds, barriers and weathe
 the card's OUTFIT line with WARDROBE below and its POSE line with a POSING slot below. The
 old "candid, has not noticed the camera" frame is retired (20 Sep 19:30 IST); so is the
 "model shoot" look with rim light and blurred backgrounds. Captions: the first line is the
-researched headline from step 2b (place named, inside 125 characters); the second line is its
-fix; the third line asks the reader to send it to someone ("send this to the friend who…");
+researched title from step 2b (place named, inside 125 characters); the second line names the
+café, the dish and the spot; the third line asks the reader to send it to someone ("send this to the friend who…");
 exactly five hashtags. Read `routines/strategy.md` first: its Current directives override
 anything here.
 
