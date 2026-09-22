@@ -456,11 +456,15 @@ blocks. Nano Banana Pro blocks it too (Google, same likeness + skin rule, 20 Sep
 HYBRID SET (Suraj, 20 Sep 21:35 IST): a SWIM card has TWO photos, not three, at the same 0.8.
 Photo 01 = the swim frame (the card's SWIM photo) on `model: "Seedream 5.0 Pro"`, taskType
 image_edit, inputImageFileIds ["1e67131d22d54cbc8fd84ecbf4f35397"] only (no plate), aspectRatio
-"4:5", resolution "1K", no quality field; it costs 0.4 (Suraj's test, 20 Sep) and passes
+"3:4" (Seedream 5.0 Pro rejects "4:5" at validation; its list is 3:2, 3:4, 1:1, 16:9, auto,
+21:9, 4:3, 9:16, 2:3 — learned on the 22 Sep run; the render tools resize to 1080x1350
+anyway), resolution "1K", no quality field; it costs 0.4 (Suraj's test, 20 Sep) and passes
 bikinis at full quality. If Seedream rejects it (credits refunded),
 resubmit once on `model: "Seedream 4.5"` (resolution "2K", 0.2, softer); a second rejection
 aborts the run. For the Seedream prompt the SAFETY REWRITE word rules do not apply: say
-"bikini", "sheer", "wet hair", "lying back". SEEDREAM PROMPT SHAPE (Suraj's A/B on 20 Sep 22:10 IST: the same block prompt that GPT
+"bikini", "sheer", "wet hair", "lying back". The closed GPT photo 02 on a SWIM card keeps
+the card's skirt or sarong to the knee in WORN and names it in the prompt (22 Sep run: the
+two prompts without the sarong were rejected, the one with it passed). SEEDREAM PROMPT SHAPE (Suraj's A/B on 20 Sep 22:10 IST: the same block prompt that GPT
 gets, with the iPhone camera contract, beat a "35 mm f/4 full-frame" rewrite on 5.0 Pro;
 the soft result earlier that day was Seedream 4.5, not Pro): write the Seedream prompt with
 the SAME blocks and order as a GPT photo prompt, IDENTITY line first, then PLACE, OUTFIT,
@@ -477,7 +481,7 @@ friend's phone photo of a model posing for it; no studio light, no beauty filter
 NEVER block, and never the words "glossy", "smooth", "soft skin", "radiant", "flawless",
 "beautiful". Hands are described positively ("right hand holding the bottle on her knee"),
 never as "no distorted hands". Photo 02 = the card's closed frame
-(shirt or crochet dress buttoned over the bikini top, or the sarong tied) on GPT Image 2.5
+(shirt or crochet dress buttoned over the swimsuit top, or the sarong tied) on GPT Image 2.5
 Sunburst exactly as in step 4, with the plate as Image2; that prompt follows SAFETY REWRITE. Photo 01 is the cover of the carousel and the first frame of the Reel; the tools
 make seven slides and the 11.5 s Reel from two stills. The plate for a SWIM card is still GPT Image 2.5 Sunburst
 text_to_image (no face, so no block) but shows the cover-up worn over the swimsuit. GPT swim
@@ -614,7 +618,7 @@ CAPTION HOOK: positano. the "free" beach is 40 metres wide and the sunbeds next 
 ALT TEXT: Woman in a cream bikini and open black chiffon shirt lying on the bow net of a moored catamaran off Positano, Italy, the pastel houses stacked up the cliff behind her, hard afternoon sun.
 HASHTAGS: #positano #amalficoast #italiansummer #beachdays #girlstrip
 - Photo 1 (SWIM, Seedream 5.0 Pro) — Lying back on the bow net. WHERE/WHEN: The catamaran's trampoline net at the bow, Positano's cliff behind, mid-July, about 4:30 pm. FRAMING: Full body, from beside her, camera low at deck level. LIGHT: Hard sun from the right, the sea glittering behind. POSE: lying back on the net propped on both elbows, one knee up, head turned to the lens, a soft smile, sunglasses in one hand. WORN: the cream bikini, the sheer black shirt open and slipped off one shoulder; wet hair swept over one shoulder; a tan line at the strap; bare feet.
-- Photo 2 (closed, GPT) — The steps of Via dei Mulini. WHERE/WHEN: The steep stepped lane of Via dei Mulini in Positano, below the church of Santa Maria Assunta, mid-July, about 6 pm, tourists and a ceramics shop behind. FRAMING: Full-body, from a few steps below. LIGHT: Warm low sun from the sea side, left of frame, long shadows on the steps. POSE: slot 2 walking down the steps looking back over her shoulder. WORN: the chiffon shirt buttoned once over the bikini top, sarong tied low, sandals on, straw tote on the shoulder, hair dry and loose.
+- Photo 2 (closed, GPT) — The steps of Via dei Mulini. WHERE/WHEN: The steep stepped lane of Via dei Mulini in Positano, below the church of Santa Maria Assunta, mid-July, about 6 pm, tourists and a ceramics shop behind. FRAMING: Full-body, from a few steps below. LIGHT: Warm low sun from the sea side, left of frame, long shadows on the steps. POSE: slot 2 walking down the steps looking back over her shoulder. WORN: the chiffon shirt buttoned once over the swimsuit top, sarong tied low, sandals on, straw tote on the shoulder, hair dry and loose.
 
 ### 14-mykonos — Mykonos, Little Venice (SWIM card)
 OUTFIT (both photos and the plate): a black bandeau bikini; a white crochet mini dress worn open over it; flat black leather sandals; gold hoops, a gold bracelet; a small black tote.
@@ -622,7 +626,7 @@ CAPTION HOOK: mykonos. the little venice sunset bars charge 25 euros for a cockt
 ALT TEXT: Woman in a black bikini with a white crochet dress around her hips on the whitewashed sea wall at Little Venice, Mykonos, the windmills on the ridge behind her, warm evening sun.
 HASHTAGS: #mykonos #littlevenice #greeksummer #beachdays #girlstrip
 - Photo 1 (SWIM, Seedream 5.0 Pro) — Sitting on the wall, feet over the sea. WHERE/WHEN: The same sea wall, late June, about 7:50 pm, the sun just above the horizon. FRAMING: Three-quarter, from the side, camera low. LIGHT: Warm low sun straight into the scene from the left, deep long shadows. POSE: sitting on the wall leaning back on both hands, legs along the wall, one knee up, feet bare, head turned to the lens. WORN: the black bandeau bikini, the crochet dress pushed down around her hips, sandals beside her, hair moving in the sea wind, an anklet.
-- Photo 2 (closed, GPT) — The lane behind the windmills. WHERE/WHEN: A whitewashed lane with blue doors and bougainvillea in Mykonos Town, late June, about 6:30 pm, two tourists and a cat further down. FRAMING: Full-body, from behind. LIGHT: Open shade, the walls bouncing bright white light. POSE: slot 2 walking away, looking back over her shoulder, the crochet hem held out to one side. WORN: crochet dress buttoned over the bikini top, sandals, tote on the shoulder, hair dry and loose.
+- Photo 2 (closed, GPT) — The lane behind the windmills. WHERE/WHEN: A whitewashed lane with blue doors and bougainvillea in Mykonos Town, late June, about 6:30 pm, two tourists and a cat further down. FRAMING: Full-body, from behind. LIGHT: Open shade, the walls bouncing bright white light. POSE: slot 2 walking away, looking back over her shoulder, the crochet hem held out to one side. WORN: crochet dress buttoned over the swimsuit top, sandals, tote on the shoulder, hair dry and loose.
 
 ### 15-uluwatu — Uluwatu, Bali (SWIM card)
 OUTFIT (both photos and the plate): a butter-yellow ribbed string bikini; a printed cotton sarong tied low; bare feet; a straw hat; gold hoops; a woven bag.
@@ -630,4 +634,4 @@ CAPTION HOOK: uluwatu. the "secret" beach clubs cost 100 dollars minimum spend f
 ALT TEXT: Woman in a butter-yellow bikini on the rocks at Uluwatu, Bali, the Indian Ocean and the surf line far below, midday sun.
 HASHTAGS: #uluwatu #bali #balibeach #islandlife #girlstrip
 - Photo 1 (SWIM, Seedream 5.0 Pro) — On the rocks at low tide. WHERE/WHEN: The flat wet limestone shelf at Suluban at low tide, the cave arch and the surf behind, August, about noon. FRAMING: Three-quarter, camera low. LIGHT: Hard overhead sun, wet rock reflecting the sky. POSE: lying back on the wet rock propped on both elbows, one knee up, the straw hat tipped over her eyes with one hand, a coconut with a straw beside her. WORN: the yellow bikini only, the sarong spread under her, wet hair, water on her shoulders.
-- Photo 2 (closed, GPT) — The stairs down through the rock. WHERE/WHEN: The narrow stairway cut through the limestone down to Suluban beach, August, about 11:30 am, a surfer coming up with a board. FRAMING: Full-body, from above. LIGHT: Open shade inside the rock, bright sea light at the bottom. POSE: slot 2 going down the stairs looking back up over her shoulder, the sarong lifted in one hand. WORN: a linen shirt buttoned once over the bikini top, the sarong tied at the waist, bag on the shoulder, hat in the other hand.
+- Photo 2 (closed, GPT) — The stairs down through the rock. WHERE/WHEN: The narrow stairway cut through the limestone down to Suluban beach, August, about 11:30 am, a surfer coming up with a board. FRAMING: Full-body, from above. LIGHT: Open shade inside the rock, bright sea light at the bottom. POSE: slot 2 going down the stairs looking back up over her shoulder, the sarong lifted in one hand. WORN: a linen shirt buttoned once over the swimsuit top, the sarong tied at the waist, bag on the shoulder, hat in the other hand.
