@@ -184,10 +184,12 @@ this for when you book <place>" + the close line). All of it appears within abou
 alt-text line per slide: slides 01, 02, 05 describe the photo (the card gives one; write the
 other two in the same form) and add "Text: <headline>" on 01; slides 03, 04, 06, 07 are
 "Text slide: <the words on it>" (a blind reader gets the whole carousel from the alt text).
-The slides are set like an issue of a fashion magazine (tools/make_slides.py, 22 Sep): 01 is
-the cover with the SAMAIRA masthead and the headline as the cover line, 02 a contents page, 03
-and 06 spreads with a pull quote, 04 a receipt with the price set huge, 05 a full-page photo,
-07 the back cover with the save line; say "magazine cover" / "receipt page" in the alt text.
+The slides are set like an issue of a fashion magazine in the Off Centre palette (forest green,
+butter, lime; tools/make_slides.py, approved 22 Sep): 01 the cover with the SAMAIRA masthead up
+a green band and the headline as the cover line, 02 "Inside this issue" with the photo as a
+tilted print, 03 and 06 pull-quote pages with the photo cut into offset strips, 04 the lime
+page with the price set huge, 05 a full-page photo, 07 the back cover with the save line. Her
+photo is on every slide, so every alt line describes the photo AND the words on it.
 Buffer `create_post`:
 ```
 channelId: "6aaef241ea19ca0bde8cdcbc"
