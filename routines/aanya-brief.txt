@@ -492,16 +492,32 @@ SWIM (Suraj, 20 Sep 20:10 and 21:50 IST, "fully bikini mode, like @leaelui"): at
 beach, a boat, a pool, a lake shore, hot springs or an island (the card's WHERE says so), the
 set has two photos (HYBRID SET below) and the swimwear is the point, as in Léa's boat, pool
 and Guess Swim frames:
-- Photo 01 (Seedream 5.0 Pro, the cover): a bikini, named as such: triangle, bandeau, ribbed or
-  string-tie, in ONE colour (cream, black, butter yellow, baby blue, blush, white); the only
-  extras are the ones Léa wears: a sheer black or white shirt worn open and slipping off one
-  shoulder, or a printed sarong tied low on the hips, or a straw hat; wet hair swept over one
-  shoulder or a slick low bun; gold hoops, a thin chain, an anklet; bare feet; a drink,
-  a towel, sunglasses in the hand. Poses from her feed: lying back on the boat's net or a sun
-  lounger propped on both elbows, one knee up; sitting on the deck edge with the legs in the
-  water; standing at the bow rail with the shirt blowing open, hand on the hat; kneeling on
-  the towel with the hat brim held down. Her figure shows (PHYSIQUE as written); a tan line
-  at the strap is fine here. Seedream renders this at full quality; describe it plainly.
+- Photo 01 (Seedream 5.0 Pro, the cover) is a **SWIM SELFIE** (Suraj, 22 Sep 2026 16:35 IST:
+  the posed full-body swim frames "are not generating good results"; this form replaces them).
+  It is her own arm's-length phone selfie, chest-up, indoors or in shade at the card's place (a
+  pool-villa bedroom, a boat cabin, a beach hut, a hotel balcony, the changing hut at the hot
+  springs), never the wide posed frame the card's Photo 1 line describes: keep only the card's
+  WHERE/WHEN and its bikini colour, and write the rest to this template, word for word in
+  shape, swapping only the bracketed slots. The card's Photo 1 POSE/FRAMING lines are ignored.
+  ```
+  A selfie of the woman from @Image1 , taken by herself at arm's length on a phone. Take from @Image1 only who she is: her exact face, dark brown eyes, nose, lips, jawline, skin tone, and her hair colour, length and texture, unchanged. She is 25.
+  PLACE. [A pool-villa bedroom on Koh Tao, late morning: pale green headboard, teak wall, curtains, glass doors open to a terrace blown out white by the sun.]
+  OUTFIT. [A chocolate-brown satin triangle bikini top with thin beaded straps]; a thin gold chain; small gold hoops. Wet hair pushed back, a few strands stuck to her cheek and neck. Slim hourglass, full bust in proportion, a faint tan line at the strap.
+  POSE. Chest-up; the phone in her right hand just out of frame; left hand resting loosely at her collarbone, fingers relaxed. Head tilted slightly right, chin down, eyes to the lens, an easy closed-lip smile.
+  LIGHT. [Daylight from the doors on the right of her face, warm bounce from the teak on the left; the doors overexposed.]
+  FRAMING. Vertical, tight from above the head to the waist, her face on the upper-left third, mild front-camera stretch on the near shoulder.
+  STYLING. Visible pores, uneven shine on the forehead and nose, a faint mascara smudge, one small mole, natural asymmetry; the satin shows its seams.
+  CAMERA. iPhone 15 front camera, Smart HDR on, no filter, natural sensor noise, slight handheld softness, accurate white balance. Her own phone selfie; no studio light, no beauty filter.
+  ```
+  Slots: PLACE is a small interior or shaded corner at the card's place with one blown-out
+  opening (doors, a porthole, a window, the sky through a hut door) and two named materials
+  (teak, rattan, whitewash, linen); OUTFIT names the top's cut and material and ONE colour
+  (satin triangle, ribbed bandeau, crochet halter, string-tie; chocolate, cream, black, butter
+  yellow, baby blue, blush, white) and keeps the chain, the hoops and the wet hair; LIGHT
+  names the side the opening is on and what bounces warm from the other side. Vary the
+  hand (at the collarbone, tucking hair behind the ear, holding the chain, sunglasses pushed
+  up) and the head tilt from card to card; the smile stays closed-lip. Everything else in
+  the template stays. Seedream renders this at full quality; describe it plainly.
 - Photo 02 (GPT, the street or steps frame): the same bikini top under the shirt buttoned
   once, or under the crochet dress, with the sarong tied at the waist; flat sandals; the bag.
   GPT is the model, so this prompt follows SAFETY REWRITE wording ("swimsuit", nothing sheer).
@@ -522,12 +538,12 @@ resubmit once on `model: "Seedream 4.5"` (resolution "2K", 0.2, softer); a secon
 aborts the run. For the Seedream prompt the SAFETY REWRITE word rules do not apply: say
 "bikini", "sheer", "wet hair", "lying back". The closed GPT photo 02 on a SWIM card keeps
 the card's skirt or sarong to the knee in WORN and names it in the prompt (22 Sep run: the
-two prompts without the sarong were rejected, the one with it passed). SEEDREAM PROMPT SHAPE (Suraj's A/B on 20 Sep 22:10 IST: the same block prompt that GPT
-gets, with the iPhone camera contract, beat a "35 mm f/4 full-frame" rewrite on 5.0 Pro;
-the soft result earlier that day was Seedream 4.5, not Pro): write the Seedream prompt with
-the SAME blocks and order as a GPT photo prompt, IDENTITY line first, then PLACE, OUTFIT,
-POSE, LIGHT, FRAMING, STYLING, CAMERA, but shorter: 150–220 words in total, complete
-sentences (BytePlus: under 600 words; the guides' sweet spot is under 200). Differences from
+two prompts without the sarong were rejected, the one with it passed). SEEDREAM PROMPT SHAPE: the SWIM SELFIE template above is the whole prompt for photo 01
+(about 200 words; it already has the IDENTITY line first, then PLACE, OUTFIT, POSE, LIGHT,
+FRAMING, STYLING, CAMERA). The rules below explain why it is shaped that way and apply to
+any slot you fill (Suraj's A/B on 20 Sep 22:10 IST: the block prompt with the iPhone camera
+contract beat a "35 mm f/4 full-frame" rewrite on 5.0 Pro; the soft result earlier that day
+was Seedream 4.5, not Pro). Keep it 150–220 words, complete sentences. Differences from
 the GPT version: the IDENTITY line names her eye colour ("dark brown eyes") or the model
 drifts them; STYLING carries the flaw layer that keeps 5.0 Pro off plastic skin ("visible
 pores, uneven shine on the forehead and nose, natural sensor noise, subtle HDR, slight
