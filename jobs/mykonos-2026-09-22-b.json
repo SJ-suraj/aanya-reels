@@ -1,0 +1,54 @@
+{
+ "name": "mykonos-2026-09-22-b",
+ "kind": "set",
+ "urls": [
+  "https://du9d8548ooqnc.cloudfront.net/analyzed_video%2Ftask%2Fobject_replace_llm%2F244bca6d91c64e5594b28343fbd2f94f%2F0.png?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vZHU5ZDg1NDhvb3FuYy5jbG91ZGZyb250Lm5ldC9hbmFseXplZF92aWRlbyUyRnRhc2slMkZvYmplY3RfcmVwbGFjZV9sbG0lMkYyNDRiY2E2ZDkxYzY0ZTU1OTRiMjgzNDNmYmQyZjk0ZiUyRjAucG5nIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzkwMzM1MTA1fX19XX0_&Signature=ADHR9J5vb52r5o6z79OJrdIar3Q1WWMKLro5RIT3xF7dtLpJp7lVB-GDEUtw~P9PMNpW4QCxVQW0AtP8Kj10sHxmLB0~6A9TArYSplpxLV9H0qfZjpCdnOng-oKBUtO5LoUG1UgvoxqWaUzMS99DLrFjAzGgdNZRXao45VNbpeBVnQJONvKOJgEZW70U9jvwETPmuS0tH7wBL1zHqH1HB614vGMGdksm2Td596F04ZMXtM6agUjHiVEhmKMvv62kjReuD1rWSB80Xmwd4pIiP3oV29P4lBLxnQ21THyQUokeI6oqVx-P-Rzt9c9hzC9QMf34d6fzht1jkhoKX3ZULQ__&Key-Pair-Id=K1PJBMEIA4Y1WS",
+  "https://du9d8548ooqnc.cloudfront.net/analyzed_video%2Ftask%2Fobject_replace_llm%2Ff006ee05bd554054910c7c04da70ebc5%2F0.png?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vZHU5ZDg1NDhvb3FuYy5jbG91ZGZyb250Lm5ldC9hbmFseXplZF92aWRlbyUyRnRhc2slMkZvYmplY3RfcmVwbGFjZV9sbG0lMkZmMDA2ZWUwNWJkNTU0MDU0OTEwYzdjMDRkYTcwZWJjNSUyRjAucG5nIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzkwMzM1MzMxfX19XX0_&Signature=XD-oBOYz9anKfrfOvRa67skTmSVeTMm--cUOVCXsuF7fI6MYHIWtsKLKFCq2QB2Ti0QleTM~OUYjzIcJM3qwYDKNMxu71aizhX~Y-a8hquHHn6WCEcSH9IO0K1prtJtMvChf5EDuyrJfCOCWRa-wJvg~Wo2uEK4rG5E-gBnQgTjv3J2n4vBME5kyn-SpCkADeMdnEARzLgbXVDSJvM1aYdhw~UhoD9DLVA7oePbbFC1OXL8i2dqvDRXXsp1VgMHGVZBxgVSVq7tZlFfnpMc3YIpJkqGZIbaUEzo2mSn9h7Zswjh8kH0w8e1x2vyvVGcJrbFwBipCmqeet2TPKHckNg__&Key-Pair-Id=K1PJBMEIA4Y1WS"
+ ],
+ "text": {
+  "place": "MYKONOS · GREECE",
+  "title": "One day in Mykonos for 68 euros",
+  "cafe": {
+   "name": "Mykonos Brunch Club, Agios Gerasimos 1",
+   "order": "eggs benedict on house sourdough",
+   "price": "€18",
+   "when": "opens 9am daily; walk-in only, no bookings"
+  },
+  "dish": {
+   "name": "charcoal-grilled marinated chicken legs",
+   "where": "Kiki's Tavern, Agios Sostis",
+   "price": "€20",
+   "tip": "No reservations. Arrive before midday or wait two hours."
+  },
+  "spot": {
+   "name": "the Kato Mili windmills wall",
+   "how": "ten minutes uphill from the old port",
+   "when": "about 7:30pm, before sunset"
+  },
+  "cost": {
+   "total": "€68",
+   "items": [
+    "Eggs benedict at Mykonos Brunch Club — €18",
+    "Bus to Agios Sostis and back — €5",
+    "Charcoal chicken legs at Kiki's Tavern — €20",
+    "Windmills and the Little Venice wall — free",
+    "Sunset cocktail at Galleraki, Little Venice — €18",
+    "Gyros at Sakis Grill House on the walk back — €7"
+   ]
+  },
+  "priced": "September 2026",
+  "mistake": "On the Little Venice waterfront the menu arrives with no prices: moussaka lands at 40 to 80 euros, plus an unordered bread cover that is illegal in Greece.",
+  "close": "Send this to your greek islands friend",
+  "sources": [
+   "https://www.mykonosbrunchclub.com/",
+   "https://www.publicorestaurant.com/brunch-club",
+   "https://www.pariseater.com/travel/kikis-tavern-mykonos/",
+   "https://www.nomadotravel.app/en/guides/what-to-eat-in-mykonos",
+   "https://tabiji.ai/scams/mykonos/",
+   "https://gotripzi.com/destinations/mykonos-gr",
+   "https://gotripzi.com/destinations/mykonos-gr/cost"
+  ],
+  "palette": "kinfolk"
+ },
+ "voice": "https://api.topview.ai/s/JDVXBrBn"
+}
