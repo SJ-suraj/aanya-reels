@@ -1,0 +1,18 @@
+{
+ "name": "positano-2026-09-22",
+ "kind": "set",
+ "urls": [
+  "https://du9d8548ooqnc.cloudfront.net/analyzed_video%2Ftask%2Fobject_replace_llm%2F331e0e9856644f53ab05a6b0631cc4f0%2F0.png?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vZHU5ZDg1NDhvb3FuYy5jbG91ZGZyb250Lm5ldC9hbmFseXplZF92aWRlbyUyRnRhc2slMkZvYmplY3RfcmVwbGFjZV9sbG0lMkYzMzFlMGU5ODU2NjQ0ZjUzYWIwNWE2YjA2MzFjYzRmMCUyRjAucG5nIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzkwMzE4NDUwfX19XX0_&Signature=lpMw4v2wwql0k25L296CAkeOc7GQSF0JEIGw4ysJNcHQ47zY~SWFkOdAPvc8-p3bEpj4aEVvZ8eJf-gBh5VKwk4yF0hN9tg~NwVWB1AO5GauckfUwLf-9he38u5p40BiV7HI59cZgYpdbL7WJi53oc2lfR~XBZ59VpacNH5LEpgy0IqRKyw3UVJNMDllB~vD2gH2zt0z1ejsZOhieAbe9cUglCQeghXhQF7i2B~qOs0ru6QtbJ7ALLo8lzd9uV1BHqjMy-Lbe4Q6VC3Zoo0jrfS0YIKeLJj-yDUVHwh~wONBOZyYukQpzEdqn17QnXlfe9537F-6c9ZuMHK6wH0u9g__&Key-Pair-Id=K1PJBMEIA4Y1WS",
+  "https://du9d8548ooqnc.cloudfront.net/analyzed_video%2Ftask%2Fobject_replace_llm%2Fff74e82502b549ae874d3381ade89c90%2F0.png?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vZHU5ZDg1NDhvb3FuYy5jbG91ZGZyb250Lm5ldC9hbmFseXplZF92aWRlbyUyRnRhc2slMkZvYmplY3RfcmVwbGFjZV9sbG0lMkZmZjc0ZTgyNTAyYjU0OWFlODc0ZDMzODFhZGU4OWM5MCUyRjAucG5nIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzkwMzE4NzU5fX19XX0_&Signature=bUD8Fr8ps2T2e234O3zECbuXPxoFvFG4vf-AwGTt8gVmyTYeeqwFh5Yv2kCP-ibgeI4-sqkAxLn0zTSJSRA2Hluh0iWnFUTmqtgPJu8Mp~5b3EzoEajUTdP4hsJhDG9RdD73HtJ2LqKw45S64TLaU9ybL~oT-WWbQ7J8IIQ6CNtDo8-yfOU96lJpC138~lYOmSxn6Caph5k-7zcNGpecLU5Zf0-JEGKxs30Mr5YohyvZDQW-FzfjSXqYP1dThcX02wLnlLPatWrbCOMV01K-AHRoP~ubAB0La6ICvhGrNI8~84g5w8SS9k5aX4YqUHDkgSSHVhDRZLB5sQmjKnZf1Q__&Key-Pair-Id=K1PJBMEIA4Y1WS"
+ ],
+ "text": {
+  "place": "POSITANO · ITALY",
+  "headline": "Two sunbeds at Positano cost 80 euros",
+  "beats": [
+   "The lido attendant seats you first and tells you the price after.",
+   "80 euros for an umbrella and two loungers in July, up to 105.",
+   "Walk east past the ferry jetty to the free spiaggia libera, before 9:30 am."
+  ],
+  "close": "Send this to whoever booked Positano"
+ }
+}
