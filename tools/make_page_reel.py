@@ -3,15 +3,16 @@
 
 The magazine reel: a ~11.5 s 9:16 flick through the seven carousel pages (slides/<name>/01..07.jpg).
   0.0- 2.6 s  the cover holds (the hook is on it, readable with sound off on frame 0)
-  then each page slides up over the previous one with an ease-out, a soft page shadow, the outgoing
-  page settling back a little, ~1.45 s a page; ends on the back cover (the save line) so it loops.
+  then each page turns like a magazine page: the sheet rotates about the left spine, its free edge
+  sweeping right-to-left with a little perspective and a shadow on the page beneath, ~1.45 s a page;
+  ends on the back cover (the save line) so it loops.
 Each page becomes a full 9:16 sheet: a flat top or bottom edge colour (any palette) extends above and below
 the 1080x1350 page; photo pages extend with a blurred, darkened copy of themselves. Frames are drawn with Pillow and
 piped to ffmpeg (libx264, yuv420p, 30 fps, no audio: the trending track is added in the Instagram app).
 Env: FFMPEG.
 """
 import os, subprocess, sys
-from PIL import Image, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter
 
 src, out = sys.argv[1], sys.argv[2]
 FF = os.environ.get("FFMPEG", "ffmpeg")
@@ -42,10 +43,23 @@ def sheet(page):
 
 pages = [sheet(Image.open(os.path.join(src, f"{i:02d}.jpg")).convert("RGB").resize((PW, PH), Image.LANCZOS)) for i in range(1, 8)]
 
-def ease(t): return 1 - (1 - t) ** 3            # ease-out cubic
+def ease(t): return t * t * (3 - 2 * t)          # ease-in-out: a page flip picks up, then settles
 
 shadow = Image.new("RGBA", (W, 90), (0, 0, 0, 0))
 for y in range(90): shadow.paste((0, 0, 0, int(140 * (1 - y / 90) ** 2)), (0, y, W, y + 1))
+
+def persp(im, quad):
+    """map the image's four corners (TL, TR, BR, BL) onto quad (same order) in the frame; returns RGBA frame layer"""
+    import numpy as np
+    (x0, y0), (x1, y1), (x2, y2), (x3, y3) = quad
+    src = [(0, 0), (im.width, 0), (im.width, im.height), (0, im.height)]
+    A, B = [], []
+    for (X, Y), (u, v) in zip(quad, src):     # solve the 8 perspective coefficients: dest -> source
+        A.append([X, Y, 1, 0, 0, 0, -u * X, -u * Y]); B.append(u)
+        A.append([0, 0, 0, X, Y, 1, -v * X, -v * Y]); B.append(v)
+    c = np.linalg.solve(np.array(A, float), np.array(B, float))
+    rgba = im.convert("RGBA")
+    return rgba.transform((W, H), Image.PERSPECTIVE, tuple(c), resample=Image.BILINEAR)
 
 def frame(i):
     t = i / FPS
@@ -56,15 +70,26 @@ def frame(i):
     prev = pages[cur - 1]; nxt = pages[cur]
     if tt >= TURN or cur == 6 and k > 5: return nxt.copy()
     p = ease(tt / TURN)
-    # the outgoing sheet settles back and darkens a touch; the incoming sheet slides up from below
-    s = 1 - 0.06 * p
-    sw, sh = round(W * s), round(H * s)
-    small = prev.resize((sw, sh), Image.BILINEAR)
-    small = Image.blend(small, Image.new("RGB", (sw, sh), (0, 0, 0)), 0.25 * p)
-    bg = Image.new("RGB", (W, H), FOREST); bg.paste(small, ((W - sw) // 2, (H - sh) // 2))
-    y = round(H * (1 - p))
-    if y - 90 < H: bg.paste(shadow, (0, y - 90), shadow)
-    bg.paste(nxt, (0, y))
+    # a magazine page turn: the current sheet rotates about the left spine, its free edge sweeping from
+    # the right toward the spine; the next page lies underneath. As it folds it narrows (cos), its free
+    # edge comes toward the viewer (a little taller), it darkens, and throws a soft shadow on the page below.
+    import math
+    th = p * math.pi / 2                          # 0 -> 90 degrees
+    xe = W * math.cos(th)                         # free edge x
+    lift = 0.10 * math.sin(th)                    # perspective: free edge taller by up to 10%
+    quad = [(0, 0), (xe, -H * lift / 2), (xe, H * (1 + lift / 2)), (0, H)]
+    bg = nxt.copy()
+    # shadow on the page beneath, just right of the fold, fading with the turn
+    sw = int(160 * (1 - p) + 20)
+    sh = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    for x in range(sw):
+        a = int(110 * (1 - x / sw) * math.sin(th))
+        ImageDraw.Draw(sh).line([(round(xe) + x, 0), (round(xe) + x, H)], fill=(0, 0, 0, a))
+    bg.paste(sh, (0, 0), sh)
+    if xe > 2:
+        sheet_im = Image.blend(prev, Image.new("RGB", (W, H), (0, 0, 0)), 0.35 * math.sin(th))
+        layer = persp(sheet_im, quad)
+        bg.paste(layer, (0, 0), layer)
     return bg
 
 TOTAL = HOLD + SLIDE * 6 + 0.2
