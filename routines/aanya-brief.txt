@@ -101,7 +101,11 @@ place, and the carousel caption's first line carries the same hook.
     "beats": ["<the mistake, one sentence, ≤ 16 words>",
               "<what it costs you, with the number, ≤ 16 words>",
               "<the fix, one concrete instruction, ≤ 18 words>"],
-    "close": "<'Send this to' + who: ≤ 8 words>"}
+    "close": "<'Send this to' + who: ≤ 8 words>",
+    "palette": "<one of offcentre, monocle, kinfolk, culture, harbour, viagem — pick it with
+                `python3 -c "import random;print(random.choice('offcentre monocle kinfolk culture harbour viagem'.split()))"`,
+                never by preference; it sets the issue's colours (tools/make_slides.py PALETTES) and
+                goes into the final message>"}
    ```
    Examples that render well: headline "The "free" camel ride at Petra costs $70"; "You can't
    drive to Moraine Lake anymore"; "Lauterbrunnen is ruined by 10 am". Never "wait for it",
@@ -184,10 +188,10 @@ the back cover so it loops; about 11.5 seconds). All of it appears within about 
 alt-text line per slide: slides 01, 02, 05 describe the photo (the card gives one; write the
 other two in the same form) and add "Text: <headline>" on 01; slides 03, 04, 06, 07 are
 "Text slide: <the words on it>" (a blind reader gets the whole carousel from the alt text).
-The slides are set like an issue of a fashion magazine in the Off Centre palette (forest green,
-butter, lime; tools/make_slides.py, approved 22 Sep): 01 the cover with the SAMAIRA masthead up
-a green band and the headline as the cover line, 02 "Inside this issue" with the photo as a
-tilted print, 03 and 06 pull-quote pages with the photo cut into offset strips, 04 the lime
+The slides are set like an issue of a fashion magazine in the run's palette (HOOK.palette, one
+of six editorial sets in tools/make_slides.py, chosen at random each run; approved 22 Sep): 01 the cover with the SAMAIRA masthead up
+an ink-coloured band and the headline as the cover line, 02 "Inside this issue" with the photo as a
+tilted print, 03 and 06 pull-quote pages with the photo cut into offset strips, 04 the accent-colour
 page with the price set huge, 05 a full-page photo, 07 the back cover with the save line. Her
 photo is on every slide, so every alt line describes the photo AND the words on it.
 Buffer `create_post`:
