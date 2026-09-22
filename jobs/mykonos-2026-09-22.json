@@ -1,0 +1,53 @@
+{
+ "name": "mykonos-2026-09-22",
+ "kind": "set",
+ "urls": [
+  "https://du9d8548ooqnc.cloudfront.net/analyzed_video%2Ftask%2Fobject_replace_llm%2Fb1d8e8395d60486f9f99170737d9ddd8%2F0.png?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vZHU5ZDg1NDhvb3FuYy5jbG91ZGZyb250Lm5ldC9hbmFseXplZF92aWRlbyUyRnRhc2slMkZvYmplY3RfcmVwbGFjZV9sbG0lMkZiMWQ4ZTgzOTVkNjA0ODZmOWY5OTE3MDczN2Q5ZGRkOCUyRjAucG5nIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzkwMzMzNDY3fX19XX0_&Signature=Z-hktdUkLHnssAW1~euGgeoDxH2-lMwBEQKGk3Fkjj8~s1jNyjTdxgLxKVBwtHWkWhia2f4DEaqZnUtAwmwKc1~XreieXzVQObIw3Y6wRq2J20st7N-LdkMrpeY2iIcLSZW5aZzV99jzuBcDsHv6SIOaw6ar7PLzOjDxGNGGX3F4ObfgR1XEK-SVSyQ9kqQVGidb3YiZgYus1ovXk7EYQe2hX5tzrApzc3eM9KDn8CZak07vOPMxUw2neI1v3DM63X7FTjyWZwgV6apUQpVZXQGwDCnU6q-lNB3NgSWIWzgn90UuM9LyICaZskjSwnmvlrFmZPxlzLjMQZU4eyR4WQ__&Key-Pair-Id=K1PJBMEIA4Y1WS",
+  "https://du9d8548ooqnc.cloudfront.net/analyzed_video%2Ftask%2Fobject_replace_llm%2Fd56d4c447f0d407688d52de5be9decc3%2F0.png?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vZHU5ZDg1NDhvb3FuYy5jbG91ZGZyb250Lm5ldC9hbmFseXplZF92aWRlbyUyRnRhc2slMkZvYmplY3RfcmVwbGFjZV9sbG0lMkZkNTZkNGM0NDdmMGQ0MDc2ODhkNTJkZTViZTlkZWNjMyUyRjAucG5nIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzkwMzMzNjYwfX19XX0_&Signature=qog3ulxy0z8WxU6ivExBfYL9bEJw0Ziht1Sw5IYdlLbljQ87B-uSvk3NGJ0ajCkjISV-PgF9bjuEj~fsPyj~w-U88QLHa1W2V5hYk2hvhiDrGgD4ytES1UCpE0C5F9IcYmweT~mzSoJf0Q7Hn1vi3YuCiwGRCU7MDqrfqJFnajoxtshZg63YeP9WGyLl1fIUukKwmnt6ZDTV-N4NqWQg1X~LyVB-mS4XPnv2VTMGKLk1TAHQtgPmxKG-6I7APvLzUyemC0kBp2Q8bJDLdT3Z7EosNJLTB~-eav8gQZFczq6vaD3vfzKNT3YejJjkQL7WXlfLW~PNK5crt1Hvfqcakg__&Key-Pair-Id=K1PJBMEIA4Y1WS"
+ ],
+ "text": {
+  "place": "MYKONOS · GREECE",
+  "title": "One day in Mykonos for 61 euros",
+  "cafe": {
+   "name": "Mykonos Brunch Club, Agios Gerasimos 1",
+   "order": "the loaded croissant and a cappuccino",
+   "price": "€19 and €6",
+   "when": "from the 9am opening, walk-in only, no booking"
+  },
+  "dish": {
+   "name": "kopanisti, the island's PDO cheese, on a barley rusk",
+   "where": "To Steki tou Proedrou, Ano Mera square",
+   "price": "€12–22 a head",
+   "tip": "Ano Mera is 8 km out; take the bus or a car"
+  },
+  "spot": {
+   "name": "Little Venice and the windmills",
+   "how": "on foot through Chora, below Kato Mili",
+   "when": "about 8pm, for the sunset"
+  },
+  "cost": {
+   "total": "€61",
+   "items": [
+    "Loaded croissant and cappuccino at Mykonos Brunch Club — €25",
+    "Souvlaki Story, lunch in Chora — €8",
+    "The Little Venice sea wall at sunset — free",
+    "Kopanisti and house wine at To Steki tou Proedrou — €22",
+    "Louza, 200 g from the Ano Mera grocery — €6"
+   ]
+  },
+  "priced": "March to July 2026",
+  "mistake": "At Platis Gialos the 'free' sunbeds at DK Oyster need €50 of drinks upfront; reviewers report €50 cocktails and €35 for a Coca-Cola.",
+  "close": "Send this to whoever books the beach club",
+  "sources": [
+   "https://www.publicorestaurant.com/brunch-club",
+   "https://www.mykonosbrunchclub.com/",
+   "https://www.destination.com/guides/mykonos-ano-mera-june-louza-cured-pork-monastery-square-threshing-floor-suppers",
+   "https://greektriplanner.me/blog/best-restaurants-in-mykonos",
+   "https://www.pariseater.com/travel/kikis-tavern-mykonos/",
+   "https://www.dailymail.com/travel/article-16016071/mykonos-dk-oyster-rip-bar-restaurant-greek-island.html",
+   "https://www.dailyrecord.co.uk/lifestyle/travel/brits-hit-heart-attack-bill-35562353"
+  ],
+  "palette": "harbour"
+ },
+ "voice": "https://api.topview.ai/s/WtOrL6Dz"
+}
