@@ -5,7 +5,7 @@ The magazine reel: a ~11.5 s 9:16 flick through the seven carousel pages (slides
   0.0- 2.6 s  the cover holds (the hook is on it, readable with sound off on frame 0)
   then each page slides up over the previous one with an ease-out, a soft page shadow, the outgoing
   page settling back a little, ~1.45 s a page; ends on the back cover (the save line) so it loops.
-Each page becomes a full 9:16 sheet: its own ground colour (butter, lime, forest) extends above and below
+Each page becomes a full 9:16 sheet: a flat top or bottom edge colour (any palette) extends above and below
 the 1080x1350 page; photo pages extend with a blurred, darkened copy of themselves. Frames are drawn with Pillow and
 piped to ffmpeg (libx264, yuv420p, 30 fps, no audio: the trending track is added in the Instagram app).
 Env: FFMPEG.
@@ -17,10 +17,16 @@ src, out = sys.argv[1], sys.argv[2]
 FF = os.environ.get("FFMPEG", "ffmpeg")
 W, H, FPS = 1080, 1920, 30
 PW, PH = 1080, 1350
-FOREST = (18, 62, 43)
+FOREST = (18, 62, 43)        # the ground behind a turning page
 HOLD, TURN, SLIDE = 2.6, 0.55, 1.45          # cover hold, page-turn length, seconds per later page
-PALETTE = [(18, 62, 43), (245, 231, 168), (217, 239, 120), (255, 249, 231)]   # forest, butter, lime, cream
 Y0 = (H - PH) // 2
+
+def flat(page, y):
+    """the page's colour at the top or bottom edge if a 200x24 patch there is one flat colour, else None"""
+    patch = page.crop((PW // 2 - 100, y, PW // 2 + 100, y + 24))
+    ex = patch.getextrema()
+    if all(b - a < 10 for a, b in ex): return patch.getpixel((100, 12))
+    return None
 
 def sheet(page):
     """the page on its own 9:16 ground: above and below it, the page's own top/bottom colour when that is a
@@ -29,8 +35,8 @@ def sheet(page):
     blur = big.crop(((big.width - W) // 2, (big.height - H) // 2, (big.width - W) // 2 + W, (big.height - H) // 2 + H))
     blur = Image.blend(blur.filter(ImageFilter.GaussianBlur(30)), Image.new("RGB", (W, H), FOREST), 0.45)
     bg = blur
-    for edge, box in ((page.getpixel((PW - 12, 12)), (0, 0, W, Y0)), (page.getpixel((PW - 12, PH - 12)), (0, Y0 + PH, W, H))):
-        if any(sum(abs(a - b) for a, b in zip(edge, q)) < 30 for q in PALETTE):
+    for edge, box in ((flat(page, 4), (0, 0, W, Y0)), (flat(page, PH - 28), (0, Y0 + PH, W, H))):
+        if edge is not None:
             bg.paste(Image.new("RGB", (box[2] - box[0], box[3] - box[1]), edge), (box[0], box[1]))
     bg.paste(page, (0, Y0)); return bg
 

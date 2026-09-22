@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """make_slides.py TEXT.json OUTDIR IMG1 IMG2 [IMG3]
 
-Seven 4:5 carousel slides (1080x1350 JPEG) set like an issue of a fashion magazine in the Off Centre
-palette (forest #123E2B, butter #F5E7A8, lime #D9EF78, cream #FFF9E7). Her photo is on every page.
+Seven 4:5 carousel slides (1080x1350 JPEG) set like an issue of a fashion magazine in one of six editorial
+palettes (PALETTES below; TEXT.json "palette" names it, else a headline-seeded random pick). Her photo is on every page.
   01  COVER: photo 1 full bleed, the SAMAIRA masthead rotated up a forest band on the left, the HOOK
       headline as the cover line lower-left, a lime sticker naming the three inside stories
   02  INSIDE: butter page, photo 2 as a tilted print, the contents list (pages 3, 4, 6)
@@ -25,7 +25,24 @@ assert len(imgs) in (2, 3), "two or three stills"
 if len(imgs) == 2: imgs = imgs + [imgs[0]]
 W, H = 1080, 1350
 M = 80                                   # side margin: outside the 34 px grid crop with room to spare
-FOREST, BUTTER, LIME, CREAM, OLIVE = (18, 62, 43), (245, 231, 168), (217, 239, 120), (255, 249, 231), (83, 98, 75)
+# Editorial palettes, five roles each: ink (band, headlines), paper (pages), accent (the loud page, the
+# sticker, the back cover), cream (type on photos), muted (secondary text). Sources, 22 Sep 2026: Off Centre
+# = design-lab edition-03.css; monocle + harbour = the Monocle design system (Refero/Duply); kinfolk =
+# Digital Heroes' Kinfolk breakdown; culture = Paletteburst "editorial culture brand"; viagem = designmd
+# "editorial de viagem". TEXT.json "palette" picks one; otherwise the headline seeds a random pick.
+def hx(h): return tuple(int(h[i:i + 2], 16) for i in (1, 3, 5))
+PALETTES = {
+    "offcentre": ("#123E2B", "#F5E7A8", "#D9EF78", "#FFF9E7", "#53624B"),
+    "monocle":   ("#141414", "#FDFBE4", "#FFC500", "#FFFFFF", "#6E6E6E"),
+    "kinfolk":   ("#2A2926", "#F4EBE1", "#C0A880", "#F9F6F1", "#6B6A4C"),
+    "culture":   ("#8C1D40", "#F5F1E8", "#C7A34B", "#FFFFFF", "#5A6B5C"),
+    "harbour":   ("#0B1F3A", "#FDFCF3", "#64D5FF", "#FFFFFF", "#6E6E6E"),
+    "viagem":    ("#000080", "#F5F5DC", "#B8860B", "#FFFFFF", "#6B8E23"),
+}
+import random
+PAL = text.get("palette") or random.Random(text["headline"]).choice(sorted(PALETTES))
+assert PAL in PALETTES, f"unknown palette {PAL}; one of {sorted(PALETTES)}"
+FOREST, BUTTER, LIME, CREAM, OLIVE = (hx(h) for h in PALETTES[PAL])
 FD = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fonts")
 def F(name, size): return ImageFont.truetype(os.path.join(FD, name), size)
 SERIF, ITALIC = "InstrumentSerif-Regular.ttf", "InstrumentSerif-Italic.ttf"
@@ -169,7 +186,7 @@ def cost(n, body):
         yy = d.textbbox((M - 10, 250), big, font=f)[3] + 40
     yy = paragraph(d, (M, yy), body, F(SERIF, 54), FOREST, 620, 1.12)
     tilted_print(im, 1, (300, 380), (W - M - 330, H - 700), 5, border=FOREST)
-    d.text((M, min(yy + 30, H - 300)), "Not in the guidebook.", font=F(ITALIC, 34), fill=OLIVE)
+    d.text((M, min(yy + 30, H - 300)), "Not in the guidebook.", font=F(ITALIC, 34), fill=FOREST)
     folio(d, n, FOREST)
     return im
 
@@ -194,4 +211,4 @@ slides = [cover(), inside(), spread(3, "The mistake", beats[0], 0, (-40, 24, -8)
           fullpage(), spread(6, "The fix", beats[2], 1, (24, -40, 8)), back()]
 for i, im in enumerate(slides, 1):
     p = os.path.join(outdir, f"{i:02d}.jpg"); im.save(p, quality=90, subsampling=0)
-print(outdir, len(slides), "slides")
+print(outdir, len(slides), "slides", "palette", PAL)
