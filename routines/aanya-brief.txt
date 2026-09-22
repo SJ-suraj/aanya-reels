@@ -14,9 +14,9 @@ Fixed values
 - Board: every TopView task goes to the **AI-UGC board**, `boardId: "8ff914f298bd4714b942d1965b4b25ec"`.
 - Model: `GPT Image 2.5 Sunburst` for both `text_to_image` and `image_edit`; `quality: "medium"`,
   `aspectRatio: "4:5"`, `resolution: "1K"`, `generateCount: 1`. 0.2 credits per submit.
-- **Hard cap 0.8 credits per run: one plate (0.2) + three GPT photos (0.6); on a SWIM card one
-  plate (0.2) + one Seedream 5.0 Pro swim photo (0.4) + one GPT photo (0.2), two photos. No
-  retries**,
+- **Hard cap 0.9 credits per run: one plate (0.2) + three GPT photos (0.6) + the voice line
+  (0.1, step 4c); on a SWIM card one plate (0.2) + one Seedream 5.0 Pro swim photo (0.4) + one
+  GPT photo (0.2) + the voice line (0.1), two photos. No retries**,
   with one exception: a submit that TopView reports as "rejected by the safety system …
   credits have been refunded" cost nothing, so it may be resubmitted, at most twice, and never
   with the same prompt (see SAFETY REWRITE under LOOK RULES). A third rejection aborts the run.
@@ -136,7 +136,7 @@ On success take `images[0].fileId` (the plate's own file id, proven to work as a
 and `images[0].filePath` (the full-size PNG; with `shortenUrls: false` it is the long CloudFront
 URL, not a short api.topview.ai link).
 
-HOW TO WAIT (applies to every poll in steps 3 and 4). The sandbox blocks any bare `sleep`
+HOW TO WAIT (applies to every poll in steps 3, 4 and 4c). The sandbox blocks any bare `sleep`
 longer than about 20 seconds, and stacking background sleeps loses track of time. Do exactly
 this instead:
 - Right after each submit, run Bash `date -u +%s` once and keep the number as START.
@@ -160,6 +160,36 @@ timeout only at 360 real seconds) with `taskType: "image_edit"`, `shortenUrls: f
 `needCloudFrontUrl: true`; take `images[0].filePath` (the full-size PNG). Count submits; after
 the fourth submit of the run, never submit again.
 
+## 4c. Samaira's voice line (0.1; runs before 4b so the job file can carry it)
+The Reel is narrated by Samaira: one TopView text-to-speech call with the **Kelly** voice (chosen
+by Suraj 22 Sep 2026 after hearing Groq Orpheus, Kelly, Dlana and a designed voice; never another
+voice, the voice is part of the persona). Write `LINE` from DIARY as **seven phrases in page
+order**, one per page, then join them with pause markers:
+   1 cover: the place and the day ("Petra in one day.")
+   2 café: what she ate at dawn ("Falafel at dawn.")
+   3 dish: the dish for dinner ("Mansaf for dinner.")
+   4 spot: the spot, with the crowd or hour trick ("And the Treasury before the crowds!")
+   5 cost: the total, said as words ("Seventy-five dinars all in.")
+   6 mistake: the trap in one breath ("But sleep a night in Jordan or it's ninety!")
+   7 back: the save line ("Save this for when you book.")
+Rules, each one load-bearing: a phrase is 2 to 9 words and ends in a full stop or an
+exclamation mark; **no comma, dash or ellipsis inside a phrase** (a comma makes a pause the
+tools would mistake for a page turn); numbers as words ("seventy-five", "six a.m."); no
+emoji, no brackets, no "(laughs)" (this voice reads them aloud). Between phrases put a pause
+marker `<#x#>` with x varied by the content, 0.15 to 0.4: short (0.15) between the quick café
+and dish lines, longer (0.35–0.4) before the price and before the punchline; never the same x
+six times, that is what sounds robotic. Example, exactly the shape to copy:
+`Petra in one day.<#0.25#> Falafel at dawn.<#0.15#> Mansaf for dinner.<#0.15#> And the Treasury before the crowds!<#0.35#> Seventy-five dinars all in.<#0.4#> But sleep a night in Jordan or it's ninety!<#0.35#> Save this for when you book.`
+Whole line under 32 words so it speaks in 10 to 12 seconds.
+Call Topview `topview_generate_voice` `{voiceId: "gVxI2bFMYAIstfKOTe8ZkAEbMcn1B6Ow", voiceText: LINE,
+voiceSpeed: 1.1, emotionName: "happy", name: "samaira-<NAME>", boardId: "8ff914f298bd4714b942d1965b4b25ec"}`
+(Kelly, MiniMax v2.5, "young female, influencer"). Poll `topview_query_task {taskType: "text_to_speech",
+taskId}` with HOW TO WAIT; on `success` take `voice.demoAudioUrl` as `VOICE_URL` (a short
+`https://api.topview.ai/s/…` link; GitHub Actions downloads it) and check `voice.durations` is
+between 9 and 13; outside that, keep it anyway and say so in the final message. On `failed`
+or a timeout: no retry, no VOICE_URL, continue to 4b without the voice (the Reel is cut silent),
+and say "voice failed" in the final message.
+
 ## 4b. Grade and host the photos on GitHub (no credits; required for step 5)
 The repository `hbk9sj/travel-reels` is cloned in the working directory. The sandbox cannot
 download from TopView's host, so GitHub Actions does it: you push one job file, the `render`
@@ -169,20 +199,23 @@ Portra 400 look, grain, highlight roll-off, faint vignette, JPEG), commits them 
 (`tools/make_slides.py`: 01 the cover with the title, 02 the café, 03 the dish, 04 the spot,
 05 what the day cost, 06 the mistake to avoid, 07 the back cover with the save line), and
 cuts the Reel `reels/<name>.mp4` as a flick through those seven pages (`tools/make_page_reel.py`:
-the cover holds 1.5 s so the title is on frame 0, then each page turns like a magazine page every
-1.4 s, ends on the back cover so it loops; 10 seconds). All of it appears within about three minutes.
-1. Job file and push:
+the cover holds so the title is on frame 0, then each page turns like a magazine page when Samaira's
+voice moves on to it (the voice from 4c is the Reel's audio and its clock: the six pauses between her
+seven phrases are the six page turns), ends on the back cover so it loops; 10 to 13 seconds). All of
+it appears within about three minutes.
+1. Job file and push (after 4c, so the job carries the voice):
    ```
    NAME=<place slug without the NN>-$(TZ=Asia/Kolkata date +%F)     # e.g. petra-2026-09-20
    python3 - <<'EOF'
-   import json; json.dump({"name": "NAME-VALUE", "kind": "set", "urls": ["<photo 01 png url>", "<photo 02 png url>", "<photo 03 png url>"], "text": DIARY}, open("jobs/NAME-VALUE.json", "w"), indent=1, ensure_ascii=False)
+   import json; json.dump({"name": "NAME-VALUE", "kind": "set", "urls": ["<photo 01 png url>", "<photo 02 png url>", "<photo 03 png url>"], "text": DIARY, "voice": "<VOICE_URL from 4c>"}, open("jobs/NAME-VALUE.json", "w"), indent=1, ensure_ascii=False)
    EOF
    git config user.name aanya-routine && git config user.email aanya-routine@users.noreply.github.com
    git add "jobs/$NAME.json" && git commit -qm "job: $NAME"
    for try in 1 2 3; do git fetch -q origin main && git rebase -q origin/main && git push -q origin HEAD:main && break; done
    ```
-   (write the real NAME, the three full URLs and the DIARY object from 2b into the Python line; the URLs keep their
-   `?Policy=…&Signature=…&Key-Pair-Id=…` query string exactly). If the push still fails after
+   (write the real NAME, the three full URLs, the DIARY object from 2b and the VOICE_URL from 4c into the Python
+   line; the photo URLs keep their `?Policy=…&Signature=…&Key-Pair-Id=…` query string exactly). If 4c failed,
+   leave the "voice" key out: the Reel is then cut silent on the fixed clock, and the run still posts. If the push still fails after
    three tries, abort: "could not push job file".
 2. Wait for the slides (they are written last, after the photos). Poll with
    `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/hbk9sj/travel-reels/main/slides/$NAME/07.jpg`
@@ -227,7 +260,8 @@ Everything in this step is optional for the run: if any part fails, skip the res
 the carousel post from step 5, and say what failed in the final message. **Never generate a
 new image for the Reel; it is cut from the same three photos.**
 1. The `set` job from step 4b also renders `reels/$NAME.mp4` (the magazine reel: a flick
-   through the seven pages, the cover with the title on frame 0, 10 seconds, 9:16). Poll
+   through the seven pages narrated by Samaira's line from 4c, the cover with the title on frame 0,
+   10 to 13 seconds, 9:16, with its own audio). Poll
    `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/hbk9sj/travel-reels/main/reels/$NAME.mp4`
    with the HOW TO WAIT command between polls, at most 10 polls. `200` → `VIDEO_URL` is that
    raw URL. Still `404` → skip 5b and say "reel did not finish".
@@ -237,9 +271,10 @@ new image for the Reel; it is cut from the same three photos.**
    and variables `{"input": {"audioType": "music", "channelId": "6aaef241ea19ca0bde8cdcbc"}}`.
    If it returns a list, take the first track whose title does not appear in any post text or
    sticker text from the step 0 `list_posts` results, and set
-   `NOTE = "Toggle Trial Reel on. Add audio: <title> — <displayArtist>, then share."`. If it returns a message (the
+   `NOTE = "Toggle Trial Reel on. Add audio: <title> — <displayArtist>, slide the track to 30 and keep Original audio at 100 so Samaira's voice stays on top, then share."`. If it returns a message (the
    channel is not connected through Facebook Login) or fails, set
-   `NOTE = "Toggle Trial Reel on. Add audio: pick a track from Instagram's Trending tab, then share."`.
+   `NOTE = "Toggle Trial Reel on. Add audio: a track from Instagram's Trending tab at 30, Original audio at 100 so Samaira's voice stays on top, then share."`.
+   (When the Reel was cut silent because 4c failed, drop the "Original audio" part.)
 4. Buffer `create_post` (this one is a **reminder on purpose**: Instagram's API cannot attach
    library music, so Suraj adds the track on the phone with one tap):
    ```
@@ -251,11 +286,11 @@ new image for the Reel; it is cut from the same three photos.**
    metadata: { instagram: { type: "reel", shouldShareToFeed: true,
                             stickerFields: { text: NOTE } } }
    ```
-   The response must show `assets[0].mimeType: "video/mp4"` and `video.durationMs` near 10000;
+   The response must show `assets[0].mimeType: "video/mp4"` and `video.durationMs` between 9500 and 13500;
    if not, `delete_post` it and record the failure. Record the Reel post id.
 
 ## 6. Credits after
-`topview_get_credit` → `after`. `before − after` should be 0.8; note any difference.
+`topview_get_credit` → `after`. `before − after` should be 0.9 (0.8 if the voice failed); note any difference.
 
 ## 7. Final message (this is the run record; nothing else is written anywhere)
 One paragraph: slot, place, the four TopView task ids, credits before/after, the Buffer post id
