@@ -108,3 +108,20 @@ change to the **Change log** with the numbers that caused it. Never changed by a
   Evidence: Buffer 52M posts (carousels 6.9 % engagement by reach), Sprout (5–7 slides 3.4x
   saves vs images), Hootsuite/Socialinsider (7–10 slides best), TryMyPost (top/bottom 270 px
   hidden on the grid), Adpicto (numbered slides raise completion; one CTA).
+- review 2026-09-22 (12:00 IST slot): no change. First run with real metrics back from Buffer
+  (17 judged rows across `stats/`, 25 sent posts total). Medians, judged rows only —
+  carousels (n=11): views 0, reach 0, sends_per_reach 0, saves_per_reach 0 (4 rows had both
+  shares/saves and a non-zero reach); Reels (n=6): views 11, reach 8, sends_per_reach 0,
+  saves_per_reach 0, but only 1 of the 6 judged Reels returned any metrics at all — the other
+  5 came back null. look_variant: every judged row predates look D, so D has 0 judged rows.
+  Rule 5 (ZERO) fires: 8 judged posts are past 48 h with views 0 or null —
+  6aaf0b2dbb86436624a91284, 6aaef4394594e3153f40617d, 6aaef431140a3024025f9195,
+  6aaef3f8140a3024025f8ef3, 6aaef3c04594e3153f4057bd, 6aaef3994594e3153f405610,
+  6aaef3614594e3153f40530f, 6aaef3394594e3153f4050c9 — so nothing is changed and the
+  distribution/metrics problem is reported instead. Rule 1 (HOOK) does not fire: only 1 of the
+  last 6 judged Reels has a computable sends_per_reach, fewer than the 6 the rule states
+  (rule 6 noise guard). Rule 1b does not fire: hook Reels 3 judged, plain Reels 3 judged, both
+  under 4. Rule 2 (MIX) is blocked by rule 5 — the carousel/Reel reach comparison rests on a
+  single Reel reach value (8) against 5 nulls, which is the same metrics problem rule 5 names.
+  Rule 3 (LOOK) does not fire: only one variant has ≥ 6 judged posts. Rule 4 (PLACES) does not
+  fire: every judged sends_per_reach is 0, so there is no top two.
