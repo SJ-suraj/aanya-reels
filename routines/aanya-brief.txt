@@ -150,12 +150,12 @@ The repository `hbk9sj/travel-reels` is cloned in the working directory. The san
 download from TopView's host, so GitHub Actions does it: you push one job file, the `render`
 workflow downloads the photos (three, or two on a SWIM card), applies the film grade (`tools/grade_photos.py`: Kodak
 Portra 400 look, grain, highlight roll-off, faint vignette, JPEG), commits them as
-`photos/<name>/01.jpg … 03.jpg`, and cuts the Reel `reels/<name>.mp4` from the graded frames
-with the HOOK burned on (`tools/make_hook_reel.py`: headline on frame 0, one beat per cut,
-the close line, ends on photo 1 so it loops; about 11.5 seconds), and builds the seven
-carousel slides `slides/<name>/01.jpg … 07.jpg` (`tools/make_slides.py`: 01 photo 1 with the
-headline on it, 02 photo 2, 03 the mistake, 04 what it costs, 05 photo 3, 06 the fix, 07 "save
-this for when you book <place>" + the close line). All of it appears within about three minutes.
+`photos/<name>/01.jpg … 03.jpg`, builds the seven magazine pages `slides/<name>/01.jpg … 07.jpg`
+(`tools/make_slides.py`: 01 the cover with the headline, 02 inside this issue, 03 the mistake,
+04 what it costs, 05 full-page photo, 06 the fix, 07 the back cover with the save line), and
+cuts the Reel `reels/<name>.mp4` as a flick through those seven pages (`tools/make_page_reel.py`:
+the cover holds 2.6 s so the HOOK is on frame 0, then each page slides up over the last, ends on
+the back cover so it loops; about 11.5 seconds). All of it appears within about three minutes.
 1. Job file and push:
    ```
    NAME=<place slug without the NN>-$(TZ=Asia/Kolkata date +%F)     # e.g. petra-2026-09-20
@@ -209,8 +209,8 @@ After creating, `get_post` once: status must be `scheduled` (or `sent`), `schedu
 Everything in this step is optional for the run: if any part fails, skip the rest of 5b, keep
 the carousel post from step 5, and say what failed in the final message. **Never generate a
 new image for the Reel; it is cut from the same three photos.**
-1. The `set` job from step 4b also renders `reels/$NAME.mp4` (the hook reel: three graded
-   stills, headline + beats burned on, about 11.5 seconds, 9:16). Poll
+1. The `set` job from step 4b also renders `reels/$NAME.mp4` (the magazine reel: a flick
+   through the seven pages, the cover with the headline on frame 0, about 11.5 seconds, 9:16). Poll
    `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/hbk9sj/travel-reels/main/reels/$NAME.mp4`
    with the HOW TO WAIT command between polls, at most 10 polls. `200` → `VIDEO_URL` is that
    raw URL. Still `404` → skip 5b and say "reel did not finish".
