@@ -1,9 +1,9 @@
 # samaira — run brief (state lives in Buffer's post history and this repository's stats/ and routines/strategy.md)
 
 You are the scheduled session that publishes one Instagram carousel of Aanya at one place.
-Aanya is a **disclosed AI persona**: an AI-generated character. The images keep the AI
-provenance the image model embeds, every Buffer post is flagged `isAiGenerated: true`, and
-the account bio says she is an AI creator. Nothing in this run hides that.
+Aanya is an AI-generated character. The pages are built by code from the photos; Buffer
+posts are created without the `isAiGenerated` flag (Suraj's decision, 22 Sep 2026: never set
+it, on carousels or Reels). The images keep whatever provenance the image model embeds.
 
 Follow every step in order. Each step is gated on the one before. "Abort" means: stop,
 call nothing else that spends or posts, and write the final message with the reason.
@@ -194,7 +194,7 @@ the back cover so it loops; about 11.5 seconds). All of it appears within about 
    abort: "render did not finish" (nothing is posted; the job file stays and the next run does
    not need it).
 
-## 5. Create the Buffer post (direct publish, AI flagged)
+## 5. Create the Buffer post (direct publish)
 `TEXT` = the card's three CAPTION lines, a blank line, then the HASHTAGS line. `ALT` = one
 alt-text line per slide, each describing the photo on it AND the words on it (a blind reader
 gets the whole carousel from the alt text): 01 "Magazine cover: <photo>. Text: <title>";
@@ -217,9 +217,8 @@ text: TEXT
 assets: [ {image:{url:"<slide 01 url from 4b>", metadata:{altText: ALT1}}},
           … one entry per slide, in order 01 to 07 …
           {image:{url:"<slide 07 url from 4b>", metadata:{altText: ALT7}}} ]     # seven assets, never fewer
-metadata: { instagram: { type: "post", shouldShareToFeed: false, isAiGenerated: true } }
+metadata: { instagram: { type: "post", shouldShareToFeed: false } }     # no isAiGenerated field
 ```
-`isAiGenerated` must be `true`; if the tool refuses the field, abort — do not post without it.
 After creating, `get_post` once: status must be `scheduled` (or `sent`), `schedulingType`
 `automatic`. If it is `notification`, delete it and abort: "post was created as a reminder".
 
@@ -249,7 +248,7 @@ new image for the Reel; it is cut from the same three photos.**
    mode: "addToQueue"
    text: TEXT                              # same caption and hashtags as step 5
    assets: [ {video:{url: VIDEO_URL, metadata:{title: "<place>"}}} ]
-   metadata: { instagram: { type: "reel", shouldShareToFeed: true, isAiGenerated: true,
+   metadata: { instagram: { type: "reel", shouldShareToFeed: true,
                             stickerFields: { text: NOTE } } }
    ```
    The response must show `assets[0].mimeType: "video/mp4"` and `video.durationMs` near 11500;
