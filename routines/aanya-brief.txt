@@ -27,8 +27,8 @@ Fixed values
 - Connector tools are found with `ToolSearch`: Topview `topview_get_credit`,
   `topview_generate_image`, `topview_query_task`; Buffer `list_posts`, `create_post`, `get_post`,
   `delete_post`, `execute_query`; Exa `web_search_exa`.
-- Reel host: public GitHub repo `SJ-suraj/travel-reels` (attached as this session's repository);
-  raw URL base `https://raw.githubusercontent.com/SJ-suraj/travel-reels/main/`. Graded photos
+- Reel host: public GitHub repo `hbk9sj/travel-reels` (attached as this session's repository);
+  raw URL base `https://raw.githubusercontent.com/hbk9sj/travel-reels/main/`. Graded photos
   and Reels both live there; the grade and render run on GitHub Actions (see 4b).
 
 ## 0. Set up
@@ -146,7 +146,7 @@ timeout only at 360 real seconds) with `taskType: "image_edit"`, `shortenUrls: f
 the fourth submit of the run, never submit again.
 
 ## 4b. Grade and host the photos on GitHub (no credits; required for step 5)
-The repository `SJ-suraj/travel-reels` is cloned in the working directory. The sandbox cannot
+The repository `hbk9sj/travel-reels` is cloned in the working directory. The sandbox cannot
 download from TopView's host, so GitHub Actions does it: you push one job file, the `render`
 workflow downloads the photos (three, or two on a SWIM card), applies the film grade (`tools/grade_photos.py`: Kodak
 Portra 400 look, grain, highlight roll-off, faint vignette, JPEG), commits them as
@@ -170,11 +170,11 @@ this for when you book <place>" + the close line). All of it appears within abou
    `?Policy=…&Signature=…&Key-Pair-Id=…` query string exactly). If the push still fails after
    three tries, abort: "could not push job file".
 2. Wait for the slides (they are written last, after the photos). Poll with
-   `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/SJ-suraj/travel-reels/main/slides/$NAME/07.jpg`
+   `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/hbk9sj/travel-reels/main/slides/$NAME/07.jpg`
    (a bare `curl -sI` prints the proxy's own "200 Connection Established" line first, so use
    the `-w` form). Between polls wait with the HOW TO WAIT command; at most 15 polls (about
    five minutes). `200` → the seven slide URLs for step 5 are
-   `https://raw.githubusercontent.com/SJ-suraj/travel-reels/main/slides/$NAME/01.jpg` … `07.jpg`
+   `https://raw.githubusercontent.com/hbk9sj/travel-reels/main/slides/$NAME/01.jpg` … `07.jpg`
    (and the graded photos sit at `photos/$NAME/01.jpg` … `03.jpg`). Still `404` after 15 polls →
    abort: "render did not finish" (nothing is posted; the job file stays and the next run does
    not need it).
@@ -209,7 +209,7 @@ the carousel post from step 5, and say what failed in the final message. **Never
 new image for the Reel; it is cut from the same three photos.**
 1. The `set` job from step 4b also renders `reels/$NAME.mp4` (the hook reel: three graded
    stills, headline + beats burned on, about 11.5 seconds, 9:16). Poll
-   `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/SJ-suraj/travel-reels/main/reels/$NAME.mp4`
+   `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/hbk9sj/travel-reels/main/reels/$NAME.mp4`
    with the HOW TO WAIT command between polls, at most 10 polls. `200` → `VIDEO_URL` is that
    raw URL. Still `404` → skip 5b and say "reel did not finish".
 2. (nothing else to build)
