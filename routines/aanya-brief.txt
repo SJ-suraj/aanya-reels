@@ -169,8 +169,8 @@ Portra 400 look, grain, highlight roll-off, faint vignette, JPEG), commits them 
 (`tools/make_slides.py`: 01 the cover with the title, 02 the café, 03 the dish, 04 the spot,
 05 what the day cost, 06 the mistake to avoid, 07 the back cover with the save line), and
 cuts the Reel `reels/<name>.mp4` as a flick through those seven pages (`tools/make_page_reel.py`:
-the cover holds 2.6 s so the title is on frame 0, then each page slides up over the last, ends on
-the back cover so it loops; about 11.5 seconds). All of it appears within about three minutes.
+the cover holds 1.5 s so the title is on frame 0, then each page turns like a magazine page every
+1.4 s, ends on the back cover so it loops; 10 seconds). All of it appears within about three minutes.
 1. Job file and push:
    ```
    NAME=<place slug without the NN>-$(TZ=Asia/Kolkata date +%F)     # e.g. petra-2026-09-20
@@ -227,7 +227,7 @@ Everything in this step is optional for the run: if any part fails, skip the res
 the carousel post from step 5, and say what failed in the final message. **Never generate a
 new image for the Reel; it is cut from the same three photos.**
 1. The `set` job from step 4b also renders `reels/$NAME.mp4` (the magazine reel: a flick
-   through the seven pages, the cover with the headline on frame 0, about 11.5 seconds, 9:16). Poll
+   through the seven pages, the cover with the title on frame 0, 10 seconds, 9:16). Poll
    `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/hbk9sj/travel-reels/main/reels/$NAME.mp4`
    with the HOW TO WAIT command between polls, at most 10 polls. `200` → `VIDEO_URL` is that
    raw URL. Still `404` → skip 5b and say "reel did not finish".
@@ -251,7 +251,7 @@ new image for the Reel; it is cut from the same three photos.**
    metadata: { instagram: { type: "reel", shouldShareToFeed: true,
                             stickerFields: { text: NOTE } } }
    ```
-   The response must show `assets[0].mimeType: "video/mp4"` and `video.durationMs` near 11500;
+   The response must show `assets[0].mimeType: "video/mp4"` and `video.durationMs` near 10000;
    if not, `delete_post` it and record the failure. Record the Reel post id.
 
 ## 6. Credits after
@@ -506,7 +506,7 @@ NEVER block, and never the words "glossy", "smooth", "soft skin", "radiant", "fl
 never as "no distorted hands". Photo 02 = the card's closed frame
 (shirt or crochet dress buttoned over the swimsuit top, or the sarong tied) on GPT Image 2.5
 Sunburst exactly as in step 4, with the plate as Image2; that prompt follows SAFETY REWRITE. Photo 01 is the cover of the carousel and the first frame of the Reel; the tools
-make seven slides and the 11.5 s Reel from two stills. The plate for a SWIM card is still GPT Image 2.5 Sunburst
+make seven slides and the 10 s Reel from two stills. The plate for a SWIM card is still GPT Image 2.5 Sunburst
 text_to_image (no face, so no block) but shows the cover-up worn over the swimsuit. GPT swim
 prompts (photo 02 and the plate) are written like a fashion caption, not a body description: "swimsuit",
 "two-piece swimsuit" or "one-piece", never "bikini"; the cover-up "worn open" or "buttoned

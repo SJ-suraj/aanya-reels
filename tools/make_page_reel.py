@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """make_page_reel.py SLIDES_DIR OUT.mp4
 
-The magazine reel: a ~11.5 s 9:16 flick through the seven carousel pages (slides/<name>/01..07.jpg).
-  0.0- 2.6 s  the cover holds (the hook is on it, readable with sound off on frame 0)
+The magazine reel: a 10 s 9:16 flick through the seven carousel pages (slides/<name>/01..07.jpg).
+  0.0- 1.5 s  the cover holds (the title is on it, readable with sound off on frame 0)
   then each page turns like a magazine page: the sheet rotates about the left spine, its free edge
-  sweeping right-to-left with a little perspective and a shadow on the page beneath, ~1.45 s a page;
+  sweeping right-to-left with a little perspective and a shadow on the page beneath, 1.4 s a page;
   ends on the back cover (the save line) so it loops.
 Each page becomes a full 9:16 sheet: a flat top or bottom edge colour (any palette) extends above and below
 the 1080x1350 page; photo pages extend with a blurred, darkened copy of themselves. Frames are drawn with Pillow and
@@ -19,7 +19,7 @@ FF = os.environ.get("FFMPEG", "ffmpeg")
 W, H, FPS = 1080, 1920, 30
 PW, PH = 1080, 1350
 FOREST = (18, 62, 43)        # the ground behind a turning page
-HOLD, TURN, SLIDE = 2.6, 0.55, 1.45          # cover hold, page-turn length, seconds per later page
+HOLD, TURN, SLIDE = 1.5, 0.5, 1.4            # cover hold, page-turn length, seconds per later page: 10.0 s total, nothing over 1.5 s
 Y0 = (H - PH) // 2
 
 def flat(page, y):
@@ -92,7 +92,7 @@ def frame(i):
         bg.paste(layer, (0, 0), layer)
     return bg
 
-TOTAL = HOLD + SLIDE * 6 + 0.2
+TOTAL = HOLD + SLIDE * 6 + 0.1
 N = int(TOTAL * FPS)
 proc = subprocess.Popen([FF, "-y", "-hide_banner", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
                          "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", "medium",
