@@ -1,0 +1,53 @@
+{
+ "name": "meteora-diary",
+ "kind": "set",
+ "urls": [
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/meteora-2026-09-19/01.png",
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/meteora-2026-09-19/02.png",
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/meteora-2026-09-19/03.png"
+ ],
+ "text": {
+  "place": "METEORA · GREECE",
+  "title": "One day at Meteora for 41 euros",
+  "cafe": {
+   "name": "Qastiro, the old Kastraki square",
+   "order": "coffee on the terrace with the rocks overhead",
+   "price": "€2.50 a coffee",
+   "when": "an all-day bistro; go before the 9am monastery opening"
+  },
+  "dish": {
+   "name": "païdákia, charcoal lamb ribs",
+   "where": "Taverna Xarama, Patriarchou Dimitriou 39, Kastraki",
+   "price": "€18, with a Greek salad €10",
+   "tip": "Grilled plates come with chips and rice; open from noon"
+  },
+  "spot": {
+   "name": "Varlaam Monastery",
+   "how": "the stone stairway cut up from the road",
+   "when": "09:00, before the 10:30 coaches"
+  },
+  "cost": {
+   "total": "€41",
+   "items": [
+    "Grand Meteoron entry — €5",
+    "Varlaam entry — €3",
+    "Roussanou entry — €3",
+    "Coffee at Qastiro — €2",
+    "Lamb ribs and a Greek salad at Xarama — €28"
+   ]
+  },
+  "priced": "2026 gate prices",
+  "mistake": "Every gate is cash only — no card machines anywhere — and each monastery shuts a different weekday. Grand Meteoron closes Tuesdays, and the nearest ATM is down in Kalambaka.",
+  "close": "Send this to whoever forgets the dress code",
+  "sources": [
+   "https://meteora.tours/how-to-visit",
+   "https://www.maptrotting.com/meteora-monasteries-opening-hours/",
+   "https://meteoramonasteries.org/entrance-fee/",
+   "https://tavernaxaramameteora.gr/",
+   "https://www.tripadvisor.com/Restaurant_Review-g1070999-d15589078-Reviews-or45-Qastiro_Meteora-Kastraki_Kalambaka_Trikala_Region_Thessaly.html",
+   "https://www.maptrotting.com/meteora-complete-guide/",
+   "https://facetedtravel.com/meteora-greece-travel-guide/"
+  ],
+  "palette": "kinfolk"
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "name": "lauterbrunnen-diary",
+ "kind": "hook",
+ "files": [
+  "photos/lauterbrunnen-2026-09-20-b/01.jpg",
+  "photos/lauterbrunnen-2026-09-20-b/02.jpg",
+  "photos/lauterbrunnen-2026-09-20-b/03.jpg"
+ ],
+ "text": {
+  "place": "LAUTERBRUNNEN · SWITZERLAND",
+  "title": "One day in Lauterbrunnen for 74 francs",
+  "cafe": {
+   "name": "Bäckerei Vincenz, on the main street",
+   "order": "a croissant and a coffee before the village fills",
+   "price": "CHF 1–10 a head",
+   "when": "7am to 6:30pm, closed Sundays"
+  },
+  "dish": {
+   "name": "cheese fondue",
+   "where": "BASE Cafe, Fuhren 460B",
+   "price": "CHF 20–30 a head",
+   "tip": "Order on the tablet, take a table number; open till 8pm"
+  },
+  "spot": {
+   "name": "the Staubbach Falls gallery",
+   "how": "a ten-minute path up from the main street",
+   "when": "about 9am, free, May to October"
+  },
+  "cost": {
+   "total": "CHF 74",
+   "items": [
+    "Train from Interlaken Ost, return — CHF 15.60",
+    "Staubbach Falls gallery — free",
+    "Trümmelbach Falls entry — CHF 18",
+    "Bus 141 up the valley, one way — CHF 7.80",
+    "Coffee and a croissant at Vincenz — CHF 7.60",
+    "Fondue at BASE Cafe — CHF 25"
+   ]
+  },
+  "priced": "September 2026 fares",
+  "mistake": "At the Trümmelbach the ticket desk was running ninety minutes in August — longer than the visit itself. Go at the 9am opening, or come back late afternoon.",
+  "close": "Send this to whoever wants the 9am path",
+  "sources": [
+   "https://www.swisslocaladventures.ch/en/blog/day-trip-lauterbrunnen-interlaken",
+   "https://buildabreak.co.uk/interlaken-to-lauterbrunnen/",
+   "https://jtreks.co/bernese-oberland/articles/bernese-oberland-reframe",
+   "https://itinerary.expert/switzerland/lauterbrunnen/",
+   "https://restaurantguru.com/Confiserie-Vincenz-Lauterbrunnen",
+   "https://base-cafe.placejoys.com/",
+   "https://lauterbrunnen.swiss/en/service/guest-service/faq.html"
+  ],
+  "palette": "monocle"
+ }
+}

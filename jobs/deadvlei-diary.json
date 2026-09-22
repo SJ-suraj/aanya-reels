@@ -1,0 +1,55 @@
+{
+ "name": "deadvlei-diary",
+ "kind": "set",
+ "urls": [
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/deadvlei-2026-09-19/01.png",
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/deadvlei-2026-09-19/02.png",
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/deadvlei-2026-09-19/03.png"
+ ],
+ "text": {
+  "place": "DEADVLEI · NAMIBIA",
+  "title": "One day at Deadvlei for 1,220 Namibian dollars",
+  "cafe": {
+   "name": "Sossusvlei Lodge, on the park gate",
+   "order": "the buffet breakfast, plus a lunch pack for the dune road",
+   "price": "N$190 breakfast, N$145 lunch pack",
+   "when": "buffet from 5am; order the pack before 6pm the night before"
+  },
+  "dish": {
+   "name": "oryx steak off the grill buffet",
+   "where": "the Sossusvlei Lodge terrace, Sesriem",
+   "price": "N$435",
+   "tip": "Book meals at check-in; the terrace serves buffet only"
+  },
+  "spot": {
+   "name": "Deadvlei",
+   "how": "60km of tar, then 5km of soft sand",
+   "when": "first light, after a 1km dune walk"
+  },
+  "cost": {
+   "total": "N$1,220",
+   "items": [
+    "Park permit, adult per day — N$150",
+    "Vehicle permit — N$50",
+    "Shuttle, 2WD parking to Deadvlei — N$250",
+    "Buffet breakfast — N$190",
+    "Lunch pack — N$145",
+    "Oryx steak dinner — N$435"
+   ]
+  },
+  "priced": "2026 rates",
+  "mistake": "Sleep outside the park and the outer gate opens only at sunrise. The inner gate opens an hour earlier for guests inside, and that hour is the whole photograph.",
+  "close": "Send this to your 5am-alarm friend",
+  "sources": [
+   "https://www.sossusvleilodge.com/rates.html",
+   "https://www.globalgadding.com/how-to-visit-sossusvlei-namibia/",
+   "https://4x4afrika.com/2026/02/23/namib-naukluft-national-park-guide-2026/",
+   "https://anywhereweroam.com/sossusvlei/",
+   "https://inside-namibia.travel/insights/sossusvlei-self-drive-access-deadvlei-may-2026",
+   "https://inside-namibia.travel/insights/sossusvlei-self-drive-guide",
+   "https://www.lennartvandenberg.com/blog/sossusvlei-namibia-guide/",
+   "https://desert-tracks.com/travel-guide/sossusvlei-and-deadvlei-final-five-kilometres/"
+  ],
+  "palette": "viagem"
+ }
+}

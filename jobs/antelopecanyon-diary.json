@@ -1,0 +1,53 @@
+{
+ "name": "antelopecanyon-diary",
+ "kind": "set",
+ "urls": [
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/antelopecanyon-2026-09-19/01.png",
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/antelopecanyon-2026-09-19/02.png",
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/antelopecanyon-2026-09-19/03.png"
+ ],
+ "text": {
+  "place": "ANTELOPE CANYON · ARIZONA",
+  "title": "One day at Antelope Canyon for 203 dollars",
+  "cafe": {
+   "name": "Ranch House Grille, 819 N Navajo Dr",
+   "order": "the green chili omelette with Western hash browns",
+   "price": "$18.50 with coffee",
+   "when": "opens 6am daily, closes 2pm — beat the 8am rush"
+  },
+  "dish": {
+   "name": "the Navajo taco on frybread",
+   "where": "Steer 89, 148 6th Ave, Page",
+   "price": "$12",
+   "tip": "Big enough to split; they close between 2pm and 4pm"
+  },
+  "spot": {
+   "name": "Upper Antelope Canyon",
+   "how": "guided Navajo tour only, no walk-ups",
+   "when": "the 11am slot, March to October"
+  },
+  "cost": {
+   "total": "$203",
+   "items": [
+    "Upper Antelope Canyon tour, 11am beam slot — $154",
+    "Navajo Nation entry fee — $15",
+    "Green chili omelette at Ranch House Grille — $18.50",
+    "Coffee and a donut at Hot n Sweet — $3.50",
+    "Navajo taco at Steer 89 — $12"
+   ]
+  },
+  "priced": "2026 operator rates",
+  "mistake": "Arizona skips daylight saving; the Navajo Nation does not. Tours run on Page time, so a phone that flips zones on US-89 makes you an hour late. No refund.",
+  "close": "Send this to whoever books the 11am slot",
+  "sources": [
+   "https://slotcanyonguide.com/antelope-canyon/upper-canyon/",
+   "https://hikedesert.com/trails/colorado-plateau/antelope-canyon-tour-guide/",
+   "https://slotcanyonguide.com/page-arizona/restaurants/",
+   "https://grandcanyon.com/poi/ranch-house-grille/",
+   "https://www.menuguide.com/AZ/Page/Steer-89-AZ",
+   "https://steer89.com/",
+   "https://www.roostcafeandbistro.com/hot-n-sweet-coffee-and-donut-shop-86040/"
+  ],
+  "palette": "monocle"
+ }
+}

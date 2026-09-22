@@ -1,0 +1,55 @@
+{
+ "name": "moraine-lake-diary",
+ "kind": "hook",
+ "files": [
+  "photos/moraine-lake-2026-09-20/01.jpg",
+  "photos/moraine-lake-2026-09-20/02.jpg",
+  "photos/moraine-lake-2026-09-20/03.jpg"
+ ],
+ "text": {
+  "place": "MORAINE LAKE · BANFF",
+  "title": "One day at Moraine Lake for 78 dollars",
+  "cafe": {
+   "name": "Bill Peyto's Café, 203 Village Road",
+   "order": "the pancake stack and a coffee to carry up the Rockpile",
+   "price": "C$15",
+   "when": "open 7am to 9:30pm, no reservations taken"
+  },
+  "dish": {
+   "name": "Sally's Benny on house focaccia",
+   "where": "Sudden Sally, 600 Banff Avenue",
+   "price": "C$31–50 a head",
+   "tip": "Breakfast runs till 2pm; happy hour is 2 to 5"
+  },
+  "spot": {
+   "name": "the Rockpile, above Moraine Lake",
+   "how": "Parks Canada shuttle from the Lake Louise Park and Ride",
+   "when": "the 6:30am shuttle, or 4am Alpine Start"
+  },
+  "cost": {
+   "total": "C$78",
+   "items": [
+    "Banff daily park pass, adult — C$12.25",
+    "Moraine Lake shuttle, return — C$12.75",
+    "Reservation transaction fee — C$3.50",
+    "Pancake stack at Bill Peyto's — C$15",
+    "Dinner at Sudden Sally — C$34.50"
+   ]
+  },
+  "priced": "2026 rates",
+  "mistake": "Moraine Lake Road is shut to private cars year-round. Seats open 15 April at 8am MDT, then the other 60% at 8am two days before departure.",
+  "close": "Send this to your alpine-start friend",
+  "sources": [
+   "https://parks.canada.ca/pn-np/ab/banff/visit/parkbus/louise",
+   "https://parks.canada.ca/pn-np/ab/banff/visit/tarifs-fees",
+   "https://thebanffblog.com/how-to-get-to-moraine-lake/",
+   "https://thebanffguide.com/how-to-book-the-moraine-lake-shuttle/",
+   "https://www.travelbanffcanada.com/moraine-lake-shuttle/",
+   "https://billpeytoscafe.restaurants-info.com/",
+   "https://hihostels.ca/en/about/hostels/bill-peytos-cafe",
+   "https://www.opentable.ca/r/sudden-sally-banff",
+   "https://suddensally.com/menu/"
+  ],
+  "palette": "kinfolk"
+ }
+}

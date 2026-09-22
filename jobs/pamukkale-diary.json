@@ -1,0 +1,54 @@
+{
+ "name": "pamukkale-diary",
+ "kind": "set",
+ "urls": [
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/pamukkale-2026-09-19/01.png",
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/pamukkale-2026-09-19/02.png",
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/pamukkale-2026-09-19/03.png"
+ ],
+ "text": {
+  "place": "PAMUKKALE · TÜRKİYE",
+  "title": "One day in Pamukkale for 1,890 lira",
+  "cafe": {
+   "name": "Teras Restaurant, Tekke",
+   "order": "serpme kahvaltı, the full Turkish spread",
+   "price": "from 400 TL",
+   "when": "opens 08:00 daily, after the 6:30 terrace walk"
+  },
+  "dish": {
+   "name": "Denizli tandır kebab",
+   "where": "Tıkır Grill House, Kale mahallesi",
+   "price": "200–600 TL a main",
+   "tip": "Eat in the village; the gate restaurants charge far more"
+  },
+  "spot": {
+   "name": "the travertine terraces",
+   "how": "South Gate, barefoot on the terrace path",
+   "when": "6:30am, before the 10am buses"
+  },
+  "cost": {
+   "total": "1,890 TL",
+   "items": [
+    "Travertines, Hierapolis and museum entry — 700 TL",
+    "Cleopatra's Antique Pool swim — 250 TL",
+    "Dolmuş from Denizli otogar, return — 100 TL",
+    "Serpme kahvaltı at Teras — 400 TL",
+    "Tandır kebab at Tıkır Grill House — 400 TL",
+    "Pomegranate juice at the gate — 40 TL"
+   ]
+  },
+  "priced": "2025–2026 postings",
+  "mistake": "The ticket is single entry. Step out for lunch, or back to the car for a forgotten swimsuit, and you buy a whole second €30 ticket.",
+  "close": "Send this to whoever packs lace-up shoes",
+  "sources": [
+   "https://guideanatolia.com/pamukkale-travertines-guide/",
+   "https://turkeytravelhq.com/pamukkale-entrance-fee-2026/",
+   "https://turkeytravelhq.com/things-to-do-in-pamukkale/",
+   "https://exploremoreturkey.com/destinations-guides/pamukkale-hierapolis-2026-complete-guide-thermal-pools-new-accessibility-upgrades-day-trip-routes-from-denizli/",
+   "https://travelpamukkale.com/where-to-eat/",
+   "https://teras-restaurant.placejoys.com/",
+   "https://www.chasingthedonkey.com/is-pamukkale-worth-visiting-anymore/"
+  ],
+  "palette": "culture"
+ }
+}

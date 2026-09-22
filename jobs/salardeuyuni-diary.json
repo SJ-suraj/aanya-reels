@@ -1,0 +1,55 @@
+{
+ "name": "salardeuyuni-diary",
+ "kind": "set",
+ "urls": [
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/salardeuyuni-2026-09-19/01.png",
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/salardeuyuni-2026-09-19/02.png",
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/salardeuyuni-2026-09-19/03.png"
+ ],
+ "text": {
+  "place": "SALAR DE UYUNI · BOLIVIA",
+  "title": "One day in Salar de Uyuni for 621 bolivianos",
+  "cafe": {
+   "name": "Breakfast Nonis, Av. Ferroviaria",
+   "order": "the simplest combo — bread, butter, jam, coffee and tea",
+   "price": "20 Bs",
+   "when": "opens 5am, before any jeep leaves; closes 2pm"
+  },
+  "dish": {
+   "name": "the five-course Bolivian tasting menu",
+   "where": "The Hot Spot, Calle Colón 687",
+   "price": "210 Bs",
+   "tip": "Book on WhatsApp; the door opens at 7pm, not 5"
+  },
+  "spot": {
+   "name": "Isla Incahuasi",
+   "how": "the one-day jeep tour from Uyuni",
+   "when": "late afternoon, before the 7pm return"
+  },
+  "cost": {
+   "total": "621 Bs",
+   "items": [
+    "Shared one-day jeep tour — 345 Bs",
+    "Isla Incahuasi entry — 30 Bs",
+    "Breakfast combo at Nonis — 20 Bs",
+    "Two salteñas from the market — 16 Bs",
+    "Five-course dinner at The Hot Spot — 210 Bs"
+   ]
+  },
+  "priced": "September 2026",
+  "mistake": "Agencies subcontract their drivers: r/BOLIVIA reports drunk driving and salt hotels with no heat after 10pm. Bring cash — Incahuasi's 30 Bs entry is bolivianos only.",
+  "close": "Send this to your mirror-season travel twin",
+  "sources": [
+   "https://evendo.com/locations/bolivia/salar-de-uyuni/restaurant/breakfast-nonis",
+   "https://wanderboat.ai/restaurants/bolivia/uyuni/breakfast-nonis/6bhmsmyEToqck7fOgyUJQw",
+   "https://wanderlog.com/place/details/1662336/the-hot-spot-uyuni",
+   "https://www.tripadvisor.com/Restaurant_Review-g317033-d16844688-Reviews-or60-The_Hot_Spot_The_New_Religion-Uyuni_Potosi_Department.html",
+   "https://www.nomades.com/en/uyuni/uyuni-salt-flat-full-day-id513",
+   "https://bluemoonuyunibolivia.com/tours/salar-de-uyuni-1-dia/",
+   "https://bushop.com/bolivia/guides/how-much-does-it-cost-to-visit-the-uyuni-salt-flats-full-budget-breakdown/",
+   "https://travelstar360.com/uyuni-food-price-per-day-bolivia-guide/",
+   "https://reddit.synth.download/r/BOLIVIA/comments/1v60guu/problem_with_choosing_salary_de_uyuni_trip_travel/"
+  ],
+  "palette": "kinfolk"
+ }
+}

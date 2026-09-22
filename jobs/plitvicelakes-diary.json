@@ -1,0 +1,54 @@
+{
+ "name": "plitvicelakes-diary",
+ "kind": "set",
+ "urls": [
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/plitvicelakes-2026-09-19/01.png",
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/plitvicelakes-2026-09-19/02.png",
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/plitvicelakes-2026-09-19/03.png"
+ ],
+ "text": {
+  "place": "PLITVICE LAKES · CROATIA",
+  "title": "One day at Plitvice Lakes for 77 euros",
+  "cafe": {
+   "name": "Kavana Kozjak, by the boat pier",
+   "order": "coffee and a strudel between the Upper and Lower Lakes",
+   "price": "€1–5",
+   "when": "9am to 7pm, while you wait for the Kozjak boat"
+  },
+  "dish": {
+   "name": "Lika trout with mushroom soup",
+   "where": "Poljana self-service, by Entrance 2",
+   "price": "€20–25 a head",
+   "tip": "Eat between 10 and 11am; the self-service discounts then"
+  },
+  "spot": {
+   "name": "the Lower Lakes boardwalks",
+   "how": "Entrance 2, Route H, boat across Kozjak",
+   "when": "the 7am slot, before the coaches"
+  },
+  "cost": {
+   "total": "€77",
+   "items": [
+    "Peak-season adult ticket, June to September — €40",
+    "Car park at the entrance — €10",
+    "Electric boat and panoramic train — included",
+    "Coffee and strudel at Kavana Kozjak — €5",
+    "Lunch at Poljana self-service — €22"
+   ]
+  },
+  "priced": "2026 park tariff",
+  "mistake": "Your timed ticket expires 55 minutes after its slot. Book 10:00 and you must be through the gate by 10:55 — and the car park queues twenty minutes.",
+  "close": "Send this to whoever books the 7am slot",
+  "sources": [
+   "https://np-plitvicka-jezera.hr/en/summer-at-plitvice-lakes-2025/",
+   "https://np-plitvicka-jezera.hr/en/spring-at-plitvice-lakes2026/",
+   "https://plitvicelakes-guide.com/plan-your-visit/official-website/",
+   "https://plitvicelakes-guide.com/plan-your-visit/opening-hours/",
+   "https://travelplitvice.com/guide/plitvice-lakes-faq/",
+   "https://restaurantguru.com/Kavana-Kozjak-Plitvice-Lakes-National-Park-Plitvicka-Jezera",
+   "https://restaurantguru.com/Poljana-Plitvicka-Jezera",
+   "https://www.croatia-spirit.com/guides/plitvice-lakes-guide/"
+  ],
+  "palette": "kinfolk"
+ }
+}

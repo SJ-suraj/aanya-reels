@@ -1,0 +1,51 @@
+{
+ "name": "zhangjiajie-diary",
+ "kind": "set",
+ "urls": [
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/zhangjiajie-2026-09-19/01.png",
+  "https://raw.githubusercontent.com/hbk9sj/travel-reels/main/raw/zhangjiajie-2026-09-19/03.png"
+ ],
+ "text": {
+  "place": "ZHANGJIAJIE · CHINA",
+  "title": "One day in Zhangjiajie for 394 yuan",
+  "cafe": {
+   "name": "Cili Rice Noodles, Wulingyuan",
+   "order": "braised beef rice noodles, ask for qing tang (plain broth)",
+   "price": "¥15",
+   "when": "eat by 6:30am; the East Gate opens at 7:00 in season"
+  },
+  "dish": {
+   "name": "Sanxiaguo, the soup pot",
+   "where": "Tang Shifu Xiangxi Famous Cuisine, 463 Wuling Road",
+   "price": "¥70 per person",
+   "tip": "Say wei la for mild and order pickled sour radish alongside"
+  },
+  "spot": {
+   "name": "Mihuntai, Yuanjiajie",
+   "how": "Bailong Elevator up, ¥65 one way",
+   "when": "in the gate before 8am"
+  },
+  "cost": {
+   "total": "¥394",
+   "items": [
+    "Park 4-day pass with eco-buses — ¥236",
+    "Bailong Elevator, one way — ¥65",
+    "Rice noodle breakfast — ¥15",
+    "Sanxiaguo dinner — ¥70",
+    "Kudzu jelly ball on the trail — ¥5",
+    "Ciba from a street stall — ¥3"
+   ]
+  },
+  "priced": "September 2026",
+  "mistake": "Never take a taxi driver's restaurant tip: one visitor was driven to Tu Jia Yuan on Yingbin Road and charged ¥844 for two dishes.",
+  "close": "Send this to your Avatar-obsessed friend",
+  "sources": [
+   "https://chinafortravelers.com/guides/zhangjiajie-national-park/",
+   "https://www.chinahighlights.com/zhangjiajie/food-restaurant.htm",
+   "https://travelchinawith.me/china-destinations/zhangjiajie/what-to-eat-in-zhangjiajie/",
+   "https://zhangjiajietravels.com/what-to-eat-in-zhangjiajie/",
+   "https://www.gochinacompass.com/2627/Zhangjiajie_National_Forest_Park_Entrance_Gates:_Which_Gate_Saves_You_Hours.html"
+  ],
+  "palette": "viagem"
+ }
+}

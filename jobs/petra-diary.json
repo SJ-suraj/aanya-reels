@@ -1,0 +1,52 @@
+{
+ "name": "petra-diary",
+ "kind": "hook",
+ "files": [
+  "photos/petra-2026-09-20-b/01.jpg",
+  "photos/petra-2026-09-20-b/02.jpg",
+  "photos/petra-2026-09-20-b/03.jpg"
+ ],
+ "text": {
+  "place": "PETRA · JORDAN",
+  "title": "One day in Petra for 75 dinars",
+  "cafe": {
+   "name": "Al Qantarah, Tourism Street",
+   "order": "the falafel and hummus breakfast plate",
+   "price": "3–4 JD",
+   "when": "the strip opens at 6am, in time for the 6am gate"
+  },
+  "dish": {
+   "name": "mansaf, lamb in jameed over rice",
+   "where": "My Mom's Recipe, Tourism Street",
+   "price": "10–12 JD a dish",
+   "tip": "Order it a day ahead; proper mansaf takes four hours"
+  },
+  "spot": {
+   "name": "the Treasury, through the Siq",
+   "how": "1.2km down the Siq from the Visitor Centre",
+   "when": "at the 6am opening, before the groups"
+  },
+  "cost": {
+   "total": "75 JD",
+   "items": [
+    "One-day ticket, staying a night in Jordan — 50 JD",
+    "Falafel and hummus breakfast — 4 JD",
+    "Packed lunch from Tourism Street — 8 JD",
+    "Cardamom tea at the Monastery tent — 1 JD",
+    "Mansaf at My Mom's Recipe — 12 JD"
+   ]
+  },
+  "priced": "2026 gate prices",
+  "mistake": "The 50 JD ticket is only for visitors who sleep a night in Jordan. Cross in and out the same day and the identical one-day ticket costs 90 JD.",
+  "close": "Send this to your 6am-gate friend",
+  "sources": [
+   "https://www.visitpetra.jo/en/Petrafees",
+   "https://petrapass.pdtra.gov.jo/Online/Index",
+   "https://factsfromupstairs.com/city-guide/petra/",
+   "https://foodeist.com/index.php/place/my-moms-recipe-restaurant-petra-wadi-musa-ma-an-governorate",
+   "https://touristsinsider.com/asia/jordan/petra-travel-guide/",
+   "https://www.thejordanianguide.com/city/petra/food-to-try/"
+  ],
+  "palette": "kinfolk"
+ }
+}
