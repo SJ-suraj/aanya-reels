@@ -40,7 +40,7 @@ PALETTES = {
     "viagem":    ("#000080", "#F5F5DC", "#B8860B", "#FFFFFF", "#6B8E23"),
 }
 import random
-PAL = text.get("palette") or random.Random(text["headline"]).choice(sorted(PALETTES))
+PAL = text.get("palette") or random.Random(text.get("title") or text.get("headline")).choice(sorted(PALETTES))
 assert PAL in PALETTES, f"unknown palette {PAL}; one of {sorted(PALETTES)}"
 FOREST, BUTTER, LIME, CREAM, OLIVE = (hx(h) for h in PALETTES[PAL])
 FD = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fonts")
@@ -48,8 +48,10 @@ def F(name, size): return ImageFont.truetype(os.path.join(FD, name), size)
 SERIF, ITALIC = "InstrumentSerif-Regular.ttf", "InstrumentSerif-Italic.ttf"
 SANS, BODY = "SpaceGrotesk-SemiBold.ttf", "DMSans-Medium.ttf"
 
-beats = list(text["beats"])[:3]
-assert len(beats) == 3, "three beats"
+DIARY = "cafe" in text                       # the travel-diary issue (cafe, dish, spot, cost, mistake) or the older hook issue
+beats = list(text.get("beats", []))[:3]
+assert DIARY or len(beats) == 3, "three beats, or a diary"
+title = text.get("title") or text.get("headline")
 parts = [p.strip() for p in text["place"].split("·")]          # "POSITANO · ITALY"
 Place = parts[0].title()
 Country = parts[1].title() if len(parts) > 1 else ""
@@ -136,9 +138,9 @@ def cover():
     im.paste(txt, (band // 2 - txt.width // 2, 300), txt)
     d.text((band + 30, 98), "The travel issue", font=F(BODY, 26), fill=CREAM)
     s = place_line; d.text((W - M - tw(d, s, F(BODY, 26)), 98), s, font=F(BODY, 26), fill=CREAM)
-    sticker(d, W - M - 130, 520, 118, ["the mistake,", "the cost,", "the fix"], 26)
+    sticker(d, W - M - 130, 520, 118, ["the caf\u00e9,", "the dish,", "the spot"] if DIARY else ["the mistake,", "the cost,", "the fix"], 26)
     x = band + 60
-    yy = coverline(d, (x, 780), text["headline"], 68, CREAM, W - x - M)
+    yy = coverline(d, (x, 780), title, 68, CREAM, W - x - M)
     d.text((x, yy + 34), "swipe", font=F(BODY, 24), fill=LIME)
     folio(d, 1, CREAM)
     return im
@@ -175,7 +177,7 @@ def cost(n, body):
     s = "What it costs"; d.text((W - M - tw(d, s, F(BODY, 26)), 98), s, font=F(BODY, 26), fill=FOREST)
     pat = r"(?:(€|\$|£|₹|¥)\s?)?(\d[\d,.]*)(?:\s?(euros?|dollars?|pounds?|rupees?|yen|dirhams?|baht|pesos?|francs?|[A-Z]{2,3}))?"
     sym = {"euro": "€", "dollar": "$", "pound": "£", "rupee": "₹", "yen": "¥"}
-    m = next((x for x in re.finditer(pat, text["headline"]) if x.group(1) or x.group(3)), None) \
+    m = next((x for x in re.finditer(pat, title) if x.group(1) or x.group(3)), None) \
         or next((x for x in re.finditer(pat, body) if x.group(1) or x.group(3)), None) or re.search(pat, body)
     yy = 300
     if m:
@@ -207,8 +209,64 @@ def back():
     folio(d, 7, FOREST)
     return im
 
-slides = [cover(), inside(), spread(3, "The mistake", beats[0], 0, (-40, 24, -8)), cost(4, beats[1]),
-          fullpage(), spread(6, "The fix", beats[2], 1, (24, -40, 8)), back()]
+def header(d, label, fill):
+    d.text((M, 98), "Samaira", font=F(BODY, 26), fill=fill)
+    d.text((W - M - tw(d, label, F(BODY, 26)), 98), label, font=F(BODY, 26), fill=fill)
+
+def facts(d, y, rows, fill, size=34, gap=14):
+    """small label + value pairs, one under another"""
+    for lab, val in rows:
+        if not val: continue
+        f_l, f_v = F(BODY, 24), F(BODY, size)
+        d.text((M, y + 6), lab, font=f_l, fill=OLIVE)
+        y = paragraph(d, (M + 190, y), str(val), f_v, fill, W - 2 * M - 190, 1.2) + gap
+    return y
+
+def cafe_page(n):
+    c = text["cafe"]
+    im = Image.new("RGB", (W, H), BUTTER); d = ImageDraw.Draw(im)
+    strips(im, 0, 250, 420, (-40, 24, -8)); header(d, "The morning", FOREST)
+    y = paragraph(d, (M, 720), c["name"], F(SANS, 64), FOREST, W - 2 * M, 1.02)
+    y = facts(d, y + 24, [("Order", c.get("order")), ("Price", c.get("price")), ("When", c.get("when"))], FOREST)
+    folio(d, n, OLIVE); return im
+
+def dish_page(n):
+    c = text["dish"]
+    im = Image.new("RGB", (W, H), BUTTER); d = ImageDraw.Draw(im)
+    header(d, "The table", FOREST)
+    tilted_print(im, 1, (400, 500), (W - M - 430, 230), 5)
+    y = paragraph(d, (M, 300), c["name"], F(SANS, 60), FOREST, 500, 1.02)
+    if c.get("where"): y = paragraph(d, (M, y + 10), f"at {c['where']}", F(ITALIC, 40), FOREST, 500, 1.1)
+    y = facts(d, max(y + 40, 800), [("Price", c.get("price")), ("Tip", c.get("tip"))], FOREST)
+    folio(d, n, OLIVE); return im
+
+def spot_page(n):
+    c = text["spot"]
+    im = photo(2); scrim(im, 0, 240, 110, 0); d = ImageDraw.Draw(im)
+    d.rectangle([0, H - 420, W, H], fill=FOREST); header(d, "The spot", CREAM)
+    y = paragraph(d, (M, H - 420 + 30), c["name"], F(SERIF, 60), BUTTER, W - 2 * M, 1.05)
+    line = " \u00b7 ".join(x for x in (c.get("how"), c.get("when")) if x)
+    paragraph(d, (M, y + 8), line, F(BODY, 28), CREAM, W - 2 * M, 1.25)
+    folio(d, n, CREAM); return im
+
+def cost_page(n):
+    c = text["cost"]
+    im = Image.new("RGB", (W, H), LIME); d = ImageDraw.Draw(im); header(d, "What it cost", FOREST)
+    big = str(c["total"]); f = F(SANS, 260 if len(big) <= 5 else 190)
+    d.text((M - 10, 250), big, font=f, fill=FOREST)
+    y = d.textbbox((M - 10, 250), big, font=f)[3] + 30
+    d.text((M, y), text.get("cost_label", "for the day, one person"), font=F(ITALIC, 36), fill=FOREST); y += 70
+    for item in list(c.get("items", []))[:6]:
+        y = paragraph(d, (M, y), item, F(BODY, 32), FOREST, W - 2 * M, 1.2) + 8
+    if text.get("priced"): d.text((M, min(y + 20, H - 300)), f"Prices from {text['priced']}.", font=F(BODY, 24), fill=FOREST)
+    folio(d, n, FOREST); return im
+
+if DIARY:
+    slides = [cover(), cafe_page(2), dish_page(3), spot_page(4), cost_page(5),
+              spread(6, "The mistake to avoid", text["mistake"], 1, (24, -40, 8)), back()]
+else:
+    slides = [cover(), inside(), spread(3, "The mistake", beats[0], 0, (-40, 24, -8)), cost(4, beats[1]),
+              fullpage(), spread(6, "The fix", beats[2], 1, (24, -40, 8)), back()]
 for i, im in enumerate(slides, 1):
     p = os.path.join(outdir, f"{i:02d}.jpg"); im.save(p, quality=90, subsampling=0)
 print(outdir, len(slides), "slides", "palette", PAL)
