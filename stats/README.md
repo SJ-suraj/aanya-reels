@@ -3,3 +3,4 @@ rows, one per sent post on the channel, with `id, sentAt, type, place, first_lin
 views, reach, likes, comments, saves, shares, follows, sends_per_reach, saves_per_reach,
 reel_format, judged`. Metrics come from Buffer (`includeMetrics: true`) and lag about a day; `judged` is
 false for posts younger than 24 hours. The daily review in step 0c reads every file here.
+- 2026-09-22 push test from the cloud routine after the transfer to hbk9sj
