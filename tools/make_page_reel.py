@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""make_page_reel.py SLIDES_DIR OUT.mp4
+"""make_page_reel.py SLIDES_DIR OUT.mp4 [VOICE.mp3|wav]
 
 The magazine reel: a 10 s 9:16 flick through the seven carousel pages (slides/<name>/01..07.jpg).
   0.0- 1.5 s  the cover holds (the title is on it, readable with sound off on frame 0)
@@ -8,13 +8,19 @@ The magazine reel: a 10 s 9:16 flick through the seven carousel pages (slides/<n
   ends on the back cover (the save line) so it loops.
 Each page becomes a full 9:16 sheet: a flat top or bottom edge colour (any palette) extends above and below
 the 1080x1350 page; photo pages extend with a blurred, darkened copy of themselves. Frames are drawn with Pillow and
-piped to ffmpeg (libx264, yuv420p, 30 fps, no audio: the trending track is added in the Instagram app).
+piped to ffmpeg (libx264, yuv420p, 30 fps). With VOICE (Samaira's line, TopView text-to-speech, Kelly) the line is the reel's own audio, loudness-normalised to -16 LUFS, and the pages follow the
+voice: the line is written as seven phrases in page order, no comma inside a phrase, a <#x#> pause marker between
+phrases (the brief varies x with the content; a marker gap is always longer than the voice's own breath at a full stop),
+so the six longest gaps in the audio (ffmpeg silencedetect) are the page-turn cues and each page holds as long as its
+phrase. The back cover holds until 0.4 s after the voice ends. Fewer than six gaps: fixed 1.4 s clock. Without a voice the reel is silent (the
+trending track is added in the Instagram app either way).
 Env: FFMPEG.
 """
 import os, subprocess, sys
 from PIL import Image, ImageDraw, ImageFilter
 
 src, out = sys.argv[1], sys.argv[2]
+voice = sys.argv[3] if len(sys.argv) > 3 else None
 FF = os.environ.get("FFMPEG", "ffmpeg")
 W, H, FPS = 1080, 1920, 30
 PW, PH = 1080, 1350
@@ -61,14 +67,33 @@ def persp(im, quad):
     rgba = im.convert("RGBA")
     return rgba.transform((W, H), Image.PERSPECTIVE, tuple(c), resample=Image.BILINEAR)
 
+import re
+def gaps(wav):
+    """start times of the six longest silences (>= 0.12 s below -30 dB, not the lead-in or tail) in the voice, in time order, or None"""
+    out = subprocess.run([FF, "-hide_banner", "-i", wav, "-af", "silencedetect=n=-30dB:d=0.12", "-f", "null", "-"],
+                         capture_output=True, text=True).stderr
+    m = re.search(r"Duration: (\d+):(\d+):([\d.]+)", out); end = 60 * float(m.group(2)) + float(m.group(3))
+    sil = [(float(s), float(e)) for s, e in zip(re.findall(r"silence_start: ([\d.]+)", out), re.findall(r"silence_end: ([\d.]+)", out))]
+    sil = [(s, e) for s, e in sil if s > 0.3 and e < end - 0.3]
+    if len(sil) < 6: return None
+    return sorted(s for s, e in sorted(sil, key=lambda x: x[1] - x[0], reverse=True)[:6])
+
+CUES = [HOLD + SLIDE * k for k in range(6)]     # when each page turn starts (page 2..7 arriving)
+vlen = 0
+if voice:
+    vlen = float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", voice]))
+    g = gaps(voice)
+    if g: CUES = [c + 0.05 for c in g]           # turn just as the phrase ends; the next phrase lands on the new page
+    print("cues", [round(c, 2) for c in CUES])
+
 def frame(i):
     t = i / FPS
-    if t < HOLD: return pages[0].copy()
-    k = int((t - HOLD) // SLIDE)                # which turn we are in (0 = page 2 arriving)
-    tt = (t - HOLD) - k * SLIDE
-    cur = min(k + 1, 6)
+    if t < CUES[0]: return pages[0].copy()
+    k = max(j for j in range(6) if t >= CUES[j])   # which turn we are in (0 = page 2 arriving)
+    tt = t - CUES[k]
+    cur = k + 1
     prev = pages[cur - 1]; nxt = pages[cur]
-    if tt >= TURN or cur == 6 and k > 5: return nxt.copy()
+    if tt >= TURN: return nxt.copy()
     p = ease(tt / TURN)
     # a magazine page turn: the current sheet rotates about the left spine, its free edge sweeping from
     # the right toward the spine; the next page lies underneath. As it folds it narrows (cos), its free
@@ -92,10 +117,11 @@ def frame(i):
         bg.paste(layer, (0, 0), layer)
     return bg
 
-TOTAL = HOLD + SLIDE * 6 + 0.1
+TOTAL = max(CUES[-1] + SLIDE + 0.1, vlen + 0.4)   # the back cover holds until the voice has finished
 N = int(TOTAL * FPS)
+audio = ["-i", voice, "-af", "loudnorm=I=-16:TP=-1.5:LRA=7", "-c:a", "aac", "-b:a", "128k"] if voice else []
 proc = subprocess.Popen([FF, "-y", "-hide_banner", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
-                         "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", "medium",
+                         "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-", *audio, "-c:v", "libx264", "-preset", "medium",
                          "-crf", "20", "-pix_fmt", "yuv420p", "-movflags", "+faststart", out], stdin=subprocess.PIPE)
 for i in range(N): proc.stdin.write(frame(i).tobytes())
 proc.stdin.close(); proc.wait()

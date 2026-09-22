@@ -25,6 +25,9 @@ jobs:
             [ -f "$j" ] || continue
             name=$(jq -r .name "$j")
             kind=$(jq -r '.kind // "reel"' "$j")
+            # Samaira's voice line (TopView TTS, short api.topview.ai link): the reel's audio and page-turn clock
+            voice=""; vurl=$(jq -r '.voice // empty' "$j")
+            if [ -n "$vurl" ]; then voice=$(mktemp -t voice).mp3; curl -fsSL -o "$voice" "$vurl" || { echo "voice download failed for $name"; voice=""; }; fi
             if [ "$kind" = "set" ]; then
               if [ -f "photos/$name/01.jpg" ]; then
                 # photos already graded and committed (the CloudFront URLs expire): only back-fill
@@ -34,7 +37,7 @@ jobs:
                     d=$(mktemp -d); jq '.text' "$j" > "$d/text.json"
                     python3 tools/make_slides.py "$d/text.json" "slides/$name" photos/"$name"/0[1-3].jpg
                   fi
-                  [ -f "reels/$name.mp4" ] || python3 tools/make_page_reel.py "slides/$name" "reels/$name.mp4"
+                  [ -f "reels/$name.mp4" ] || python3 tools/make_page_reel.py "slides/$name" "reels/$name.mp4" $voice
                 fi
                 continue
               fi
@@ -48,7 +51,7 @@ jobs:
               while IFS= read -r f; do cp "$f" "$d/graded/$(printf '%02d' $i).jpg"; i=$((i+1)); done < <(jq -r '.files[]' "$j")
               jq '.text' "$j" > "$d/text.json"
               python3 tools/make_slides.py "$d/text.json" "slides/$name" "$d"/graded/0[1-3].jpg
-              python3 tools/make_page_reel.py "slides/$name" "reels/$name.mp4"
+              python3 tools/make_page_reel.py "slides/$name" "reels/$name.mp4" $voice
               ffprobe -v error -show_entries format=duration:stream=width,height -of default=nw=1 "reels/$name.mp4"
               continue
             fi
@@ -63,7 +66,7 @@ jobs:
                 # seven magazine pages from two or three stills (tools/make_slides.py), then the Reel is a
                 # flick through those pages (tools/make_page_reel.py); the hook is on the cover, frame 0
                 python3 tools/make_slides.py "$d/text.json" "slides/$name" "$d"/graded/0[1-3].jpg
-                python3 tools/make_page_reel.py "slides/$name" "reels/$name.mp4"
+                python3 tools/make_page_reel.py "slides/$name" "reels/$name.mp4" $voice
               else
                 bash tools/make_reel.sh "$d/graded/01.jpg" "$d/graded/02.jpg" "$d/graded/03.jpg" "reels/$name.mp4"
               fi
