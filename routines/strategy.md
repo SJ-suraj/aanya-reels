@@ -16,8 +16,9 @@ change to the **Change log** with the numbers that caused it. Never changed by a
   Léa posts weekly; two thin sets a day filled the Buffer queue for nothing.
 - look_variant: D (the @leaelui look, 2026-09-20 19:30 IST: posed for a friend's iPhone, bright
   and sharp, no grade to speak of; mini dress or mini + cropped top in one colour, heels, loose
-  waves; slim hourglass; one of three frames at a street or gate with no landmark). Rows before
-  that: candid / A / B / C as tagged. Evidence: @leaelui 10.09M followers, 12/12 latest posts are
+  waves; slim hourglass; one of three frames at a street or gate with no landmark). D is the
+  winner under rule 3 (review 2026-09-23); the earlier variants candid / A / B / C are retired
+  and are not to be generated again. Rows before 2026-09-20 19:30 IST stay tagged as they were. Evidence: @leaelui 10.09M followers, 12/12 latest posts are
   9–13-photo carousels, no Reels, 120–140k likes each (Bright Data, 20 Sep 2026).
 - wardrobe: supermodel off duty (WARDROBE rule in the brief overrides every card's OUTFIT). Started 2026-09-20 04:45 IST; rows before that wore the cards' traveller outfits.
 - reel_format: hook (step 2b: a researched, specific mistake/scam/rule at the place, burned
@@ -163,3 +164,27 @@ change to the **Change log** with the numbers that caused it. Never changed by a
   6aaef3994594e3153f405610, 6aaef3614594e3153f40530f, 6aaef3394594e3153f4050c9,
   6aaf0b2dbb86436624a91284 — but it fired today already in the 12:04 review, so under rule 6 it
   does not fire again; the distribution/metrics problem is reported in the final message instead.
+- review 2026-09-23 (12:00 IST slot): rule 3 (LOOK) fires and rule 1b (FORMAT) fires as a
+  report. 36 unique posts in `stats/`, 26 judged, 24 carrying any metric value. Medians, judged
+  rows only — carousels (n=15): views 0, reach 0, sends_per_reach 0 (6 computable),
+  saves_per_reach 0; Reels (n=11): views 11, reach 8, sends_per_reach 0.00088, saves_per_reach
+  0.00219, but only 3 of the 11 judged Reels returned views or reach at all. Rule 3 (LOOK): the
+  pre-D looks (candid / A / B / C, sent before 2026-09-20 14:00 UTC) have 13 judged rows with
+  median views 0.5 (10 usable) and look D has 13 judged rows with median views 5.5 (8 usable);
+  pre-D trails D by 91 %, over the 30 % the rule states, and both variants clear the 6 judged
+  rows it requires, so the trailing variants are retired and look_variant names D, the winner.
+  Rule 1b (FORMAT): hook Reels 7 judged, plain Reels 4 judged, so the row counts are met; hook
+  median views 0 (1 usable of 7) trails plain median views 690 (2 usable of 4) by more than
+  30 %, so "hook format trailing" is reported and nothing is changed — Suraj decides. Rule 1
+  (HOOK) does not fire: 1 of the last 6 judged Reels has a computable sends_per_reach, under the
+  6 the rule states (rule 6 noise guard). Rule 2 (MIX) does not fire: carousel median reach 0 is
+  below a third of the Reel median reach 8, but that Reel median rests on 3 usable rows of 11,
+  under the 4 judged the rule states (rule 6). Rule 4 (PLACES) does not fire: one judged post has
+  a non-zero sends_per_reach (6ab10b1f6c901ceb057f91b6, 0.00175) and every other is 0 or null, so
+  there is no top two. Rule 5 (ZERO) still holds — 12 judged posts past 48 h with views 0 or
+  null: 6aaef4394594e3153f40617d, 6aaef431140a3024025f9195, 6aaef3f8140a3024025f8ef3,
+  6aaef3c04594e3153f4057bd, 6aaef3994594e3153f405610, 6aaef3614594e3153f40530f,
+  6aaef3394594e3153f4050c9, 6aaf0b2dbb86436624a91284, 6aafdbd2549cbb177986f1eb,
+  6aaf81ca8d048c06b4fc9cea, 6aaf81b74594e3153f4d0874, 6aaef4474594e3153f4062b0 — but it fired on
+  2026-09-22, within 7 days, so under rule 6 it does not fire again; the distribution/metrics
+  problem is reported in the final message instead.
