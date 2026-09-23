@@ -26,7 +26,7 @@
    "when": "Low tide, before 3pm"
   },
   "cost": {
-   "total": "Rp 342,000",
+   "total": "Rp 342k",
    "items": [
     "Breakfast and coffee at Suka Espresso — Rp 90,000",
     "Nasi goreng at Warung Bu Jonny — Rp 35,000",
@@ -50,7 +50,8 @@
    "https://www.jonnymelon.com/suluban-beach-uluwatu/",
    "https://www.balitouristic.com/suluban-beach-in-pecatu-village/"
   ],
-  "palette": "monocle"
+  "palette": "monocle",
+  "cost_label": "for the day, one person — Rp 342,000"
  },
  "voice": "https://api.topview.ai/s/pvPNLllF"
 }
