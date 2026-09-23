@@ -1,0 +1,56 @@
+{
+ "name": "uluwatu-2026-09-23",
+ "kind": "set",
+ "urls": [
+  "https://du9d8548ooqnc.cloudfront.net/analyzed_video%2Ftask%2Fobject_replace_llm%2F87e0a1cba1054cc69526b0752c167bdc%2F0.png?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vZHU5ZDg1NDhvb3FuYy5jbG91ZGZyb250Lm5ldC9hbmFseXplZF92aWRlbyUyRnRhc2slMkZvYmplY3RfcmVwbGFjZV9sbG0lMkY4N2UwYTFjYmExMDU0Y2M2OTUyNmIwNzUyYzE2N2JkYyUyRjAucG5nIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzkwNDA1MTgyfX19XX0_&Signature=lQm8dm57a7hb4BV45mGS~BkxRXOMxVxul6kym7Yxv2nCXcbNVi5ar0rRlw30327cDd840o6Kq9ubDF8WuYMrt849aF12OJL6kDKewzC8lBCPIBh0KUk963e3rll-vqd0iFyENCFfixba8a-FGEMyGN-Fotr2fE7idlzrHr~hMq62jSMkmH5lOfUx1gfvpkX41HeBuR0uCMOmduZEAa3gWhBoOTmK6dnmmyytYAE2X98-cgUn4TvT0WkoJn5G6D3BFt~uB7nEGaRRDU-VqdOkYKET3xBnFIOftBElpwfWdwzbR46xRXPAEF7yQ4QlpYtw-4hGa-nb4apzXe4bDfBL5A__&Key-Pair-Id=K1PJBMEIA4Y1WS",
+  "https://du9d8548ooqnc.cloudfront.net/analyzed_video%2Ftask%2Fobject_replace_llm%2F424c64759477456799acab6a3015850c%2F0.png?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vZHU5ZDg1NDhvb3FuYy5jbG91ZGZyb250Lm5ldC9hbmFseXplZF92aWRlbyUyRnRhc2slMkZvYmplY3RfcmVwbGFjZV9sbG0lMkY0MjRjNjQ3NTk0Nzc0NTY3OTlhY2FiNmEzMDE1ODUwYyUyRjAucG5nIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzkwNDA1NDMxfX19XX0_&Signature=ss1WGEMD5X47SpkC7dKqZRSrH5Az9j5ifKzRq5G3PbkBRqp1d9jC4PROomU8e9WHInWoOdJPRfbDGAzCscwRSSB~ltSQCbl8jW8jsMNnXIQoJRGmHtNhps98wxPuleYrwkbuFSVs1SHAFnXC7yKJolMSBfqb2BgIljUxfzsorZ6vTOULznFM6stGLsuYsPjDnMEm40iaac-GMbdJatYnrFTgK6Kek~lNbzm5~NVp8l78vU3u2MdWMK1qCI9kgEc-Ptk4lBzvsMZfsytUjtchfp22KtqpIsmcXMmqkarNoBXQnC-gsDceXEMrbSv2wW1qeFivDNF7biz3vVNMnsOPlA__&Key-Pair-Id=K1PJBMEIA4Y1WS"
+ ],
+ "text": {
+  "place": "ULUWATU · INDONESIA",
+  "title": "One day in Uluwatu for 342,000 rupiah",
+  "cafe": {
+   "name": "Suka Espresso",
+   "order": "Eggs Benedict Salmon and a flat white",
+   "price": "Rp 50–90k a head",
+   "when": "Opens 7:30am; be there at opening, it fills from 8am"
+  },
+  "dish": {
+   "name": "Nasi goreng with tempeh",
+   "where": "Warung Bu Jonny, Pecatu",
+   "price": "Rp 35,000",
+   "tip": "Evenings only from 5pm; bring small cash notes"
+  },
+  "spot": {
+   "name": "Suluban Beach cave",
+   "how": "100 steps down the cliff past the warungs",
+   "when": "Low tide, before 3pm"
+  },
+  "cost": {
+   "total": "Rp 342,000",
+   "items": [
+    "Breakfast and coffee at Suka Espresso — Rp 90,000",
+    "Nasi goreng at Warung Bu Jonny — Rp 35,000",
+    "Uluwatu Temple entrance — Rp 60,000",
+    "Kecak fire dance ticket — Rp 150,000",
+    "Scooter parking at Suluban — Rp 5,000",
+    "Scooter parking at the temple — Rp 2,000"
+   ]
+  },
+  "priced": "mid-2026",
+  "mistake": "Sunglasses on your head are the macaques' first target at the temple, and the Kecak ticket is a separate 150,000 rupiah that sells out by 5pm.",
+  "close": "Send this to your Bali crew",
+  "sources": [
+   "https://satusatu.com/inspiration/suka-espresso-uluwatu/",
+   "https://cocodevelopmentgroup.com/blog/suka-espresso-uluwatu-the-ultimate-guide-review/",
+   "https://warung-bu-jonny-cak-man-uluwatu.wherevi.com/",
+   "https://www.onayaresorts.com/posts/2026/02/best-warungs-in-uluwatu-2026-authentic-affordable-local-eats/",
+   "https://uluwatutemple.id/article/how-to-plan-a-smooth-uluwatu-trip-without-wasting-your-sunset-time",
+   "https://goasia.cc/en/article/uluwatu-temple",
+   "https://www.indiatoday.in/trending-news/story/pune-woman-shares-horrifying-ordeal-as-monkey-snatches-sunglasses-in-bali-uluwatu-temple-2908457-2026-05-08",
+   "https://www.jonnymelon.com/suluban-beach-uluwatu/",
+   "https://www.balitouristic.com/suluban-beach-in-pecatu-village/"
+  ],
+  "palette": "monocle"
+ },
+ "voice": "https://api.topview.ai/s/pvPNLllF"
+}
