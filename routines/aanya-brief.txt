@@ -550,10 +550,10 @@ image_edit, inputImageFileIds ["1e67131d22d54cbc8fd84ecbf4f35397"] only (no plat
 "3:4" (Seedream 5.0 Pro rejects "4:5" at validation; its list is 3:2, 3:4, 1:1, 16:9, auto,
 21:9, 4:3, 9:16, 2:3 — learned on the 22 Sep run; the render tools resize to 1080x1350
 anyway), resolution "1K", no quality field; it costs 0.4 (Suraj's test, 20 Sep) and passes
-bikinis at full quality. If Seedream rejects it (credits refunded),
-resubmit once on `model: "Seedream 4.5"` (resolution "2K", 0.2, softer); a second rejection
-aborts the run. For the Seedream prompt the SAFETY REWRITE word rules do not apply: say
-"bikini", "sheer", "wet hair", "lying back". The closed GPT photo 02 on a SWIM card keeps
+bikinis at full quality. No fallback model (Suraj, 24 Sep 2026): if
+Seedream 5.0 Pro rejects it (credits refunded), resubmit once on Seedream 5.0 Pro with the
+bracketed slots reworded; a second rejection aborts the run. For the Seedream prompt the
+SAFETY REWRITE word rules do not apply: say "bikini" and "salty hair" plainly. The closed GPT photo 02 on a SWIM card keeps
 the card's skirt or sarong to the knee in WORN and names it in the prompt (22 Sep run: the
 two prompts without the sarong were rejected, the one with it passed). SEEDREAM PROMPT SHAPE: the SWIM FULL-BODY template above is the whole prompt for photo 01
 (about 200 words; it already has the IDENTITY line first, then PLACE, OUTFIT, POSE, LIGHT,
