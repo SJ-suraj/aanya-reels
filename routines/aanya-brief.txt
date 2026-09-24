@@ -515,8 +515,8 @@ and Guess Swim frames:
   ```
   A full-length photo of the woman from @Image1 , taken by a friend on a phone. Take from @Image1 only who she is: her exact face, deep dark brown eyes, nose, lips, jawline, skin tone and hair, unchanged. She is 25.
   PLACE. [Suluban beach, Uluwatu, low tide, about 11 am: the flat limestone shelf, the cave arch behind her on the left, surf on the reef, two surfers far behind.]
-  OUTFIT. [A butter-yellow string-tie triangle bikini]; a thin gold chain; small gold hoops; [a straw hat in her left hand]. Bare feet. Hair loose and salty. Slim hourglass, long toned legs, a faint tan line at the strap.
-  POSE. Standing facing the camera, weight on her right leg, both feet flat on the ground and in frame. [Right hand lifting her hair off her neck, left arm down holding the hat.] Eyes to the lens, an easy closed-lip smile. One woman, two arms, two legs.
+  OUTFIT. [A tiny butter-yellow string bikini: small triangle top on thin ties, high-cut bottoms tied high on the hips]; a thin gold chain; small gold hoops; [a straw hat in her left hand]. Bare feet. Hair loose and salty. Slim hourglass, full bust, flat toned stomach, long toned legs, a faint tan line at the strap.
+  POSE. Standing facing the camera like a swimwear model, weight on her right leg, hip pushed out, shoulders back, chin up, both feet flat on the ground and in frame. [Right hand in her hair, left hand on her hip holding the hat.] Eyes to the lens, a confident closed-lip smile. One woman, two arms, two legs.
   LIGHT. [Hard sun from the right, the wet rock reflecting the sky.]
   FRAMING. Vertical, head to toe with space above and below, camera at waist height, straight on, three metres away; she fills two-thirds of the frame height, the place the rest.
   STYLING. Visible pores, shine on the nose, natural asymmetry, sand on her shins; the bikini shows its seams.
@@ -524,17 +524,20 @@ and Guess Swim frames:
   ```
   Slots: PLACE is the card's place outdoors, with the landmark a stranger would recognise
   behind her and two ordinary things present (other swimmers, a boat, a lifeguard hut, a
-  sunbed); OUTFIT names the bikini's cut and ONE colour (string-tie triangle, bandeau, halter,
-  underwire; black, cream, white, butter yellow, baby blue, red, chocolate) and one thing she
+  sunbed); OUTFIT names a small, revealing bikini's cut and ONE colour (tiny string triangle,
+  micro bandeau, cut-out one-piece, high-cut bottoms tied high on the hips; black, cream,
+  white, butter yellow, baby blue, red, chocolate) and one thing she
   holds (a hat, sunglasses, a towel, a coconut, a book) and keeps the chain, the hoops and the
   bare feet; POSE's bracket varies the two hands only (lifting her hair, holding sunglasses,
   one hand on her hip, the towel over one shoulder), both feet stay on the ground; LIGHT names
   the sun's side and one reflection. Never sitting, lying, kneeling, crouching, crossed legs, a
   knee up, the camera below her hips, a crop that cuts her off above the knees, or a frame
-  that shows only part of her body: those are the frames that grow extra limbs, and they are
-  also what Instagram's Recommendations Guidelines treat as "sexually suggestive" and stop
-  showing to non-followers (help.instagram.com/313829416281232; a new account's reach is
-  almost all non-followers). The whole person at a real place is travel content; keep it that.
+  that shows only part of her body: those are the frames that grow extra limbs. BOLD (Suraj,
+  24 Sep 2026, after being told Instagram may stop recommending "sexually suggestive"
+  content to non-followers: "go ahead and add it"): the bikini is small and revealing and the
+  pose is a confident swimwear-model stance, as above. The ceiling is swimwear: nothing
+  see-through, nothing implied nude, no sexual pose, never a rear view or a close crop of
+  one body part.
 - Photo 02 (GPT, the street or steps frame): the same bikini top under the shirt buttoned
   once, or under the crochet dress, with the sarong tied at the waist; flat sandals; the bag.
   GPT is the model, so this prompt follows SAFETY REWRITE wording ("swimsuit", nothing sheer).
