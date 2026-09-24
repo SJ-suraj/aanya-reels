@@ -227,6 +227,17 @@ it appears within about three minutes.
    abort: "render did not finish" (nothing is posted; the job file stays and the next run does
    not need it).
 
+3. Body check (every run, no credits; Suraj deleted a three-legged post on 22 Sep 2026). After
+   the slides are up: `git fetch -q origin main && git checkout -q origin/main -- photos/$NAME`,
+   then open each `photos/$NAME/0N.jpg` with the Read tool and look at it. For every photo
+   write one line in the final message: "0N: arms 2, hands 2, legs 2, feet 2 (or: not in
+   frame), eyes brown, one woman: pass" or what failed. A photo fails if any limb is doubled,
+   missing where the frame should show it, merged into another, bent where no joint is, or
+   ends in the wrong place; if a hand has a sixth finger or a fused palm; if her eyes read
+   green, grey or blue; or if a second copy of her is in the frame. Any fail → abort: "body
+   check failed: <photo> <what>" (nothing is posted; the job file, photos and slides stay in
+   the repository; there is no resubmit, because the cap is spent). Suraj decides.
+
 ## 5. Create the Buffer post (direct publish)
 `TEXT` = the card's three CAPTION lines, a blank line, then the HASHTAGS line. `ALT` = one
 alt-text line per slide, each describing the photo on it AND the words on it (a blind reader
@@ -492,32 +503,38 @@ SWIM (Suraj, 20 Sep 20:10 and 21:50 IST, "fully bikini mode, like @leaelui"): at
 beach, a boat, a pool, a lake shore, hot springs or an island (the card's WHERE says so), the
 set has two photos (HYBRID SET below) and the swimwear is the point, as in Léa's boat, pool
 and Guess Swim frames:
-- Photo 01 (Seedream 5.0 Pro, the cover) is a **SWIM SELFIE** (Suraj, 22 Sep 2026 16:35 IST:
-  the posed full-body swim frames "are not generating good results"; this form replaces them).
-  It is her own arm's-length phone selfie, chest-up, indoors or in shade at the card's place (a
-  pool-villa bedroom, a boat cabin, a beach hut, a hotel balcony, the changing hut at the hot
-  springs), never the wide posed frame the card's Photo 1 line describes: keep only the card's
-  WHERE/WHEN and its bikini colour, and write the rest to this template, word for word in
-  shape, swapping only the bracketed slots. The card's Photo 1 POSE/FRAMING lines are ignored.
+- Photo 01 (Seedream 5.0 Pro, the cover) is a **SWIM FULL-BODY** frame (Suraj, 24 Sep 2026:
+  "instead of selfie ... make it full body picture wearing bikini ... so people stop to see";
+  this replaces the chest-up SWIM SELFIE of 22 Sep). It is a friend's phone photo of her
+  standing, head to toe, in the bikini, outdoors at the card's place with the place clearly
+  behind her (the beach, the boat deck, the pool edge, the rocks, the hot-spring terrace). Keep
+  only the card's WHERE/WHEN and its bikini colour and write the rest to this template, word
+  for word in shape, swapping only the bracketed slots. The card's Photo 1 POSE/FRAMING lines
+  are ignored: the sitting, lying and knee-up poses there are what drew extra legs (Mykonos,
+  22 Sep: a three-legged frame was deleted by Suraj). She always STANDS, both feet on the ground.
   ```
-  A selfie of the woman from @Image1 , taken by herself at arm's length on a phone. Take from @Image1 only who she is: her exact face, dark brown eyes, nose, lips, jawline, skin tone, and her hair colour, length and texture, unchanged. She is 25.
-  PLACE. [A pool-villa bedroom on Koh Tao, late morning: pale green headboard, teak wall, curtains, glass doors open to a terrace blown out white by the sun.]
-  OUTFIT. [A chocolate-brown satin triangle bikini top with thin beaded straps]; a thin gold chain; small gold hoops. Wet hair pushed back, a few strands stuck to her cheek and neck. Slim hourglass, full bust in proportion, a faint tan line at the strap.
-  POSE. Chest-up; the phone in her right hand just out of frame; left hand resting loosely at her collarbone, fingers relaxed. Head tilted slightly right, chin down, eyes to the lens, an easy closed-lip smile.
-  LIGHT. [Daylight from the doors on the right of her face, warm bounce from the teak on the left; the doors overexposed.]
-  FRAMING. Vertical, tight from above the head to the waist, her face on the upper-left third, mild front-camera stretch on the near shoulder.
-  STYLING. Visible pores, uneven shine on the forehead and nose, a faint mascara smudge, one small mole, natural asymmetry; the satin shows its seams.
-  CAMERA. iPhone 15 front camera, Smart HDR on, no filter, natural sensor noise, slight handheld softness, accurate white balance. Her own phone selfie; no studio light, no beauty filter.
+  A full-length photo of the woman from @Image1 , taken by a friend on a phone. Take from @Image1 only who she is: her exact face, deep dark brown eyes, nose, lips, jawline, skin tone and hair, unchanged. She is 25.
+  PLACE. [Suluban beach, Uluwatu, low tide, about 11 am: the flat limestone shelf, the cave arch behind her on the left, surf on the reef, two surfers far behind.]
+  OUTFIT. [A butter-yellow string-tie triangle bikini]; a thin gold chain; small gold hoops; [a straw hat in her left hand]. Bare feet. Hair loose and salty. Slim hourglass, long toned legs, a faint tan line at the strap.
+  POSE. Standing facing the camera, weight on her right leg, both feet flat on the ground and in frame. [Right hand lifting her hair off her neck, left arm down holding the hat.] Eyes to the lens, an easy closed-lip smile. One woman, two arms, two legs.
+  LIGHT. [Hard sun from the right, the wet rock reflecting the sky.]
+  FRAMING. Vertical, head to toe with space above and below, camera at waist height, straight on, three metres away; she fills two-thirds of the frame height, the place the rest.
+  STYLING. Visible pores, shine on the nose, natural asymmetry, sand on her shins; the bikini shows its seams.
+  CAMERA. iPhone 15, 24 mm, Smart HDR on, no filter, sensor noise, true white balance, everything sharp. A friend's phone photo; no studio light, no beauty filter.
   ```
-  Slots: PLACE is a small interior or shaded corner at the card's place with one blown-out
-  opening (doors, a porthole, a window, the sky through a hut door) and two named materials
-  (teak, rattan, whitewash, linen); OUTFIT names the top's cut and material and ONE colour
-  (satin triangle, ribbed bandeau, crochet halter, string-tie; chocolate, cream, black, butter
-  yellow, baby blue, blush, white) and keeps the chain, the hoops and the wet hair; LIGHT
-  names the side the opening is on and what bounces warm from the other side. Vary the
-  hand (at the collarbone, tucking hair behind the ear, holding the chain, sunglasses pushed
-  up) and the head tilt from card to card; the smile stays closed-lip. Everything else in
-  the template stays. Seedream renders this at full quality; describe it plainly.
+  Slots: PLACE is the card's place outdoors, with the landmark a stranger would recognise
+  behind her and two ordinary things present (other swimmers, a boat, a lifeguard hut, a
+  sunbed); OUTFIT names the bikini's cut and ONE colour (string-tie triangle, bandeau, halter,
+  underwire; black, cream, white, butter yellow, baby blue, red, chocolate) and one thing she
+  holds (a hat, sunglasses, a towel, a coconut, a book) and keeps the chain, the hoops and the
+  bare feet; POSE's bracket varies the two hands only (lifting her hair, holding sunglasses,
+  one hand on her hip, the towel over one shoulder), both feet stay on the ground; LIGHT names
+  the sun's side and one reflection. Never sitting, lying, kneeling, crouching, crossed legs, a
+  knee up, the camera below her hips, a crop that cuts her off above the knees, or a frame
+  that shows only part of her body: those are the frames that grow extra limbs, and they are
+  also what Instagram's Recommendations Guidelines treat as "sexually suggestive" and stop
+  showing to non-followers (help.instagram.com/313829416281232; a new account's reach is
+  almost all non-followers). The whole person at a real place is travel content; keep it that.
 - Photo 02 (GPT, the street or steps frame): the same bikini top under the shirt buttoned
   once, or under the crochet dress, with the sarong tied at the waist; flat sandals; the bag.
   GPT is the model, so this prompt follows SAFETY REWRITE wording ("swimsuit", nothing sheer).
@@ -533,12 +550,12 @@ image_edit, inputImageFileIds ["1e67131d22d54cbc8fd84ecbf4f35397"] only (no plat
 "3:4" (Seedream 5.0 Pro rejects "4:5" at validation; its list is 3:2, 3:4, 1:1, 16:9, auto,
 21:9, 4:3, 9:16, 2:3 — learned on the 22 Sep run; the render tools resize to 1080x1350
 anyway), resolution "1K", no quality field; it costs 0.4 (Suraj's test, 20 Sep) and passes
-bikinis at full quality. If Seedream rejects it (credits refunded),
-resubmit once on `model: "Seedream 4.5"` (resolution "2K", 0.2, softer); a second rejection
-aborts the run. For the Seedream prompt the SAFETY REWRITE word rules do not apply: say
-"bikini", "sheer", "wet hair", "lying back". The closed GPT photo 02 on a SWIM card keeps
+bikinis at full quality. No fallback model (Suraj, 24 Sep 2026): if
+Seedream 5.0 Pro rejects it (credits refunded), resubmit once on Seedream 5.0 Pro with the
+bracketed slots reworded; a second rejection aborts the run. For the Seedream prompt the
+SAFETY REWRITE word rules do not apply: say "bikini" and "salty hair" plainly. The closed GPT photo 02 on a SWIM card keeps
 the card's skirt or sarong to the knee in WORN and names it in the prompt (22 Sep run: the
-two prompts without the sarong were rejected, the one with it passed). SEEDREAM PROMPT SHAPE: the SWIM SELFIE template above is the whole prompt for photo 01
+two prompts without the sarong were rejected, the one with it passed). SEEDREAM PROMPT SHAPE: the SWIM FULL-BODY template above is the whole prompt for photo 01
 (about 200 words; it already has the IDENTITY line first, then PLACE, OUTFIT, POSE, LIGHT,
 FRAMING, STYLING, CAMERA). The rules below explain why it is shaped that way and apply to
 any slot you fill (Suraj's A/B on 20 Sep 22:10 IST: the block prompt with the iPhone camera
